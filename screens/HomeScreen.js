@@ -1,24 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, View } from "react-native";
-import React from "react";
+import React from 'react';
+import { Button, View, Text } from 'react-native';
 
-export default function HomeScreen(props) {
+export default function HomepageScreen() {
   return (
-    <View style={styles.container}>
-      <Button
-        title="Go page A"
-        onPress={() => props.navigation.navigate("PageA")}
-      />
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, backgroundColor: '#3498db' }}>
+      <Text>Homepage Screen</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e67e22",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
