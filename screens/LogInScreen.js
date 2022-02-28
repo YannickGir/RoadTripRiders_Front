@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Logo from '../assets/images/motoLogo.png';
 import CustomInput from '../components/CustomInput';
+import CustomButton from '../components/CustomButton';
 
 export default function LogInScreen(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
@@ -16,6 +17,9 @@ export default function LogInScreen(props) {
   const [userPassword, setUserPassword] = useState('');
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
+  const onSignInPressed = () => {
+    console.warn('Sign in');
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -23,10 +27,12 @@ export default function LogInScreen(props) {
         style={(styles.logo, { height: height * 0.2 })}
         resizeMode='contain'
       />
+      <Text>Se connecter avec une adresse mail:</Text>
       <CustomInput
         placeholder='Email'
         value={userEmail}
         setValue={setUserEmail}
+        secureTextEntry={false}
       />
       <CustomInput
         placeholder='Mot de passe'
@@ -34,9 +40,9 @@ export default function LogInScreen(props) {
         setValue={setUserPassword}
         secureTextEntry={true}
       />
-      <Text>Log in screen</Text>
-      <Button
-        title='Go to Homepage'
+
+      <CustomButton
+        title='SE CONNECTER'
         onPress={() =>
           props.navigation.navigate('BottomNavigator', { screen: 'Homepage' })
         }
