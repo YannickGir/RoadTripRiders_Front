@@ -1,12 +1,39 @@
-import React from 'react';
-import { Button, View, Text, Image } from 'react-native';
-import Logo from '../assets/images/moto3.png';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
+import Logo from '../assets/images/motoLogo.png';
+import CustomInput from '../components/CustomInput';
 
 export default function LogInScreen(props) {
+  // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  // on enregistre la dimension de l'écran de l'utilisateur
+  const { height } = useWindowDimensions();
   return (
-    <View style={{ flex: 1, backgroundColor: '#3498db' }}>
-      <Image source={Logo} />
-
+    <View style={styles.container}>
+      <Image
+        source={Logo}
+        style={(styles.logo, { height: height * 0.2 })}
+        resizeMode='contain'
+      />
+      <CustomInput
+        placeholder='Email'
+        value={userEmail}
+        setValue={setUserEmail}
+      />
+      <CustomInput
+        placeholder='Mot de passe'
+        value={userPassword}
+        setValue={setUserPassword}
+        secureTextEntry={true}
+      />
       <Text>Log in screen</Text>
       <Button
         title='Go to Homepage'
@@ -17,3 +44,17 @@ export default function LogInScreen(props) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  logo: {
+    width: '70%',
+    maxWidth: 300,
+    maxHeight: 200,
+  },
+});
