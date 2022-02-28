@@ -1,16 +1,24 @@
-import React from 'react';
-import { Button, View, Text } from 'react-native';
+import React from "react";
+import { StyleSheet, Button, View, Text } from "react-native";
 
 export default function LogInScreen(props) {
   return (
-    <View style={{ flex: 1, backgroundColor: '#3498db' }}>
+    <View style={styles.container}>
       <Text>Log in screen</Text>
       <Button
-        title='Go to Homepage'
+        title="Go to Homepage"
         onPress={() =>
-          props.navigation.navigate('BottomNavigator', { screen: 'Homepage' })
+          props.navigation.navigate("BottomNavigator", { screen: "Homepage" })
         }
       />
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
