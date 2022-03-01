@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
-  Button,
   View,
   Text,
   Image,
   useWindowDimensions,
 } from 'react-native';
-import Logo from '../assets/images/motoLogo.png';
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
+import Logo from '../../assets/images/motoLogo.png';
+import CustomInput from '../../src/components/CustomInput';
+import CustomButton from '../../src/components/CustomButton';
 
-export default function LogInScreen(props) {
+//Ici on réexploite ce qui a été créé pour la page Log In
+function SignUpScreen(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
-  const onSignInPressed = () => {
-    console.warn('Sign in');
-  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -27,7 +26,7 @@ export default function LogInScreen(props) {
         style={(styles.logo, { height: height * 0.2 })}
         resizeMode='contain'
       />
-      <Text>Se connecter avec une adresse mail:</Text>
+      <Text>S'inscrire avec une adresse mail:</Text>
       <CustomInput
         placeholder='Email'
         value={userEmail}
@@ -42,10 +41,11 @@ export default function LogInScreen(props) {
       />
 
       <CustomButton
-        title='SE CONNECTER'
-        onPress={() =>
-          props.navigation.navigate('BottomNavigator', { screen: 'Homepage' })
-        }
+        title="S'INSCRIRE"
+        onPress={() => {
+          props.navigation.navigate('BottomNavigator', { screen: 'Homepage' }),
+            props.addToken();
+        }}
       />
     </View>
   );
@@ -64,3 +64,13 @@ const styles = StyleSheet.create({
     maxHeight: 200,
   },
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addToken: function (token) {
+      dispatch({ type: 'addToken', token: token });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignUpScreen);

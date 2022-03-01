@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Button, View, Text } from 'react-native';
+import CustomButton from '../../src/components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function UserInfosScreen(props) {
   return (
@@ -7,9 +9,10 @@ export default function UserInfosScreen(props) {
       <Text>My Account Screen</Text>
       <CustomButton
         title='SE DECONNECTER'
-        onPress={() =>
-          props.navigation.navigate('BottomNavigator', { screen: 'LogIn' })
-        }
+        onPress={() => {
+          props.navigation.navigate('BottomNavigator', { screen: 'LogIn' }),
+            AsyncStorage.clear();
+        }}
       />
     </View>
   );
