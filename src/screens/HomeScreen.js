@@ -5,6 +5,16 @@ export default function HomepageScreen() {
   return (
     <View style={styles.container}>
       <Text>Homepage Screen</Text>
+      <Button
+        icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
+        title="create roadtrip !"
+        type="solid"
+        onPress={() => {
+          props.navigation.navigate("BottomNavigator", {
+            screen: "newRoadTripFirstStep",
+          });
+        }}
+      />
     </View>
   );
 }

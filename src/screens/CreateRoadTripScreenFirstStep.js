@@ -41,9 +41,7 @@ export default function SignUpScreen(props) {
 
       <CustomButton
         title="S'INSCRIRE"
-        onPress={() =>
-          props.navigation.navigate("BottomNavigator", { screen: "Homepage" })
-        }
+        onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
       />
     </View>
   );
