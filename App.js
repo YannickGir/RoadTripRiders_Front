@@ -49,6 +49,9 @@ import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFir
 import CreateRoadTripScreenSecondStep from "./src/screens/CreateRoadTripScreenSecondStep";
 import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFinalStep";
 
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs();
+
 const store = createStore(combineReducers({ token }));
 
 const Stack = createStackNavigator();

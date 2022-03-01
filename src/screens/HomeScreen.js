@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import { StyleSheet, Button, View, Text, Icon } from "react-native";
 
-export default function HomepageScreen() {
+export default function HomepageScreen(props) {
   return (
     <View style={styles.container}>
       <Text>Homepage Screen</Text>
@@ -10,9 +10,7 @@ export default function HomepageScreen() {
         title="create roadtrip !"
         type="solid"
         onPress={() => {
-          props.navigation.navigate("BottomNavigator", {
-            screen: "newRoadTripFirstStep",
-          });
+          props.navigation.navigate("newRoadTripFirstStep");
         }}
       />
     </View>
