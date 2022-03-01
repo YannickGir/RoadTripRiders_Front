@@ -23,6 +23,8 @@ import MyAccountScreen from './src/screens/MyAccountScreen';
 import LoadingScreen from './src/screens/LoadingScreen';
 
 // Ecran de bienvenue pour inviter les utilisateurs à remplir leurs infos perso
+
+// cet écran va surement sauter
 import WelcomeScreen from './src/screens/WelcomeScreen';
 
 //Log In Sign Up
@@ -32,6 +34,8 @@ import SignUpScreen from './src/screens/SignUpScreen';
 // Mes contacts dans l'onglet mon profil
 import MyContactsScreen from './src/screens/MyContactsScreen';
 // Page d'édition des infos de l'utilisateur
+import UserInfosEditionScreen from './src/screens/UserInfosEditionScreen';
+// Page statique des infos de l'utilisateur à voir si c'est utile
 import UserInfosScreen from './src/screens/UserInfosScreen';
 // Historique des roadtrips de l'utilisateur
 import UserPastRoadtripsScreen from './src/screens/UserPastRoadtripsScreen';
@@ -103,6 +107,18 @@ export default function App() {
           <Stack.Screen name='Loading' component={LoadingScreen} />
           <Stack.Screen name='MyContacts' component={MyContactsScreen} />
           <Stack.Screen name='UserInfos' component={UserInfosScreen} />
+          <Stack.Screen
+            name='UserInfosEdition'
+            component={UserInfosEditionScreen}
+          />
+          <Stack.Screen
+            name='UserRoadtripsToCome'
+            component={UserRoadtripsToComeScreen}
+          />
+          <Stack.Screen
+            name='UserPastRoadtrips'
+            component={UserPastRoadtripsScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
