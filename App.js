@@ -102,6 +102,7 @@ export default function App() {
           <Stack.Screen name='Chat' component={ChatScreen} />
           <Stack.Screen name='Loading' component={LoadingScreen} />
           <Stack.Screen name='MyContacts' component={MyContactsScreen} />
+          <Stack.Screen name='UserInfos' component={UserInfosScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

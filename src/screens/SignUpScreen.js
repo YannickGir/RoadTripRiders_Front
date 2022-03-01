@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
@@ -7,17 +7,56 @@ import {
   Image,
   useWindowDimensions,
 } from 'react-native';
+import { MA_VARIABLE } from '@env';
 import Logo from '../../assets/images/motoLogo.png';
 import CustomInput from '../../src/components/CustomInput';
 import CustomButton from '../../src/components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Ici on réexploite ce qui a été créé pour la page Log In
 function SignUpScreen(props) {
+  // on enregistre la dimension de l'écran de l'utilisateur
+  const { height } = useWindowDimensions();
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  // on enregistre la dimension de l'écran de l'utilisateur
-  const { height } = useWindowDimensions();
+
+  useEffect(() => {
+    // On vérifie s'il y a un token dans le local storage;
+    var findToken = AsyncStorage.getItem('token', function () {
+      if (findToken && findToken.length > 0) {
+        console.log('token trouvé dans le store : ', findToken);
+        props.navigation.navigate('BottomNavigator', {
+          screen: 'Homepage',
+        });
+      } else {
+        console.log('Pas de token dans le store');
+      }
+    });
+  }, []);
+
+  var handleSubmitSignUp = async () => {
+    console.log('click détecté');
+    const data = await fetch(`${MA_VARIABLE}/users/sign-up`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
+    });
+    var response = await data.json();
+    console.log(response);
+    if (response.result === true) {
+      //ajout du token dans le store
+      props.addToken(response.token);
+      //ajout du token dans le local storage
+      AsyncStorage.setItem('token', response.token);
+
+      props.navigation.navigate('BottomNavigator', {
+        screen: 'Homepage',
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -40,13 +79,7 @@ function SignUpScreen(props) {
         secureTextEntry={true}
       />
 
-      <CustomButton
-        title="S'INSCRIRE"
-        onPress={() => {
-          props.navigation.navigate('BottomNavigator', { screen: 'Homepage' }),
-            props.addToken();
-        }}
-      />
+      <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
     </View>
   );
 }
