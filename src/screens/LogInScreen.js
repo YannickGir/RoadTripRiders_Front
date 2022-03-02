@@ -26,12 +26,15 @@ function LogInScreen(props) {
 
   useEffect(() => {
     // On vérifie s'il y a un token dans le local storage;
-    var findToken = AsyncStorage.getItem('token', function () {
-      if (findToken && findToken.length > 0) {
-        console.log('token trouvé dans le store : ', findToken);
+    AsyncStorage.getItem('token', function (error, value) {
+      console.log('value : ', value);
+
+      if (value) {
+        console.log('token trouvé dans le store : ', value);
         props.navigation.navigate('BottomNavigator', {
           screen: 'Homepage',
         });
+        props.addToken(value);
       } else {
         console.log('Pas de token dans le store');
       }

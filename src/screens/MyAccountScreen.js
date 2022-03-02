@@ -18,11 +18,6 @@ import {
 } from '@expo/vector-icons';
 
 function MyAccountScreen(props) {
-  const [token, setToken] = useState('');
-  const [tokenInLS, setTokenInLS] = useState(false);
-  let iconNameFontAwesome;
-  let iconNameIonicons;
-
   useEffect(() => {
     // On vérifie s'il y a un token dans l'async storage;
     var findToken = AsyncStorage.getItem('token', function () {
@@ -35,13 +30,13 @@ function MyAccountScreen(props) {
     });
   }, []);
 
-  function handleLogOut(props) {
+  function handleLogOut() {
     // on redirige vers l'écran de connection
     props.navigation.navigate('LogIn', {
       screen: 'LogInScreen',
     });
     // on enlève le token du async storage
-    AsyncStorage.removeItem('token');
+    AsyncStorage.removeItem('tokenInLS');
     console.log('token supprimé et utilisateur déconnecté');
     // on vide le store
     props.removeToken();
