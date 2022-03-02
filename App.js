@@ -11,7 +11,7 @@ import { provider, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
 import token from './src/reducers/token';
-
+import urlImgList from './src/reducers/url-list';
 // Bottom Menu
 import HomeScreen from './src/screens/HomeScreen';
 import RidersAroundScreen from './src/screens/RidersAroundScreen';
@@ -56,7 +56,7 @@ import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFin
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
 
-const store = createStore(combineReducers({ token }));
+const store = createStore(combineReducers({ token, urlImgList }));
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

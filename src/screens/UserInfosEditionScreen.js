@@ -6,9 +6,12 @@ import CustomInput from '../components/CustomInput';
 import CustomDatePicker from '../components/CustomDatePicker';
 import CustomTimePicker from '../components/CustomTimePicker';
 import CustomButton from '../components/CustomButton';
+import ImageUploadComponent from '../components/ImageUploadComponent';
 import * as ImagePicker from 'expo-image-picker';
+import { MA_VARIABLE } from '@env';
+import { connect } from 'react-redux';
 
-export default function UserInfosEditionScreen() {
+function UserInfosEditionScreen() {
   //Variables d'Etats des inputs
   const [userFirstName, setuserFirstName] = useState('');
   const [userLastName, setuserLastName] = useState('');
@@ -30,6 +33,25 @@ export default function UserInfosEditionScreen() {
     if (!result.cancelled) {
       setImage(result.uri);
     }
+
+    // envoi d'un fichier avec React Native
+
+    var data = new FormData();
+
+    data.append('avatar', {
+      uri: result.uri,
+      type: 'image/jpeg',
+      name: 'user_avatar',
+    });
+
+    var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
+      method: 'post',
+      body: data,
+    });
+
+    var response = await rawResponse.json();
+    console.log(response);
+    props.onSubmitImage(response.urlToCloudImage);
   };
 
   return (
@@ -40,6 +62,8 @@ export default function UserInfosEditionScreen() {
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
       </View>
+
+      <ImageUploadComponent />
 
       <Text>Quel rider es-tu ?</Text>
 
@@ -85,3 +109,13 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitImage: function (urldufetch) {
+      dispatch({ type: 'saveUrl', url: urldufetch });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(UserInfosEditionScreen);
