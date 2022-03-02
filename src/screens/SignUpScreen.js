@@ -22,10 +22,14 @@ function SignUpScreen(props) {
   const [userPassword, setUserPassword] = useState('');
 
   useEffect(() => {
+    console.log('find token :', findToken);
     // On vérifie s'il y a un token dans le local storage;
-    var findToken = AsyncStorage.getItem('token', function () {
-      if (findToken && findToken.length > 0) {
+    var findToken = AsyncStorage.getItem('tokenInLS', function (error, data) {
+      console.log('data :', data);
+      if (data) {
         console.log('token trouvé dans le store : ', findToken);
+        setTokenInLS(data);
+        setTokenInLSExists(true);
         props.navigation.navigate('BottomNavigator', {
           screen: 'Homepage',
         });
