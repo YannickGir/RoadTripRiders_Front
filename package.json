@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
+    "@react-native-community/checkbox": "^0.5.11",
+    "@react-native-community/datetimepicker": "^5.1.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^5.11.15",
     "@react-navigation/native": "^5.9.8",
@@ -20,6 +22,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-bouncy-checkbox": "^2.1.10",
     "react-native-dotenv": "^3.3.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.1.0",
