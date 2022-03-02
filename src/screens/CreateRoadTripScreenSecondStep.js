@@ -20,7 +20,7 @@ export default function CreateRoadTripScreenSecondStep(props) {
 
   return (
     <View style={styles.container}>
-      <Text>CreateROadTrip 1</Text>
+      <Text>CreateROadTrip 2</Text>
       <Button
         title='aller sur CreateRoadTrip1'
         onPress={() =>

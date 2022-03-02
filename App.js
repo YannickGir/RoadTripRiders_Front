@@ -63,9 +63,8 @@ const Tab = createBottomTabNavigator()
 
 const formStackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='HomeScreen' component={HomeScreen} />
-
       <Stack.Screen
         name='CreateRoadTrip1'
         component={CreateRoadTripScreenFirstStep}
