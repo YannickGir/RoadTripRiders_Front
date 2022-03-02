@@ -10,8 +10,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { provider, Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 
+<<<<<<< HEAD
 import token from './src/reducers/token'
 
+=======
+import token from './src/reducers/token';
+import urlImgList from './src/reducers/url-list';
+>>>>>>> userbranch
 // Bottom Menu
 import HomeScreen from './src/screens/HomeScreen'
 import RidersAroundScreen from './src/screens/RidersAroundScreen'
@@ -56,7 +61,11 @@ import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFin
 import { LogBox } from 'react-native'
 LogBox.ignoreAllLogs()
 
+<<<<<<< HEAD
 const store = createStore(combineReducers({ token }))
+=======
+const store = createStore(combineReducers({ token, urlImgList }));
+>>>>>>> userbranch
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
