@@ -48,6 +48,14 @@ import OtherRiderProfil from './src/screens/OtherRiderProfil';
 //Ecran des messages dans les conversations
 import ChatScreen from './src/screens/ChatScreen';
 
+//Ecrans de création de roadtrips
+import CreateRoadTripScreenFirstStep from './src/screens/CreateRoadTripScreenFirstStep';
+import CreateRoadTripScreenSecondStep from './src/screens/CreateRoadTripScreenSecondStep';
+import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFinalStep';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
+
 const store = createStore(combineReducers({ token }));
 
 const Stack = createStackNavigator();
@@ -118,6 +126,18 @@ export default function App() {
           <Stack.Screen
             name='UserPastRoadtrips'
             component={UserPastRoadtripsScreen}
+          />
+          <Stack.Screen
+            name='newRoadTripFirstStep'
+            component={CreateRoadTripScreenFirstStep}
+          />
+          <Stack.Screen
+            name='newRoadTripSecondStep'
+            component={CreateRoadTripScreenSecondStep}
+          />
+          <Stack.Screen
+            name='newRoadTripFinalStep'
+            component={CreateRoadTripScreenFinalStep}
           />
         </Stack.Navigator>
       </NavigationContainer>
