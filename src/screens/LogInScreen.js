@@ -43,7 +43,7 @@ function LogInScreen(props) {
 
   var handleSubmitLogin = async () => {
     console.log("click détecté sur login");
-    const data = await fetch(`https://${MA_VARIABLE}/users/log-in`, {
+    const data = await fetch(`${MA_VARIABLE}/users/log-in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

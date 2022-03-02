@@ -11,6 +11,7 @@ import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
 import token from "./src/reducers/token";
+import urlImgList from "./src/reducers/url-list";
 
 // Bottom Menu
 import HomeScreen from "./src/screens/HomeScreen";
@@ -58,6 +59,8 @@ import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
+
+const store = createStore(combineReducers({ token, urlImgList }));
 
 const store = createStore(combineReducers({ token }));
 
