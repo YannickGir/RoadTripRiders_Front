@@ -1,38 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
-import { Card, Avatar, ScrollView } from "react-native-elements";
+import { StyleSheet, Button, View, Text, TouchableOpacity } from "react-native";
+import { Card, Avatar } from "react-native-elements";
+import { connect } from "react-redux";
 
-export default function ConversationsScreen() {
+function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        "https://roadtripsriders.herokuapp.com/inbox/readconversation?senderToken=121325651651651651"
+        `https://roadtripsriders1.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
-      console.log("body[0].messagesEvent", body[0][0].messagesEvent[0].content);
+
       setConversationsList(
-        body.map((convData, i) => {
-          console.log("convData", convData[0].messagesEvent[0].content);
+        body.conversationObjects.map((convData, i) => {
+          console.log("convData", convData);
           return (
-            <Card key={i}>
-              <Avatar
-                size={64}
-                rounded
-                source={{
-                  uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
-                }}
-              />
+            <TouchableOpacity
+              key={i}
+              onPress={() =>
+                props.navigation.navigate("Chat", {
+                  screen: "ChatScreen?",
+                })
+              }
+            >
+              <View style={styles.user}>
+                <Avatar
+                  size={64}
+                  rounded
+                  source={{
+                    uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
+                  }}
+                />
+                <View style={{ justifyContent: "space-between" }}>
+                  <Text style={styles.titleText}>{convData.title}</Text>
 
-              <Text style={styles.name}>
-                {convData.myInfo.trip.event_title}
-              </Text>
-
-              <Text>
-                {convData.myInfo.user.firstname}:
-                {convData[0].messagesEvent[0].content}
-              </Text>
-            </Card>
+                  <Text>
+                    {convData.firstname}: {convData.messagesEvent[0].content}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           );
         })
       );
@@ -41,13 +49,54 @@ export default function ConversationsScreen() {
     loadConversations();
   }, []);
 
-  return <View style={styles.conta}>{conversationsList}</View>;
+  return <View style={styles.backgroundColor}>{conversationsList}</View>;
 }
 const styles = StyleSheet.create({
+  cards: {
+    backgroundColor: "#FFEDAC",
+    width: "100%",
+  },
+  backgroundColor: {
+    backgroundColor: "#FEFAEA",
+    paddingTop: 100,
+    flex: 1,
+  },
+
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
     alignItems: "center",
     justifyContent: "center",
   },
+  user: {
+    flexDirection: "row",
+    width: "80%",
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#FFEDAC",
+    padding: 10,
+    borderRadius: 15,
+    marginTop: 10,
+    borderColor: "black",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
+  },
+  titleText: {
+    paddingBottom: 20,
+    fontWeight: "bold",
+    fontSize: 20,
+  },
 });
+
+function mapStateToProps(state) {
+  return {
+    token: state.token,
+  };
+}
+export default connect(mapStateToProps, null)(ConversationsScreen);
