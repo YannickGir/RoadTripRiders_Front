@@ -16,7 +16,7 @@ export default function CreateRoadTripScreenSecondStep(props) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   // on enregistre la dimension de l'écran de l'utilisateur
-  const { height } = useWindowDimensions()
+  const { height } = useWindowDimensions();
 
   return (
     <View style={styles.container}>
@@ -44,9 +44,9 @@ export default function CreateRoadTripScreenSecondStep(props) {
         onPress={() =>
           props.navigation.navigate('BottomNavigator', { screen: 'Homepage' })
         }
-      ></Button>
+      ></CustomButton>
     </View>
-  )
+  );
 }
 const styles = StyleSheet.create({
   container: {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 200,
   },
-})
+});
