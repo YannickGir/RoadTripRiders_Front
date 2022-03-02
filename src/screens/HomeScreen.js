@@ -1,10 +1,18 @@
 import React from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import { StyleSheet, Button, View, Text, Icon } from "react-native";
 
-export default function HomepageScreen() {
+export default function HomepageScreen(props) {
   return (
     <View style={styles.container}>
       <Text>Homepage Screen</Text>
+      <Button
+        icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
+        title="create roadtrip !"
+        type="solid"
+        onPress={() => {
+          props.navigation.navigate("newRoadTripFirstStep");
+        }}
+      />
     </View>
   );
 }
