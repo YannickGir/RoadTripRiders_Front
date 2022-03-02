@@ -21,7 +21,6 @@ const CustomHeader = ({ title, onPress }) => {
               color="black"
             />
           }
-          title={title}
           containerStyle={{
             height: 80,
             width: 50,
@@ -49,7 +48,7 @@ const CustomHeader = ({ title, onPress }) => {
             fontWeight: "bold",
           }}
         >
-          CREE TON TRIP
+          {title}
         </Text>
       </View>
     </View>
