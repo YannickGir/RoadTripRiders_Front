@@ -12,6 +12,7 @@ import { createStore, combineReducers } from 'redux';
 
 import token from './src/reducers/token';
 import urlImgList from './src/reducers/url-list';
+
 // Bottom Menu
 import HomeScreen from './src/screens/HomeScreen';
 import RidersAroundScreen from './src/screens/RidersAroundScreen';
@@ -53,6 +54,9 @@ import CreateRoadTripScreenFirstStep from './src/screens/CreateRoadTripScreenFir
 import CreateRoadTripScreenSecondStep from './src/screens/CreateRoadTripScreenSecondStep';
 import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFinalStep';
 
+//Ecran de liste des sorties
+import RoadtripListScreen from './src/screens/RoadtripListScreen';
+
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
 
@@ -73,6 +77,7 @@ const formStackNavigator = () => {
         name='CreateRoadTrip2'
         component={CreateRoadTripScreenSecondStep}
       />
+      <Stack.Screen name='RoadtripList' component={RoadtripListScreen} />
     </Stack.Navigator>
   );
 };
@@ -106,6 +111,7 @@ const BottomNavigator = () => {
       tabBarOptions={{
         activeTintColor: '#FF8B00',
         inactiveTintColor: '#363432',
+        keyboardHidesTabBar: true,
         style: {
           backgroundColor: '#FFD230',
         },
