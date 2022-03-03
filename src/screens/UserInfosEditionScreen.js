@@ -55,7 +55,7 @@ const customStyles = {
   labelSize: 13,
 };
 
-function UserInfosEditionScreen() {
+function UserInfosEditionScreen(props) {
   //Variables d'Etats des inputs
   const [userFirstName, setuserFirstName] = useState('');
   const [userLastName, setuserLastName] = useState('');
@@ -66,8 +66,10 @@ function UserInfosEditionScreen() {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
+  //pour le step indicator
   const [formProgress, setFormProgress] = useState(0);
 
+  //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -111,8 +113,8 @@ function UserInfosEditionScreen() {
     <View style={styles.container}>
       <CustomHeader
         onPress={() =>
-          props.navigation.navigate('RoadtripList', {
-            screen: 'RoadtripListScreen',
+          props.navigation.navigate('MyAccount', {
+            screen: 'MyAccountScreen',
           })
         }
         title='EDITE TON PROFIL'
@@ -191,6 +193,19 @@ const styles = StyleSheet.create({
   },
   secondary: {
     flexDirection: 'row',
+  },
+  bottomPage: {
+    width: deviceWidth,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    maxHeight: '10%',
+    // marginTop: "10%",
+  },
+  barprogress: {
+    width: deviceWidth,
+    backgroundColor: '#FEFAEA',
+    paddingTop: 15,
   },
   text: {},
 });
