@@ -156,7 +156,7 @@ export default function CreateRoadTripScreenFirstStep(props) {
             title="NOUVEL ITINERAIRE"
             onPress={
               (() =>
-                props.navigation.navigate("RoadtripList", {
+                props.navigation.navigate("I", {
                   screen: "RoadtripListScreen",
                 }),
               () => setFormProgress(1))

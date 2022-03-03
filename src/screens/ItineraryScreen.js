@@ -116,7 +116,7 @@ export default function ItineraryScreen() {
       listWaypointsFromFront: listWaypoints,
       etapesListFromFront: etapesList,
     };
-    const data = await fetch(`{MA_VARIABLE}/itineraries/add`, {
+    const data = await fetch(`${MA_VARIABLE}/itineraries/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export default function ItineraryScreen() {
   // ********************************************************Consultation API GOOGLE**************************$$
   const handleClick = async () => {
     var rawResponse = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${listWaypoints}&avoid=highways&key={APIGOOGLE}`
+      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${listWaypoints}&avoid=highways&key=${APIGOOGLE}`
     );
 
     var response = await rawResponse.json();
