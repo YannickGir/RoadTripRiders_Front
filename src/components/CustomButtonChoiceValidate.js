@@ -5,10 +5,12 @@ import { Button } from "react-native-elements";
 //ici même principe que sur le composant Input, on crée un bouton générique que l'on va pouvoir réutiliser partout dans l'application.
 //Tous les champs modifiables deviennent donc des variables
 
-const CustomButtonChoiceValidate = ({ title, onPress }) => {
+const CustomButtonChoiceValidate = ({ value, setValue, title, onPress }) => {
   return (
     <Button
       title={title}
+      value={value}
+      onChangeText={setValue}
       containerStyle={{
         width: 80,
       }}
