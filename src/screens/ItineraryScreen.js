@@ -47,7 +47,7 @@ export default function ItineraryScreen() {
   const itineraryClick = () => {
     setThisVisible(true);
   };
-
+  console.log("essai");
   //*****ajouter des etapes */
   const addEtap = () => {
     setMyWaypoints([...myWaypoints, `place_id:${etape_place_id}`]);

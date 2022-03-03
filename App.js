@@ -7,6 +7,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// importation typo externe (google fonts)
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_400Italic,
+  Poppins_600Semi_bold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
@@ -54,6 +63,12 @@ import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFir
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ItineraryScreen from "./src/screens/ItineraryScreen";
 ItineraryScreen;
+//Ecran de liste des sorties
+import RoadtripListScreen from "./src/screens/RoadtripListScreen";
+
+//Ecrans itinéraires
+import ItineraryScreen from "./src/screens/ItineraryScreen";
+
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 

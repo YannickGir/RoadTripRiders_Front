@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Button, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Card, Avatar } from "react-native-elements";
 import { connect } from "react-redux";
 
@@ -26,7 +33,8 @@ function ConversationsScreen(props) {
               }
             >
               <View style={styles.user}>
-                <Avatar
+                <Image
+                  style={styles.avatar}
                   size={64}
                   rounded
                   source={{
@@ -36,7 +44,7 @@ function ConversationsScreen(props) {
                 <View style={{ justifyContent: "space-between" }}>
                   <Text style={styles.titleText}>{convData.title}</Text>
 
-                  <Text>
+                  <Text style={{ alignSelf: "center" }}>
                     {convData.firstname}: {convData.messagesEvent[i].content}
                   </Text>
                 </View>
@@ -92,6 +100,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     fontWeight: "bold",
     fontSize: 20,
+  },
+  avatar: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 35,
+    width: 70,
+    height: 70,
+    position: "relative",
+    marginRight: "10%",
   },
 });
 
