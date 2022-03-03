@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { MA_VARIABLE } from "@env";
 import { Card, Avatar } from "react-native-elements";
 import { connect } from "react-redux";
 
@@ -15,7 +16,7 @@ function ConversationsScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripsriders1.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
+        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
 
