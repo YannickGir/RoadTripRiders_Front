@@ -43,7 +43,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 
 // Mes contacts dans l'onglet mon profil
 import MyContactsScreen from './src/screens/MyContactsScreen';
-// Pages d'édition des infos de l'utilisateur
+// Page d'édition des infos de l'utilisateur
 import UserInfosEditionScreen from './src/screens/UserInfosEditionScreen';
 // Page statique des infos de l'utilisateur à voir si c'est utile
 import UserInfosScreen from './src/screens/UserInfosScreen';

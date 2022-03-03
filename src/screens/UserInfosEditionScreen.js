@@ -60,7 +60,10 @@ function UserInfosEditionScreen(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
+  //pour le step indicator
   const [formProgress, setFormProgress] = useState(0);
+
+  //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -179,6 +182,19 @@ const styles = StyleSheet.create({
   },
   secondary: {
     flexDirection: 'row',
+  },
+  bottomPage: {
+    width: deviceWidth,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    maxHeight: '10%',
+    // marginTop: "10%",
+  },
+  barprogress: {
+    width: deviceWidth,
+    backgroundColor: '#FEFAEA',
+    paddingTop: 15,
   },
   text: {},
 });
