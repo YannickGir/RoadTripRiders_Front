@@ -44,7 +44,7 @@ export default function CreateRoadTripScreenSecondStep(props) {
         onPress={() =>
           props.navigation.navigate("BottomNavigator", { screen: "Homepage" })
         }
-      />
+      ></CustomButton>
     </View>
   );
 }

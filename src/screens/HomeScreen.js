@@ -7,11 +7,13 @@ export default function HomepageScreen(props) {
       <Text>Homepage Screen</Text>
       <Button
         icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-        title="create roadtrip !"
+        title="go to roadtripList !"
         type="solid"
-        onPress={() => {
-          props.navigation.navigate("newRoadTripFirstStep");
-        }}
+        onPress={() =>
+          props.navigation.navigate("Itinerary", {
+            screen: "ItineraryScreen",
+          })
+        }
       />
     </View>
   );
