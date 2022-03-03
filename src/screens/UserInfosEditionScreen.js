@@ -56,6 +56,7 @@ const customStyles = {
 }
 
 function UserInfosEditionScreen() {
+  console.log('ma variable : ', { MA_VARIABLE })
   //Variables d'Etats des inputs
   const [userFirstName, setuserFirstName] = useState('')
   const [userLastName, setuserLastName] = useState('')
@@ -91,13 +92,10 @@ function UserInfosEditionScreen() {
         name: 'avatar',
       })
 
-      var rawResponse = await fetch(
-        'https://sleepy-dusk-83738.herokuapp.com/users/upload-avatar',
-        {
-          method: 'post',
-          body: data,
-        }
-      )
+      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
+        method: 'post',
+        body: data,
+      })
 
       var response = await rawResponse.json()
       console.log(response)
