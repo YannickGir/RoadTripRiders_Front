@@ -59,11 +59,18 @@ import OtherRiderProfil from './src/screens/OtherRiderProfil';
 import ChatScreen from './src/screens/ChatScreen';
 
 //Ecrans de création de roadtrips
+<<<<<<< HEAD
 import CreateRoadTripScreenFirstStep from './src/screens/CreateRoadTripScreenFirstStep';
 import CreateRoadTripScreenSecondStep from './src/screens/CreateRoadTripScreenSecondStep';
 import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFinalStep';
 import ItineraryScreen from './src/screens/ItineraryScreen';
 
+=======
+import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
+import CreateRoadTripScreenSecondStep from "./src/screens/CreateRoadTripScreenSecondStep";
+import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFinalStep";
+import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
+>>>>>>> 8f5a40843125ad8d2a8510398cbc27b88c4afcab
 //Ecran de liste des sorties
 import RoadtripListScreen from './src/screens/RoadtripListScreen';
 
@@ -80,14 +87,26 @@ const formStackNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='HomeScreen' component={HomeScreen} />
       <Stack.Screen
+<<<<<<< HEAD
         name='CreateRoadTrip1'
+=======
+        name="newRoadTripFirstStep"
+>>>>>>> 8f5a40843125ad8d2a8510398cbc27b88c4afcab
         component={CreateRoadTripScreenFirstStep}
       />
       <Stack.Screen
         name='CreateRoadTrip2'
         component={CreateRoadTripScreenSecondStep}
       />
+<<<<<<< HEAD
       <Stack.Screen name='RoadtripList' component={RoadtripListScreen} />
+=======
+      <Stack.Screen
+        name="CreateRoadTripRecap"
+        component={CreateRoadTripScreenRecap}
+      />
+      <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
+>>>>>>> 8f5a40843125ad8d2a8510398cbc27b88c4afcab
     </Stack.Navigator>
   );
 };
@@ -171,7 +190,16 @@ export default function App() {
             name='newRoadTripFinalStep'
             component={CreateRoadTripScreenFinalStep}
           />
+<<<<<<< HEAD
           <Stack.Screen name='Itinerary' component={ItineraryScreen} />
+=======
+          <Stack.Screen
+            name="CreateRoadTripRecap"
+            component={CreateRoadTripScreenRecap}
+          />
+
+          <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
+>>>>>>> 8f5a40843125ad8d2a8510398cbc27b88c4afcab
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
