@@ -6,10 +6,10 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Input, Button, Overlay } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { captureRef } from "react-native-view-shot";
-
+import { MA_VARIABLE, APIGOOGLE } from "@env";
 var polyline = require("@mapbox/polyline");
 
-export default function App() {
+export default function ItineraryScreen() {
   const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
   const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
@@ -116,16 +116,13 @@ export default function App() {
       listWaypointsFromFront: listWaypoints,
       etapesListFromFront: etapesList,
     };
-    const data = await fetch(
-      `https://mighty-ravine-92985.herokuapp.com/itineraries/add`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(mydata),
-      }
-    );
+    const data = await fetch(`{MA_VARIABLE}/itineraries/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mydata),
+    });
     const theresponse = await data.json();
     console.log("console du fetch", theresponse);
   };
@@ -135,7 +132,7 @@ export default function App() {
   // ********************************************************Consultation API GOOGLE**************************$$
   const handleClick = async () => {
     var rawResponse = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${listWaypoints}&avoid=highways&key=APIKEY`
+      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${listWaypoints}&avoid=highways&key={APIGOOGLE}`
     );
 
     var response = await rawResponse.json();
@@ -551,7 +548,6 @@ export default function App() {
         initialRegion={myInitialRegion}
       >
         <Marker
-          icon={require("./jfimages/motorcycle.png")}
           size={10}
           pinColor="black"
           coordinate={{

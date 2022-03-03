@@ -65,11 +65,119 @@ export default function CreateRoadTripScreenFirstStep(props) {
 
   return (
     //------------------------------------------ FIRST STEP PAGE---------------------
+    <View style={styles.container}>
+      <CustomHeader
+        onPress={() =>
+          props.navigation.navigate("Homepage", { screen: "HomeScreen" })
+        }
+      />
+      <View style={styles.barprogress}>
+        <StepIndicator
+          customStyles={customStyles}
+          currentPosition={formProgress}
+          stepCount={3}
+        />
+      </View>
+
+      <View style={styles.switch}>
+        <Text> Privé </Text>
+        <Switch
+          trackColor={{ false: "#363432", true: "teal" }}
+          thumbColor="#FF8B00"
+          ios_backgroundColor="#FEFAEA"
+          onValueChange={(value) => setToggleButton(value)}
+          value={toggleButton}
+        />
+        <Text> Public </Text>
+      </View>
+
+      <View style={{ paddingBottom: 10, paddingTop: 10 }}>
+        <CustomTimeNewTripInput2
+          placeholder="Titre de votre Roadtrip"
+          value={event_title}
+          setValue={setEvent_title}
+        />
+        <CustomTimeNewTripInput2
+          placeholder="Date de départ"
+          value={date_sortie}
+          setValue={setDate_sortie}
+        />
+      </View>
+
+      <Text style={{ paddingTop: 5 }}>Horaires :</Text>
+      <View style={styles.horaires}>
+        <View style={{ alignItems: "center" }}>
+          <Text>Départ :</Text>
+          <CustomTimeNewTripInput
+            placeholder="9:00"
+            value={date_sortie}
+            setValue={setDate_sortie}
+          />
+        </View>
+        <Text> </Text>
+        <View style={{ alignItems: "center" }}>
+          <Text>Arrivée :</Text>
+          <CustomTimeNewTripInput
+            placeholder="16:00"
+            value={date_sortie}
+            setValue={setDate_sortie}
+          />
+        </View>
+      </View>
+
+      {/* CHOIX ITINERAIRE */}
+      <View
+        style={{
+          alignItems: "center",
+          height: "30%",
+          marginTop: "5%",
+        }}
+      >
+        <View style={{ marginBottom: "3%" }}>
+          <CustomButtonOrange
+            title="NOUVEL ITINERAIRE"
+            onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
+          />
+          <CustomButton
+            title="ITINERAIRE PROPOSE"
+            onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
+          />
+        </View>
+        <View style={{ marginTop: "15%" }}>
+          <Text>Aucun itinéraire choisit ou créé</Text>
+        </View>
+      </View>
+
+      {/* FLECHE PAGE SUIVANTE */}
+      <View style={styles.bottomPage}>
+        <View style={{ marginHorizontal: "40%" }}></View>
+        <View style={{ marginTop: "10%", marginBottom: "5%" }}>
+          <CustomButtonOrangeNext
+            title="NOUVEL ITINERAIRE"
+            onPress={
+              (() =>
+                props.navigation.navigate("RoadtripList", {
+                  screen: "RoadtripListScreen",
+                }),
+              () => setFormProgress(1))
+            }
+          />
+        </View>
+      </View>
+    </View>
+
+    //------------------------------------------ END OF FIRST STEP PAGE---------------------
+
+    //------------------------------------------ THIRD STEP PAGE---------------------
+
     // <View style={styles.container}>
     //   <CustomHeader
     //     onPress={() =>
-    //       props.navigation.navigate("Homepage", { screen: "HomeScreen" })
+    //       props.navigation.navigate("RoadtripList", {
+    //         screen: "RoadtripListScreen",
+    //       })
     //     }
+    //     title="CREE TON TRIP"
     //   />
     //   <View style={styles.barprogress}>
     //     <StepIndicator
@@ -162,111 +270,6 @@ export default function CreateRoadTripScreenFirstStep(props) {
     //     </View>
     //   </View>
     // </View>
-
-    //------------------------------------------ END OF FIRST STEP PAGE---------------------
-
-    //------------------------------------------ THIRD STEP PAGE---------------------
-
-    <View style={styles.container}>
-      <CustomHeader
-        onPress={() =>
-          props.navigation.navigate("RoadtripList", {
-            screen: "RoadtripListScreen",
-          })
-        }
-        title="CREE TON TRIP"
-      />
-      <View style={styles.barprogress}>
-        <StepIndicator
-          customStyles={customStyles}
-          currentPosition={formProgress}
-          stepCount={3}
-        />
-      </View>
-
-      <View style={styles.switch}>
-        <Text> Privé </Text>
-        <Switch
-          trackColor={{ false: "#363432", true: "teal" }}
-          thumbColor="#FF8B00"
-          ios_backgroundColor="#FEFAEA"
-          onValueChange={(value) => setToggleButton(value)}
-          value={toggleButton}
-        />
-        <Text> Public </Text>
-      </View>
-
-      <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-        <CustomTimeNewTripInput2
-          placeholder="Titre de votre Roadtrip"
-          value={event_title}
-          setValue={setEvent_title}
-        />
-        <CustomTimeNewTripInput2
-          placeholder="Date de départ"
-          value={date_sortie}
-          setValue={setDate_sortie}
-        />
-      </View>
-
-      <Text style={{ paddingTop: 5 }}>Horaires :</Text>
-      <View style={styles.horaires}>
-        <View style={{ alignItems: "center" }}>
-          <Text>Départ :</Text>
-          <CustomTimeNewTripInput
-            placeholder="9:00"
-            value={date_sortie}
-            setValue={setDate_sortie}
-          />
-        </View>
-        <Text> </Text>
-        <View style={{ alignItems: "center" }}>
-          <Text>Arrivée :</Text>
-          <CustomTimeNewTripInput
-            placeholder="16:00"
-            value={date_sortie}
-            setValue={setDate_sortie}
-          />
-        </View>
-      </View>
-
-      {/* CHOIX ITINERAIRE */}
-      <View
-        style={{
-          alignItems: "center",
-          height: "30%",
-          marginTop: "5%",
-        }}
-      >
-        <View style={{ marginBottom: "3%" }}>
-          <CustomButtonOrange
-            title="NOUVEL ITINERAIRE"
-            onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
-          />
-          <CustomButton
-            title="ITINERAIRE PROPOSE"
-            onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
-          />
-        </View>
-        <View style={{ marginTop: "15%" }}>
-          <Text>Aucun itinéraire choisit ou créé</Text>
-        </View>
-      </View>
-
-      {/* FLECHE PAGE SUIVANTE */}
-      <View style={styles.bottomPage}>
-        <View style={{ marginHorizontal: "40%" }}></View>
-        <View style={{ marginTop: "10%", marginBottom: "5%" }}>
-          <CustomButtonOrangeNext
-            title="NOUVEL ITINERAIRE"
-            onPress={
-              (() => props.navigation.navigate("newRoadTripFirstStep"),
-              () => setFormProgress(1))
-            }
-          />
-        </View>
-      </View>
-    </View>
 
     //------------------------------------------ END OF SECOND STEP PAGE---------------------
   );
