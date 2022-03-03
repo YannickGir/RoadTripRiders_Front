@@ -62,8 +62,6 @@ LogBox.ignoreAllLogs();
 
 const store = createStore(combineReducers({ token, urlImgList }));
 
-const store = createStore(combineReducers({ token }));
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

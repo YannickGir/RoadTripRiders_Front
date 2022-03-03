@@ -1,27 +1,29 @@
-import React from 'react'
-import { StyleSheet, Button, View, Text, Icon } from 'react-native'
+import React from "react";
+import { StyleSheet, Button, View, Text, Icon } from "react-native";
 
 export default function HomepageScreen(props) {
   return (
     <View style={styles.container}>
       <Text>Homepage Screen</Text>
       <Button
-        icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
-        title='create roadtrip !'
-        type='solid'
+        icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
+        title="go to roadtripList !"
+        type="solid"
         onPress={() =>
-          props.navigation.navigate('Homepage', { screen: 'CreateRoadTrip1' })
+          props.navigation.navigate("RoadtripList", {
+            screen: "RoadtripListScreen",
+          })
         }
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
   },
-})
+});
