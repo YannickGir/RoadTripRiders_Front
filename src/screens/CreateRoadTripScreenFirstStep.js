@@ -79,6 +79,8 @@ export default function CreateRoadTripScreenFirstStep(props) {
   const [roadtripMotoType, setRoadtripMotoType] = useState("Toutes catégories");
   const [roadtripSizeGroup, setRoadtripSizeGroup] = useState(0);
 
+  console.log(roadtripType);
+
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
   useEffect(() => {
@@ -203,9 +205,24 @@ export default function CreateRoadTripScreenFirstStep(props) {
         <Text> Type de Roadtrip </Text>
       </View>
       <View style={styles.choice}>
-        <CustomButtonChoiceValidate title={"Cool"} />
-        <CustomButtonChoice title={"Sportif"} />
-        <CustomButtonChoice title={"Tourisme"} />
+        <CustomButtonChoiceValidate
+          title={"Cool"}
+          value={roadtripType}
+          onPress={() => setRoadtripType("Cool")}
+          secureTextEntry={false}
+        />
+        <CustomButtonChoice
+          title={"Sportif"}
+          value={roadtripType}
+          onPress={() => setRoadtripType("Sportif")}
+          secureTextEntry={false}
+        />
+        <CustomButtonChoice
+          title={"Tourisme"}
+          value={roadtripType}
+          onPress={() => setRoadtripType("Tourisme")}
+          secureTextEntry={false}
+        />
       </View>
 
       <View
