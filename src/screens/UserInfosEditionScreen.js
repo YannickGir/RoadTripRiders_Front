@@ -14,6 +14,7 @@ import CustomDatePicker from '../components/CustomDatePicker';
 import CustomTimePicker from '../components/CustomTimePicker';
 import CustomButton from '../components/CustomButton';
 import ImageUploadComponent from '../components/ImageUploadComponent';
+import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
 import * as ImagePicker from 'expo-image-picker';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
@@ -161,6 +162,23 @@ function UserInfosEditionScreen() {
       <Text>Dans quels coins roules-tu ?</Text>
 
       <CustomTimePicker title='HEURE' />
+
+      {/* FLECHE PAGE SUIVANTE */}
+      <View style={styles.bottomPage}>
+        <View style={{ marginHorizontal: '40%' }}></View>
+        <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+          <CustomButtonOrangeNext
+            title='NOUVEL ITINERAIRE'
+            onPress={
+              (() =>
+                props.navigation.navigate('I', {
+                  screen: 'RoadtripListScreen',
+                }),
+              () => setFormProgress(1))
+            }
+          />
+        </View>
+      </View>
     </View>
   );
 }
