@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   ScrollView,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Image,
+  Dimensions,
 } from "react-native";
-import { Card, Avatar, Input, Button } from "react-native-elements";
+import { Card, Text, Avatar, Input, Button } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 function ChatScreen(props) {
+  const [dimensions, setDimensions] = useState({ window, screen });
+  console.log(dimensions);
+
   var idConv = props.route.params.conversation_id;
   console.log("name", props.route.params.conversation_firstname);
   const [conversationsList, setConversationsList] = useState([]);
   const [contentMessage, setContentMessage] = useState("");
   const [tokenMessage, setTokenMessage] = useState("");
+  const scrollViewRef = useRef(ScrollView);
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
@@ -31,24 +37,23 @@ function ChatScreen(props) {
       setConversationsList(
         body.conversationObjects.map((convData, i) => {
           return (
-            <View key={i}>
-              <View style={styles.user}>
-                <Avatar
+            <Card key={i} containerStyle={styles.user}>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  style={styles.avatar}
                   size={64}
                   rounded
                   source={{
                     uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
                   }}
                 />
-                <View style={{ flexDirection: "row" }}>
+                <View>
                   <Text style={styles.titleText}> {convData.firstname}: </Text>
-                  <Text style={{ alignSelf: "center" }}>
-                    {convData.content}
-                  </Text>
+                  <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
                 </View>
                 <View></View>
               </View>
-            </View>
+            </Card>
           );
         })
       );
@@ -69,7 +74,8 @@ function ChatScreen(props) {
         return (
           <View key={i}>
             <View style={styles.user}>
-              <Avatar
+              <Image
+                style={styles.avatar}
                 size={64}
                 rounded
                 source={{
@@ -78,7 +84,7 @@ function ChatScreen(props) {
               />
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.titleText}> {convData.firstname}: </Text>
-                <Text style={{ alignSelf: "center" }}>{convData.content}</Text>
+                <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
               </View>
               <View></View>
             </View>
@@ -114,7 +120,15 @@ function ChatScreen(props) {
         }
         title="Chat"
       />
-      <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef?.current?.scrollToEnd({ animated: true })
+        }
+        style={{ flex: 1 }}
+      >
+        {conversationsList}
+      </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
@@ -130,7 +144,9 @@ function ChatScreen(props) {
               name="refresh"
               size={24}
               color="black"
-              onPress={() => reLoadConversations()}
+              onPress={() => {
+                reLoadConversations();
+              }}
             />
           </TouchableOpacity>
           <CustomInput
@@ -143,7 +159,11 @@ function ChatScreen(props) {
               name="send"
               size={24}
               color="black"
-              onPress={() => handleSandMessage()}
+              onPress={() => {
+                handleSandMessage(),
+                  setContentMessage(""),
+                  reLoadConversations();
+              }}
             />
           </TouchableOpacity>
         </View>
@@ -159,7 +179,7 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: "#FEFAEA",
-    paddingTop: 50,
+    paddingTop: "10%",
     flex: 1,
   },
 
@@ -170,7 +190,7 @@ const styles = StyleSheet.create({
   },
   user: {
     flexDirection: "row",
-    width: "80%",
+    width: "100%",
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#FFEDAC",
@@ -191,7 +211,14 @@ const styles = StyleSheet.create({
   titleText: {
     fontWeight: "bold",
     fontSize: 20,
-    alignSelf: "center",
+  },
+  avatar: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 35,
+    width: 70,
+    height: 70,
+    position: "relative",
   },
 });
 
