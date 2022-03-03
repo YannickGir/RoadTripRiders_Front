@@ -12,7 +12,7 @@ import {
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import CustomTimeNewTripInput from "../components/CustomTimeNewTripInput";
-import CustomTimeNewTripInput2 from "../components/CustomTimeNewTripInput2";
+import CustomNewTripInput from "../components/CustomNewTripInput";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
 import CustomHeader from "../components/CustomHeader";
@@ -63,10 +63,24 @@ export default function CreateRoadTripScreenFirstStep(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
+  // Barre de progression
   const [formProgress, setFormProgress] = useState(0);
   const [toggleButton, setToggleButton] = useState(false);
   const [stepScreen, setStepScreen] = useState();
 
+  //store inputs first step-------------
+  const [roadtripTitle, setRoadtripTitle] = useState("");
+  const [roadtripDate, setRoadtripDate] = useState("");
+  const [roadtriptimeDeparture, setRoadtriptimeDeparture] = useState("");
+  const [roadtriptimeArrival, setRoadtriptimeArrival] = useState("");
+
+  //store inputs second step-------------
+  const [roadtripType, setRoadtripType] = useState("Cool");
+  const [roadtripMotoType, setRoadtripMotoType] = useState("Toutes catégories");
+  const [roadtripSizeGroup, setRoadtripSizeGroup] = useState(0);
+
+  //gestion des étapes---------
+  //initialisation de la première étape au démarrage de la page------------------------
   useEffect(() => {
     setStepScreen(firstep);
   }, [CreateRoadTripScreenFirstStep]);
@@ -100,15 +114,16 @@ export default function CreateRoadTripScreenFirstStep(props) {
         <Text> Public </Text>
       </View>
       <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-        <CustomTimeNewTripInput2
+        <CustomNewTripInput
           placeholder="Titre de votre Roadtrip"
-          value={event_title}
-          setValue={setEvent_title}
+          value={roadtripTitle}
+          setValue={setRoadtripTitle}
+          secureTextEntry={false}
         />
-        <CustomTimeNewTripInput2
+        <CustomNewTripInput
           placeholder="Date de départ"
-          value={date_sortie}
-          setValue={setDate_sortie}
+          value={roadtripDate}
+          setValue={setRoadtripDate}
         />
       </View>
       <Text style={{ paddingTop: 5 }}>Horaires :</Text>
@@ -117,8 +132,8 @@ export default function CreateRoadTripScreenFirstStep(props) {
           <Text>Départ :</Text>
           <CustomTimeNewTripInput
             placeholder="9:00"
-            value={date_sortie}
-            setValue={setDate_sortie}
+            value={roadtriptimeDeparture}
+            setValue={setRoadtriptimeDeparture}
           />
         </View>
         <Text> </Text>
@@ -126,8 +141,8 @@ export default function CreateRoadTripScreenFirstStep(props) {
           <Text>Arrivée :</Text>
           <CustomTimeNewTripInput
             placeholder="16:00"
-            value={date_sortie}
-            setValue={setDate_sortie}
+            value={roadtriptimeArrival}
+            setValue={setRoadtriptimeArrival}
           />
         </View>
       </View>
@@ -142,7 +157,11 @@ export default function CreateRoadTripScreenFirstStep(props) {
         <View style={{ marginBottom: "3%" }}>
           <CustomButtonOrange
             title="NOUVEL ITINERAIRE"
-            onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
+            onPress={() =>
+              props.navigation.navigate("Itinerary", {
+                screen: "ItineraryScreen",
+              })
+            }
           />
           <CustomButton
             title="ITINERAIRE PROPOSE"
@@ -197,10 +216,10 @@ export default function CreateRoadTripScreenFirstStep(props) {
         }}
       >
         <Text> Pour quel type de moto ? </Text>
-        <CustomTimeNewTripInput2
+        <CustomNewTripInput
           placeholder="Toutes catégories"
-          value={event_title}
-          setValue={setEvent_title}
+          value={roadtripMotoType}
+          setValue={setRoadtripMotoType}
         />
       </View>
 
@@ -212,8 +231,8 @@ export default function CreateRoadTripScreenFirstStep(props) {
         <View style={{ alignItems: "center" }}>
           <CustomTimeNewTripInput
             placeholder="16:00"
-            value={date_sortie}
-            setValue={setDate_sortie}
+            value={roadtripSizeGroup}
+            setValue={setRoadtripSizeGroup}
           />
         </View>
       </View>
