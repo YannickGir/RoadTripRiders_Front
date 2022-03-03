@@ -53,8 +53,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenSecondStep from "./src/screens/CreateRoadTripScreenSecondStep";
 import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFinalStep";
-import ItineraryScreen from "./src/screens/ItineraryScreen";
-
+import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 
@@ -71,12 +70,16 @@ const formStackNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen
-        name="CreateRoadTrip1"
+        name="newRoadTripFirstStep"
         component={CreateRoadTripScreenFirstStep}
       />
       <Stack.Screen
         name="CreateRoadTrip2"
         component={CreateRoadTripScreenSecondStep}
+      />
+      <Stack.Screen
+        name="CreateRoadTripRecap"
+        component={CreateRoadTripScreenRecap}
       />
       <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
     </Stack.Navigator>
@@ -162,7 +165,12 @@ export default function App() {
             name="newRoadTripFinalStep"
             component={CreateRoadTripScreenFinalStep}
           />
-          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
+          <Stack.Screen
+            name="CreateRoadTripRecap"
+            component={CreateRoadTripScreenRecap}
+          />
+
+          <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
