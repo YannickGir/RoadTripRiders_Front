@@ -74,7 +74,7 @@ export default function ChatScreen(props) {
             containerStyle={{ paddingBottom: 0, width: "80%" }}
             placeholder="Your message"
           />
-          <Ionicons name="send" size={24} color="black" onPress={} />
+          <Ionicons name="send" size={24} color="black" />
         </View>
       </KeyboardAvoidingView>
     </View>
