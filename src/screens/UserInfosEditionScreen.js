@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   StyleSheet,
   View,
@@ -6,33 +6,33 @@ import {
   Image,
   Dimensions,
   useWindowDimensions,
-} from 'react-native';
-import { Button } from 'react-native-elements';
-import CustomCheckBox from '../components/CustomCheckBox';
-import CustomInput from '../components/CustomInput';
-import CustomDatePicker from '../components/CustomDatePicker';
-import CustomTimePicker from '../components/CustomTimePicker';
-import CustomButton from '../components/CustomButton';
-import ImageUploadComponent from '../components/ImageUploadComponent';
-import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
-import * as ImagePicker from 'expo-image-picker';
-import { MA_VARIABLE } from '@env';
-import { connect } from 'react-redux';
-import CustomHeader from '../components/CustomHeader';
+} from 'react-native'
+import { Button } from 'react-native-elements'
+import CustomCheckBox from '../components/CustomCheckBox'
+import CustomInput from '../components/CustomInput'
+import CustomDatePicker from '../components/CustomDatePicker'
+import CustomTimePicker from '../components/CustomTimePicker'
+import CustomButton from '../components/CustomButton'
+import ImageUploadComponent from '../components/ImageUploadComponent'
+import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext'
+import * as ImagePicker from 'expo-image-picker'
+import { MA_VARIABLE } from '@env'
+import { connect } from 'react-redux'
+import CustomHeader from '../components/CustomHeader'
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
-import StepIndicator from 'react-native-step-indicator';
-import { color } from 'react-native-elements/dist/helpers';
+import StepIndicator from 'react-native-step-indicator'
+import { color } from 'react-native-elements/dist/helpers'
 const labels = [
   'Cart',
   'Delivery Address',
   'Order Summary',
   'Payment Method',
   'Track',
-];
+]
 
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get('window').height
+let deviceWidth = Dimensions.get('window').width
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize: 30,
@@ -53,21 +53,20 @@ const customStyles = {
   stepIndicatorLabelFinishedColor: '#FEFAEA',
   stepIndicatorLabelUnFinishedColor: '#FEFAEA',
   labelSize: 13,
-};
+}
 
 function UserInfosEditionScreen() {
   //Variables d'Etats des inputs
-  const [userFirstName, setuserFirstName] = useState('');
-  const [userLastName, setuserLastName] = useState('');
-  const [userBirthDate, setuserBirthDate] = useState('');
+  const [userFirstName, setuserFirstName] = useState('')
+  const [userLastName, setuserLastName] = useState('')
+  const [userBirthDate, setuserBirthDate] = useState('')
   //Pour image picker
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null)
 
   // on enregistre la dimension de l'écran de l'utilisateur
-  const { height } = useWindowDimensions();
+  const { height } = useWindowDimensions()
 
-  const [formProgress, setFormProgress] = useState(0);
-
+  const [formProgress, setFormProgress] = useState(0)
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -75,37 +74,38 @@ function UserInfosEditionScreen() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
+    })
 
-    console.log('result', result);
-    console.log('result.uri ', result.uri);
+    console.log('result', result)
+    console.log('result.uri ', result.uri)
 
     if (!result.cancelled) {
-      setImage(result.uri);
-      var myAvatar = result.uri;
+      setImage(result.uri)
+      var myAvatar = result.uri
 
-      //envoi fichier vers le back
-      var data = new FormData();
+      var data = new FormData()
 
       data.append('avatar', {
         uri: myAvatar,
         type: 'image/jpeg',
         name: 'avatar',
-      });
+      })
 
       var rawResponse = await fetch(
-        `https://backend-rr-lili-13.herokuapp.com/users/upload-avatar`,
+        'https://sleepy-dusk-83738.herokuapp.com/users/upload-avatar',
         {
           method: 'post',
           body: data,
         }
-      );
+      )
 
-      var response = await rawResponse.json();
-      console.log(response);
-      props.onSubmitImage(response.urlToCloudImage);
+      var response = await rawResponse.json()
+      console.log(response)
+      // props.onSubmitImage(response.urlToCloudImage)
     }
-  };
+
+    // envoi d'un fichier avec React Native
+  }
 
   return (
     <View style={styles.container}>
@@ -180,7 +180,7 @@ function UserInfosEditionScreen() {
         </View>
       </View>
     </View>
-  );
+  )
 }
 const styles = StyleSheet.create({
   container: {
@@ -193,14 +193,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {},
-});
+})
 
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitImage: function (urldufetch) {
-      dispatch({ type: 'saveUrl', url: urldufetch });
+      dispatch({ type: 'saveUrl', url: urldufetch })
     },
-  };
+  }
 }
 
-export default connect(null, mapDispatchToProps)(UserInfosEditionScreen);
+export default connect(null, mapDispatchToProps)(UserInfosEditionScreen)
