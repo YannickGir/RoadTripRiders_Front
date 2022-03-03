@@ -1,63 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { provider, Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { provider, Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
 
-import token from './src/reducers/token';
-import urlImgList from './src/reducers/url-list';
+import token from "./src/reducers/token";
+import urlImgList from "./src/reducers/url-list";
 
 // Bottom Menu
-import HomeScreen from './src/screens/HomeScreen';
-import RidersAroundScreen from './src/screens/RidersAroundScreen';
-import ConversationsScreen from './src/screens/ConversationsScreen';
-import MyAccountScreen from './src/screens/MyAccountScreen';
+import HomeScreen from "./src/screens/HomeScreen";
+import RidersAroundScreen from "./src/screens/RidersAroundScreen";
+import ConversationsScreen from "./src/screens/ConversationsScreen";
+import MyAccountScreen from "./src/screens/MyAccountScreen";
 
 //Stack Navigation
 //Ecran d'accueil Logo
-import LoadingScreen from './src/screens/LoadingScreen';
+import LoadingScreen from "./src/screens/LoadingScreen";
 
 // Ecran de bienvenue pour inviter les utilisateurs à remplir leurs infos perso
 
 // cet écran va surement sauter
-import WelcomeScreen from './src/screens/WelcomeScreen';
+import WelcomeScreen from "./src/screens/WelcomeScreen";
 
 //Log In Sign Up
-import LogInScreen from './src/screens/LogInScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
+import LogInScreen from "./src/screens/LogInScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
 
 // Mes contacts dans l'onglet mon profil
-import MyContactsScreen from './src/screens/MyContactsScreen';
+import MyContactsScreen from "./src/screens/MyContactsScreen";
 // Page d'édition des infos de l'utilisateur
-import UserInfosEditionScreen from './src/screens/UserInfosEditionScreen';
+import UserInfosEditionScreen from "./src/screens/UserInfosEditionScreen";
 // Page statique des infos de l'utilisateur à voir si c'est utile
-import UserInfosScreen from './src/screens/UserInfosScreen';
+import UserInfosScreen from "./src/screens/UserInfosScreen";
 // Historique des roadtrips de l'utilisateur
-import UserPastRoadtripsScreen from './src/screens/UserPastRoadtripsScreen';
+import UserPastRoadtripsScreen from "./src/screens/UserPastRoadtripsScreen";
 //roadtrips à venir de l'utilisateur
-import UserRoadtripsToComeScreen from './src/screens/UserRoadtripsToComeScreen';
+import UserRoadtripsToComeScreen from "./src/screens/UserRoadtripsToComeScreen";
 
 // Profil d'un autre utilisateur
-import OtherRiderProfil from './src/screens/OtherRiderProfil';
+import OtherRiderProfil from "./src/screens/OtherRiderProfil";
 
 //Ecran des messages dans les conversations
-import ChatScreen from './src/screens/ChatScreen';
+import ChatScreen from "./src/screens/ChatScreen";
 
 //Ecrans de création de roadtrips
-import CreateRoadTripScreenFirstStep from './src/screens/CreateRoadTripScreenFirstStep';
-import CreateRoadTripScreenSecondStep from './src/screens/CreateRoadTripScreenSecondStep';
-import CreateRoadTripScreenFinalStep from './src/screens/CreateRoadTripScreenFinalStep';
+import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
+import CreateRoadTripScreenSecondStep from "./src/screens/CreateRoadTripScreenSecondStep";
+import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFinalStep";
+import ItineraryScreen from "./src/screens/ItineraryScreen";
 
 //Ecran de liste des sorties
-import RoadtripListScreen from './src/screens/RoadtripListScreen';
+import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 
-import { LogBox } from 'react-native';
+import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
 
 const store = createStore(combineReducers({ token, urlImgList }));
@@ -68,16 +69,16 @@ const Tab = createBottomTabNavigator();
 const formStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen
-        name='CreateRoadTrip1'
+        name="CreateRoadTrip1"
         component={CreateRoadTripScreenFirstStep}
       />
       <Stack.Screen
-        name='CreateRoadTrip2'
+        name="CreateRoadTrip2"
         component={CreateRoadTripScreenSecondStep}
       />
-      <Stack.Screen name='RoadtripList' component={RoadtripListScreen} />
+      <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
     </Stack.Navigator>
   );
 };
@@ -89,19 +90,19 @@ const BottomNavigator = () => {
         tabBarIcon: ({ color }) => {
           let iconNameFontAwesome;
           let iconNameIonicons;
-          if (route.name === 'Homepage') {
-            iconNameIonicons = 'ios-home';
+          if (route.name === "Homepage") {
+            iconNameIonicons = "ios-home";
             return <Ionicons name={iconNameIonicons} size={25} color={color} />;
-          } else if (route.name === 'Riders') {
-            iconNameFontAwesome = 'search';
+          } else if (route.name === "Riders") {
+            iconNameFontAwesome = "search";
             return (
               <FontAwesome name={iconNameFontAwesome} size={25} color={color} />
             );
-          } else if (route.name === 'Conversations') {
-            iconNameIonicons = 'chatbox';
+          } else if (route.name === "Conversations") {
+            iconNameIonicons = "chatbox";
             return <Ionicons name={iconNameIonicons} size={25} color={color} />;
-          } else if (route.name === 'MyAccount') {
-            iconNameFontAwesome = 'user';
+          } else if (route.name === "MyAccount") {
+            iconNameFontAwesome = "user";
             return (
               <FontAwesome name={iconNameFontAwesome} size={25} color={color} />
             );
@@ -109,18 +110,18 @@ const BottomNavigator = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#FF8B00',
-        inactiveTintColor: '#363432',
+        activeTintColor: "#FF8B00",
+        inactiveTintColor: "#363432",
         keyboardHidesTabBar: true,
         style: {
-          backgroundColor: '#FFD230',
+          backgroundColor: "#FFD230",
         },
       }}
     >
-      <Tab.Screen name='Homepage' component={formStackNavigator} />
-      <Tab.Screen name='Riders' component={RidersAroundScreen} />
-      <Tab.Screen name='Conversations' component={ConversationsScreen} />
-      <Tab.Screen name='MyAccount' component={MyAccountScreen} />
+      <Tab.Screen name="Homepage" component={formStackNavigator} />
+      <Tab.Screen name="Riders" component={RidersAroundScreen} />
+      <Tab.Screen name="Conversations" component={ConversationsScreen} />
+      <Tab.Screen name="MyAccount" component={MyAccountScreen} />
     </Tab.Navigator>
   );
 };
@@ -130,37 +131,38 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name='LogIn' component={LogInScreen} />
-          <Stack.Screen name='BottomNavigator' component={BottomNavigator} />
-          <Stack.Screen name='SignUp' component={SignUpScreen} />
-          <Stack.Screen name='Chat' component={ChatScreen} />
-          <Stack.Screen name='Loading' component={LoadingScreen} />
-          <Stack.Screen name='MyContacts' component={MyContactsScreen} />
-          <Stack.Screen name='UserInfos' component={UserInfosScreen} />
+          <Stack.Screen name="LogIn" component={LogInScreen} />
+          <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Loading" component={LoadingScreen} />
+          <Stack.Screen name="MyContacts" component={MyContactsScreen} />
+          <Stack.Screen name="UserInfos" component={UserInfosScreen} />
           <Stack.Screen
-            name='UserInfosEdition'
+            name="UserInfosEdition"
             component={UserInfosEditionScreen}
           />
           <Stack.Screen
-            name='UserRoadtripsToCome'
+            name="UserRoadtripsToCome"
             component={UserRoadtripsToComeScreen}
           />
           <Stack.Screen
-            name='UserPastRoadtrips'
+            name="UserPastRoadtrips"
             component={UserPastRoadtripsScreen}
           />
           <Stack.Screen
-            name='newRoadTripFirstStep'
+            name="newRoadTripFirstStep"
             component={CreateRoadTripScreenFirstStep}
           />
           <Stack.Screen
-            name='newRoadTripSecondStep'
+            name="newRoadTripSecondStep"
             component={CreateRoadTripScreenSecondStep}
           />
           <Stack.Screen
-            name='newRoadTripFinalStep'
+            name="newRoadTripFinalStep"
             component={CreateRoadTripScreenFinalStep}
           />
+          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -170,8 +172,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

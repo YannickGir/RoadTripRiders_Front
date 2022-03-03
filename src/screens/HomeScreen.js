@@ -10,8 +10,8 @@ export default function HomepageScreen(props) {
         title="go to roadtripList !"
         type="solid"
         onPress={() =>
-          props.navigation.navigate("RoadtripList", {
-            screen: "RoadtripListScreen",
+          props.navigation.navigate("Itinerary", {
+            screen: "ItineraryScreen",
           })
         }
       />
