@@ -36,7 +36,7 @@ function MyAccountScreen(props) {
       screen: 'LogInScreen',
     });
     // on enlève le token du async storage
-    AsyncStorage.removeItem('tokenInLS');
+    AsyncStorage.removeItem('token');
     console.log('token supprimé et utilisateur déconnecté');
     // on vide le store
     props.removeToken();
