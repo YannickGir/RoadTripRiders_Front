@@ -20,7 +20,8 @@ function ConversationsScreen(props) {
               key={i}
               onPress={() =>
                 props.navigation.navigate("Chat", {
-                  screen: "ChatScreen?",
+                  conversation_id: convData._id,
+                  conversation_firstname: convData.firstname,
                 })
               }
             >
@@ -36,7 +37,7 @@ function ConversationsScreen(props) {
                   <Text style={styles.titleText}>{convData.title}</Text>
 
                   <Text>
-                    {convData.firstname}: {convData.messagesEvent[0].content}
+                    {convData.firstname}: {convData.messagesEvent[i].content}
                   </Text>
                 </View>
               </View>
