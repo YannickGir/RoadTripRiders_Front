@@ -32,6 +32,7 @@ export default function ItineraryScreen() {
   const [coords_parcours, setCoords_parcours] = useState([]); //tous les points du parcours(Map de points)
   const [points, setPoints] = useState(""); //Polyline décodee
   const [thisVisible, setThisVisible] = useState(false); // pour afficher premier Overlay
+  const [thisVisible2, setThisVisible2] = useState(false); // pour Overlay des etapes
   const [myInitialRegion, setMyInitialRegion] = useState({
     latitude: 48.8566,
     longitude: 2.3522,
@@ -62,7 +63,12 @@ export default function ItineraryScreen() {
     setEtape_place_id("");
     this.GooglePlacesAutocompleteRef.clear();
     console.log("Clic detecté");
-    var waypointsList = myWaypoints.join("|");
+    if (myWaypoints.length > 1) {
+      var waypointsList = myWaypoints.join("|");
+    } else {
+      var waypointsList = `place_id:${etape_place_id}`;
+    }
+    setEtape_place_id("");
     setListWaypoints(waypointsList);
   };
   //*****fin ajout etapes dans waypoints****$ */
@@ -288,7 +294,7 @@ export default function ItineraryScreen() {
           props.onClickAddOriginData(details); */
             }}
             query={{
-              key: "AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk",
+              key: `${APIGOOGLE}`,
               language: "fr",
             }}
             textInputProps={{
@@ -385,7 +391,7 @@ export default function ItineraryScreen() {
             console.log("Arrivée", arrival_city); */
             }}
             query={{
-              key: "AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk",
+              key: `${APIGOOGLE}`,
               language: "fr",
             }}
             textInputProps={{
@@ -407,7 +413,22 @@ export default function ItineraryScreen() {
               },
             }}
           />
-
+          <Button
+            title="ajouter des etapes"
+            buttonStyle={{ backgroundColor: "#eb4d4b" }}
+            type="solid"
+            onPress={() => {
+              setThisVisible2(true), setThisVisible(false);
+            }}
+          />
+          <Button
+            title="valider"
+            buttonStyle={{ backgroundColor: "#eb4d4b" }}
+            type="solid"
+            onPress={() => setThisVisible(false)}
+          />
+        </Overlay>
+        <Overlay>
           <GooglePlacesAutocomplete
             placeholder=" Etape"
             fetchDetails={true}
@@ -488,7 +509,7 @@ export default function ItineraryScreen() {
           props.onClickAddOriginData(details); */
             }}
             query={{
-              key: "AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk",
+              key: `${APIGOOGLE}`,
               language: "fr",
             }}
             textInputProps={{
@@ -520,7 +541,9 @@ export default function ItineraryScreen() {
             title="valider"
             buttonStyle={{ backgroundColor: "#eb4d4b" }}
             type="solid"
-            onPress={() => setThisVisible(false)}
+            onPress={() => {
+              setThisVisible(true), setThisVisible2(false);
+            }}
           />
         </Overlay>
       </View>
