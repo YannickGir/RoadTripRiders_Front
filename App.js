@@ -66,12 +66,6 @@ ItineraryScreen;
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 
-//Ecrans itinéraires
-import ItineraryScreen from "./src/screens/ItineraryScreen";
-
-//Ecran de liste des sorties
-import RoadtripListScreen from "./src/screens/RoadtripListScreen";
-
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
 
