@@ -430,7 +430,7 @@ export default function ItineraryScreen() {
         </Overlay>
 
         <Overlay
-          sVisible={thisVisible2}
+          isVisible={thisVisible2}
           onBackdropPress={() => {
             setIsVisible(false);
           }}
