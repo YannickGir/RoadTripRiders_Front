@@ -428,7 +428,13 @@ export default function ItineraryScreen() {
             onPress={() => setThisVisible(false)}
           />
         </Overlay>
-        <Overlay>
+
+        <Overlay
+          sVisible={thisVisible2}
+          onBackdropPress={() => {
+            setIsVisible(false);
+          }}
+        >
           <GooglePlacesAutocomplete
             placeholder=" Etape"
             fetchDetails={true}
