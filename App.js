@@ -56,6 +56,7 @@ import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFin
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
+import ItineraryScreen from "./src/screens/ItineraryScreen";
 
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
@@ -165,6 +166,7 @@ export default function App() {
             name="newRoadTripFinalStep"
             component={CreateRoadTripScreenFinalStep}
           />
+          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
           <Stack.Screen
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}

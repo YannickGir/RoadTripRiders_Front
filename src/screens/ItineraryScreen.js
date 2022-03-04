@@ -7,6 +7,9 @@ import { Input, Button, Overlay } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { captureRef } from "react-native-view-shot";
 import { MA_VARIABLE, APIGOOGLE } from "@env";
+import CustomButtonOrange from "../components/CustomButtonOrange";
+import CustomButton from "../components/CustomButton";
+
 var polyline = require("@mapbox/polyline");
 
 export default function ItineraryScreen() {
@@ -50,7 +53,8 @@ export default function ItineraryScreen() {
   console.log("essai");
   //*****ajouter des etapes */
   const addEtap = () => {
-    setMyWaypoints([...myWaypoints, `place_id:${etape_place_id}`]);
+    var wayp = [...myWaypoints, `place_id:${etape_place_id}`];
+    setMyWaypoints(wayp);
     setEtapesList([
       ...etapesList,
       {
@@ -60,7 +64,7 @@ export default function ItineraryScreen() {
         longitude: etape_Lng,
       },
     ]);
-    setEtape_place_id("");
+
     this.GooglePlacesAutocompleteRef.clear();
     console.log("Clic detecté");
     if (myWaypoints.length > 1) {
@@ -96,49 +100,148 @@ export default function ItineraryScreen() {
   var SubmitItinerary = async () => {
     console.log("envoi Fetch");
 
-    var mydata = {
-      departure_RegionFromFront: departure_Region,
-      departure_cityFromFront: departure_city,
-      departure_LatFromFront: departure_Lat,
-      departure_LngFromFront: departure_Lng,
-      departure_place_idFromFront: departure_place_id,
-      departure_nameFromFront: departure_name,
+    //********************INSERTION VERSION MATHIEU ***************/
 
-      arrival_cityFromFront: arrival_city,
-      arrival_LatFromFront: arrival_Lat,
-      arrival_LngFromFront: arrival_Lng,
-      arrival_place_idFromFront: arrival_place_id,
-      arrival_nameFromFront: arrival_name,
-
-      itinerary_distanceFromFront: itinerary_distance,
-      itinerary_durationFromFront: itinerary_duration,
-
-      sectotimeFromFront: sectotime,
-
-      coords_parcoursFromFront: coords_parcours,
-      pointsFromFront: points,
-
-      myWaypointsFromFront: myWaypoints,
-      listWaypointsFromFront: listWaypoints,
-      etapesListFromFront: etapesList,
-    };
-    const data = await fetch(`${MA_VARIABLE}/itineraries/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(mydata),
+    var macapture = await captureRef(captureViewRef, {
+      format: "jpg",
+      quality: 0.7,
     });
-    const theresponse = await data.json();
-    console.log("console du fetch", theresponse);
+    console.log(macapture);
+
+    var data = new FormData();
+    data.append("macarte", {
+      uri: macapture,
+      type: "image/jpeg",
+      name: "macarte.jpg",
+    });
+
+    // var mydata = {
+    //   departure_RegionFromFront: departure_Region,
+    //   departure_cityFromFront: departure_city,
+    //   departure_LatFromFront: departure_Lat,
+    //   departure_LngFromFront: departure_Lng,
+    //   departure_place_idFromFront: departure_place_id,
+    //   departure_nameFromFront: departure_name,
+
+    //   arrival_cityFromFront: arrival_city,
+    //   arrival_LatFromFront: arrival_Lat,
+    //   arrival_LngFromFront: arrival_Lng,
+    //   arrival_place_idFromFront: arrival_place_id,
+    //   arrival_nameFromFront: arrival_name,
+
+    //   itinerary_distanceFromFront: itinerary_distance,
+    //   itinerary_durationFromFront: itinerary_duration,
+
+    //   sectotimeFromFront: sectotime,
+
+    //   coords_parcoursFromFront: coords_parcours,
+    //   pointsFromFront: points,
+
+    //   myWaypointsFromFront: myWaypoints,
+    //   listWaypointsFromFront: listWaypoints,
+    //   etapesListFromFront: etapesList,
+    // };
+    // // On ajoute toutes infos complémentaires qu'on veut passer au backend
+    // data.append("myydata", mydata);
+
+    //***************envoi de mathieu data2*******************/
+    var mydata2 = {
+      start: {
+        region: departure_Region,
+        city: departure_city,
+        lat: departure_Lat,
+        lon: departure_Lng,
+        place_id: departure_place_id,
+        departure_name: departure_name,
+      },
+      arrival: {
+        city: arrival_city,
+        lat: arrival_Lat,
+        lon: arrival_Lng,
+        place_id: arrival_place_id,
+        departure_name: arrival_name,
+      },
+      region_name: departure_Region,
+      duration: itinerary_duration,
+      distance: itinerary_distance,
+      coords_parcours: coords_parcours,
+      etapesList: etapesList,
+    };
+    console.log("mydata2 :", mydata2);
+
+    data.append("mydata", JSON.stringify(mydata2));
+    var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
+      method: "POST",
+      body: data,
+    });
+    const response = await rawResponse.json();
+    console.log("console du fetch", response);
+
+    props.navigation.navigate("RoadtripList", {
+      screen: "newRoadTripFirstStep",
+      itinerary_id: response.newItininerary._id,
+    });
+
+    //*************** fin envoi mathieu data2 */
+    //************************** Ancienne version envoi fetch base sur data */
+    // var rawResponse = await fetch(
+    //   "https://safe-dusk-02200.herokuapp.com/itineraries/add",
+    //   {
+    //     method: "POST",
+    //     body: data,
+    //   }
+    // );
+    // console.log(data);
+    // var response = await rawResponse.json();
+    // console.log("reponse de cloudinary : ", response);
+    //********************************************FIN INSERTION PROVENANT DE MATHIEU***** */
+    //   var mydata = {
+    //     departure_RegionFromFront: departure_Region,
+    //     departure_cityFromFront: departure_city,
+    //     departure_LatFromFront: departure_Lat,
+    //     departure_LngFromFront: departure_Lng,
+    //     departure_place_idFromFront: departure_place_id,
+    //     departure_nameFromFront: departure_name,
+
+    //     arrival_cityFromFront: arrival_city,
+    //     arrival_LatFromFront: arrival_Lat,
+    //     arrival_LngFromFront: arrival_Lng,
+    //     arrival_place_idFromFront: arrival_place_id,
+    //     arrival_nameFromFront: arrival_name,
+
+    //     itinerary_distanceFromFront: itinerary_distance,
+    //     itinerary_durationFromFront: itinerary_duration,
+
+    //     sectotimeFromFront: sectotime,
+
+    //     coords_parcoursFromFront: coords_parcours,
+    //     pointsFromFront: points,
+
+    //     myWaypointsFromFront: myWaypoints,
+    //     listWaypointsFromFront: listWaypoints,
+    //     etapesListFromFront: etapesList,
+    //   };
+    //   const data = await fetch(`${MA_VARIABLE}/itineraries/add`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(mydata),
+    //   });
+    //   const theresponse = await data.json();
+    //   console.log("console du fetch", theresponse);
   };
 
   //************************************************* FIN ENVOI BACK  POUR BASE DE DONNEES****************************$ */
 
   // ********************************************************Consultation API GOOGLE**************************$$
   const handleClick = async () => {
+    console.log("listWaypoints", listWaypoints);
+    console.log("myWaypoints", myWaypoints);
+    var finalWaypointStr = myWaypoints.join("|");
+
     var rawResponse = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${listWaypoints}&avoid=highways&key=${APIGOOGLE}`
+      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
     );
 
     var response = await rawResponse.json();
@@ -204,10 +307,8 @@ export default function ItineraryScreen() {
   return (
     <View style={{ flex: 1, marginTop: 50 }}>
       <View style={{ height: 150 }}>
-        <Button
-          title="Créer itineraire"
-          buttonStyle={{ backgroundColor: "#eb4d4b" }}
-          type="solid"
+        <CustomButtonOrange
+          title="CREER ITINERAIRE"
           onPress={() => itineraryClick()}
         />
         <Overlay
@@ -413,20 +514,13 @@ export default function ItineraryScreen() {
               },
             }}
           />
-          <Button
-            title="ajouter des etapes"
-            buttonStyle={{ backgroundColor: "#eb4d4b" }}
-            type="solid"
+          <CustomButtonOrange
+            title="AJOUTER DES ETAPES"
             onPress={() => {
               setThisVisible2(true), setThisVisible(false);
             }}
           />
-          <Button
-            title="valider"
-            buttonStyle={{ backgroundColor: "#eb4d4b" }}
-            type="solid"
-            onPress={() => setThisVisible(false)}
-          />
+          <CustomButton title="VALIDER" onPress={() => setThisVisible(false)} />
         </Overlay>
 
         <Overlay
@@ -537,16 +631,12 @@ export default function ItineraryScreen() {
               },
             }}
           />
-          <Button
-            title="ajouter autre etape"
-            buttonStyle={{ backgroundColor: "#eb4d4b" }}
-            type="solid"
+          <CustomButtonOrange
+            title="AJOUTER UNE ETAPE"
             onPress={() => addEtap()}
           />
-          <Button
-            title="valider"
-            buttonStyle={{ backgroundColor: "#eb4d4b" }}
-            type="solid"
+          <CustomButton
+            title="VALIDER"
             onPress={() => {
               setThisVisible(true), setThisVisible2(false);
             }}
@@ -618,16 +708,9 @@ export default function ItineraryScreen() {
         {/* <Input onChangeText={(value) => setText(value)} value={text} />
       <Button title="valider" /> */}
       </MapView>
-      <Button
-        title="Valider itineraire"
-        buttonStyle={{ backgroundColor: "#eb4d4b" }}
-        type="solid"
-        onPress={() => handleClick()}
-      />
-      <Button
-        title="Envoi en BDD"
-        buttonStyle={{ backgroundColor: "#eb4d4b" }}
-        type="solid"
+      <CustomButton title="VALIDER ITINERAIRE" onPress={() => handleClick()} />
+      <CustomButtonOrange
+        title="ENVOI EN BDD"
         onPress={() => SubmitItinerary()}
       />
     </View>
