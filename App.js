@@ -7,6 +7,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// importation typo externe (google fonts)
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_400Italic,
+  Poppins_600Semi_bold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
@@ -48,12 +57,13 @@ import OtherRiderProfil from "./src/screens/OtherRiderProfil";
 
 //Ecran des messages dans les conversations
 import ChatScreen from "./src/screens/ChatScreen";
-
+//Ecran du chat général
+import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 //Ecrans de création de roadtrips
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
-import CreateRoadTripScreenSecondStep from "./src/screens/CreateRoadTripScreenSecondStep";
-import CreateRoadTripScreenFinalStep from "./src/screens/CreateRoadTripScreenFinalStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
+import ItineraryScreen from "./src/screens/ItineraryScreen";
+ItineraryScreen;
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 import ItineraryScreen from "./src/screens/ItineraryScreen";
@@ -73,10 +83,6 @@ const formStackNavigator = () => {
       <Stack.Screen
         name="newRoadTripFirstStep"
         component={CreateRoadTripScreenFirstStep}
-      />
-      <Stack.Screen
-        name="CreateRoadTrip2"
-        component={CreateRoadTripScreenSecondStep}
       />
       <Stack.Screen
         name="CreateRoadTripRecap"
@@ -139,6 +145,7 @@ export default function App() {
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="ChatGeneral" component={ChatGeneralScreen} />
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="MyContacts" component={MyContactsScreen} />
           <Stack.Screen name="UserInfos" component={UserInfosScreen} />
@@ -158,19 +165,12 @@ export default function App() {
             name="newRoadTripFirstStep"
             component={CreateRoadTripScreenFirstStep}
           />
-          <Stack.Screen
-            name="newRoadTripSecondStep"
-            component={CreateRoadTripScreenSecondStep}
-          />
-          <Stack.Screen
-            name="newRoadTripFinalStep"
-            component={CreateRoadTripScreenFinalStep}
-          />
           <Stack.Screen name="Itinerary" component={ItineraryScreen} />
           <Stack.Screen
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}
           />
+          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
 
           <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
         </Stack.Navigator>

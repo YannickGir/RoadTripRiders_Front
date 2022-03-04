@@ -9,7 +9,7 @@ const CustomCheckbox = ({ title }) => {
       title={title}
       checked={check}
       checkedColor='#ff8b00'
-      onPress={() => setCheck(!check)}
+      onPress={check ? () => setCheck(false) : () => setCheck(true)}
     />
   );
 };

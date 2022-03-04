@@ -12,7 +12,7 @@ import {
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import CustomTimeNewTripInput from "../components/CustomTimeNewTripInput";
-import CustomTimeNewTripInput2 from "../components/CustomTimeNewTripInput2";
+import CustomNewTripInput from "../components/CustomNewTripInput";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
 import CustomHeader from "../components/CustomHeader";
