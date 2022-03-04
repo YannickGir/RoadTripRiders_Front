@@ -9,7 +9,11 @@ import { captureRef } from "react-native-view-shot";
 import { MA_VARIABLE, APIGOOGLE } from "@env";
 var polyline = require("@mapbox/polyline");
 
-export default function ItineraryScreen() {
+//---------------IMPORTS A LAISSER POUR DEMO !!!------
+import CustomButton from "../components/CustomButton";
+import CreateRoadTripScreenFirstStep2 from "./CreateRoadTripScreenFirstStep2";
+
+export default function ItineraryScreen(props) {
   const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
   const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
@@ -562,7 +566,6 @@ export default function ItineraryScreen() {
       <Text>"Lieu d'arrivée"{arrival_name}</Text>
       <Text>"duration"{sectotime}</Text>
       <Text>"distance"{itinerary_distance}"KM"</Text>
-
       {/* <Button
       title={"faire itineraire"}
       onPress={}>
@@ -629,6 +632,15 @@ export default function ItineraryScreen() {
         buttonStyle={{ backgroundColor: "#eb4d4b" }}
         type="solid"
         onPress={() => SubmitItinerary()}
+      />
+      {/*//----------------------BUTTON CI APRES A LAISSER POUR DEMO !!!!!*/}
+      <CustomButton
+        title="CREER UN TRIP"
+        onPress={() =>
+          props.navigation.navigate("newRoadTripFirstStep2", {
+            screen: CreateRoadTripScreenFirstStep2,
+          })
+        }
       />
     </View>
   );

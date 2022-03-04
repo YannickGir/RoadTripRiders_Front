@@ -18,9 +18,11 @@ import {
 
 import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
+import { Reducer as formReducer } from "redux-form";
 
 import token from "./src/reducers/token";
 import urlImgList from "./src/reducers/url-list";
+import data_new_roadtrip from "./src/reducers/data_new_roadtrip";
 
 // Bottom Menu
 import HomeScreen from "./src/screens/HomeScreen";
@@ -59,17 +61,27 @@ import OtherRiderProfil from "./src/screens/OtherRiderProfil";
 import ChatScreen from "./src/screens/ChatScreen";
 
 //Ecrans de création de roadtrips
+import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFirstStep2";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ItineraryScreen from "./src/screens/ItineraryScreen";
-ItineraryScreen;
+
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
 
-const store = createStore(combineReducers({ token, urlImgList }));
+//--------------on indique à redux-persist d’ignorer le reducer de Redux Form en l’ajoutant à sa liste noire
+//--------car aucun intérêt à enregistrer dans la mémoire du téléphone l’état des formulaires de notre application, au risque de retrouver nos champs de formulaire remplis de leurs anciennes valeurs à chaque réouverture de l’appli.
+
+const store = createStore(
+  combineReducers({
+    token,
+    urlImgList,
+    data_new_roadtrip,
+  })
+);
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,6 +98,11 @@ const formStackNavigator = () => {
         name="CreateRoadTripRecap"
         component={CreateRoadTripScreenRecap}
       />
+      <Stack.Screen
+        name="newRoadTripFirstStep2"
+        component={CreateRoadTripScreenFirstStep2}
+      />
+
       <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
     </Stack.Navigator>
   );

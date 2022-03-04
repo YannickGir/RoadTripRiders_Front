@@ -20,6 +20,7 @@ import CustomHeader from "../components/CustomHeader";
 import CustomButtonValidation from "../components/CustomButtonValidation";
 import CustomButtonChoice from "../components/CustomButtonChoice";
 import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate";
+import CreateRoadTripScreenRecap from "./CreateRoadTripScreenRecap";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -90,74 +91,34 @@ function CreateRoadTripScreenFirstStep(props) {
 
   var Bottom = <></>;
 
-  if (itineraryexist == "") {
-    Bottom = (
-      <View>
-        <View
-          style={{
-            alignItems: "center",
-            height: "30%",
-            marginTop: "5%",
-          }}
-        >
-          <View style={{ marginBottom: "3%" }}>
-            <CustomButtonOrange
-              title="NOUVEL ITINERAIRE"
-              onPress={() =>
-                props.navigation.navigate("Itinerary", {
-                  screen: "ItineraryScreen",
-                })
-              }
-            />
-            <CustomButton
-              title="ITINERAIRE PROPOSE"
-              onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
-            />
-          </View>
-          <View style={{ marginTop: "15%" }}>
-            <Text>Aucun itinéraire choisit ou créé</Text>
-          </View>
-        </View>
-
-        <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "10%", marginBottom: "5%" }}></View>
+  Bottom = (
+    <View>
+      <View
+        style={{
+          alignItems: "center",
+          height: "30%",
+          marginTop: "5%",
+        }}
+      >
+        <View style={{ marginBottom: "3%" }}>
+          <Image source={require("../carte_trajet.jpg")} />
         </View>
       </View>
-    );
-  } else {
-    Bottom = (
-      <View>
-        <View
-          style={{
-            alignItems: "center",
-            height: "30%",
-            marginTop: "5%",
-          }}
-        >
-          <View style={{ marginBottom: "3%" }}>
-            <Image source={require("../carte_trajet.jpg")} />
-          </View>
-          <View style={{ marginTop: "15%" }}>
-            <Text>Aucun itinéraire choisit ou créé</Text>
-          </View>
-        </View>
 
-        <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "10%", marginBottom: "5%" }}>
-            <CustomButtonOrangeNext
-              onPress={
-                (() => setStepScreen(secondstep),
-                props.onSubmitTitle({ roadtripTitle }),
-                console.log("roadtripTitle", { roadtripTitle }))
-              }
-            />
-          </View>
+      <View style={styles.bottomPage}>
+        <View style={{ marginHorizontal: "40%" }}></View>
+        <View style={{ marginTop: "10%", marginBottom: "5%" }}>
+          <CustomButtonOrangeNext
+            onPress={() =>
+              props.navigation.navigate("CreateRoadTripRecap", {
+                screen: CreateRoadTripScreenRecap,
+              })
+            }
+          />
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 
   var pagecontent = <></>;
 
