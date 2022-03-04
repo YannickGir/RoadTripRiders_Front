@@ -60,6 +60,24 @@ function UserInfosEditionScreen(props) {
   const [userBikeBrand, setuserBikeBrand] = useState('');
   const [userBikeModel, setuserBikeModel] = useState('');
 
+  //Variables d'Etats des checkboxes
+  const [isMale, setIsMale] = useState('false');
+  const [isFemale, setIsFemale] = useState('false');
+  const [isOther, setIsOther] = useState('false');
+  const [hasPassenger, setHasPassenger] = useState('false');
+  const [hasNoPassenger, setHasNoPassenger] = useState('false');
+
+  if (isMale == true) {
+    setIsFemale(false);
+    setIsOther(false);
+  } else if (isFemale == true) {
+    setIsMale(false);
+    setIsOther(false);
+  } else if (isOther == true) {
+    setIsMale(false);
+    setIsFemale(false);
+  }
+
   //Pour image picker
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -201,9 +219,21 @@ function UserInfosEditionScreen(props) {
 
         <Text>Sexe</Text>
         <View style={styles.secondary}>
-          <CustomCheckBox title='Homme' />
-          <CustomCheckBox title='Femme' />
-          <CustomCheckBox title='Autre' />
+          <CustomCheckBox
+            title='Homme'
+            checked={isMale}
+            onPress={() => setIsMale(!isMale)}
+          />
+          <CustomCheckBox
+            title='Femme'
+            checked={isFemale}
+            onPress={() => setIsFemale(!isFemale)}
+          />
+          <CustomCheckBox
+            title='Autre'
+            checked={isOther}
+            onPress={() => setIsOther(!isOther)}
+          />
         </View>
 
         {/* FLECHE PAGE SUIVANTE */}
@@ -227,7 +257,7 @@ function UserInfosEditionScreen(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={2}
+            currentPosition={1}
             stepCount={2}
           />
         </View>
@@ -254,24 +284,31 @@ function UserInfosEditionScreen(props) {
           setValue={setuserBikeModel}
           secureTextEntry={false}
         />
-        <KeyboardAvoidingView>
-          <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
-            {image2 && (
-              <Image
-                source={{ uri: image2 }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-          </View>
-        </KeyboardAvoidingView>
+
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+          {image2 && (
+            <Image
+              source={{ uri: image2 }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+        </View>
 
         <Text>As-tu un passager ?</Text>
         <View style={styles.secondary}>
-          <CustomCheckBox title='Oui' />
-          <CustomCheckBox title='Non' />
+          <CustomCheckBox
+            title='Oui'
+            checked={hasPassenger}
+            onPress={() => setHasPassenger(!hasPassenger)}
+          />
+          <CustomCheckBox
+            title='Non'
+            checked={hasNoPassenger}
+            onPress={() => setHasPassenger(!hasNoPassenger)}
+          />
         </View>
         <KeyboardAvoidingView>
           <CustomButton
