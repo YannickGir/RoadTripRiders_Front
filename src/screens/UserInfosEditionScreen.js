@@ -64,6 +64,7 @@ function UserInfosEditionScreen(props) {
   const [isMale, setIsMale] = useState('false');
   const [isFemale, setIsFemale] = useState('false');
   const [isOther, setIsOther] = useState('false');
+  const [userGender, setUserGender] = useState('');
   const [hasPassenger, setHasPassenger] = useState('false');
   const [hasNoPassenger, setHasNoPassenger] = useState('false');
 
@@ -222,17 +223,35 @@ function UserInfosEditionScreen(props) {
           <CustomCheckBox
             title='Homme'
             checked={isMale}
-            onPress={() => setIsMale(!isMale)}
+            onPress={
+              isMale
+                ? () => setIsMale(false)
+                : () => {
+                    setIsMale(true), setIsFemale(false), setIsOther(false);
+                  }
+            }
           />
           <CustomCheckBox
             title='Femme'
             checked={isFemale}
-            onPress={() => setIsFemale(!isFemale)}
+            onPress={
+              isFemale
+                ? () => setIsFemale(false)
+                : () => {
+                    setIsFemale(true), setIsMale(false), setIsOther(false);
+                  }
+            }
           />
           <CustomCheckBox
             title='Autre'
             checked={isOther}
-            onPress={() => setIsOther(!isOther)}
+            onPress={
+              isOther
+                ? () => setIsOther(false)
+                : () => {
+                    setIsOther(true), setIsMale(false), setIsFemale(false);
+                  }
+            }
           />
         </View>
 
