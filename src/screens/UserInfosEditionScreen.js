@@ -163,7 +163,7 @@ function UserInfosEditionScreen(props) {
         />
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <CustomButton title='CHARGES TON AVATAR' onPress={pickImage} />
+        <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
@@ -224,9 +224,6 @@ function UserInfosEditionScreen(props) {
           stepCount={3}
         />
       </View>
-
-      <Text>Dans quel coin roules-tu ?</Text>
-      <Text>BUTTON DEROULANT A AJOUTER</Text>
 
       <Text>Et ta moto ?</Text>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

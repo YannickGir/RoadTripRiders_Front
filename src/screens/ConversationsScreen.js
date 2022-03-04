@@ -6,7 +6,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
+import { MA_VARIABLE } from "@env";
 import { Card, Avatar } from "react-native-elements";
 import { connect } from "react-redux";
 
@@ -15,7 +17,7 @@ function ConversationsScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripsriders1.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
+        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
 
@@ -58,7 +60,11 @@ function ConversationsScreen(props) {
     loadConversations();
   }, []);
 
-  return <View style={styles.backgroundColor}>{conversationsList}</View>;
+  return (
+    <View style={styles.backgroundColor}>
+      <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   cards: {

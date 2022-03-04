@@ -13,12 +13,13 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
 import { connect } from "react-redux";
+import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 function ChatScreen(props) {
   const [dimensions, setDimensions] = useState({ window, screen });
-  console.log(dimensions);
+  const [color, setColor] = useState("");
 
   var idConv = props.route.params.conversation_id;
   console.log("name", props.route.params.conversation_firstname);
@@ -29,29 +30,55 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripsriders1.herokuapp.com/inbox/tripchat?idConv=${idConv}`
+        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
       );
       var body = await data.json();
-      console.log("body", body.conversationObjects);
+      for (let i = 0; i < body.length; i++) {}
+      console.log("body", { MA_VARIABLE });
 
       setConversationsList(
         body.conversationObjects.map((convData, i) => {
+          if (props.token != convData.senderToken) {
+            var color = "#FFEDAC";
+          } else {
+            color = "#FF8B00";
+          }
+          console.log("body", convData.senderToken);
           return (
-            <Card key={i} containerStyle={styles.user}>
+            <Card
+              key={i}
+              containerStyle={{
+                flexDirection: "row",
+                width: "95%",
+                alignSelf: "center",
+                alignItems: "center",
+                backgroundColor: color,
+                padding: 10,
+                borderRadius: 35,
+                marginTop: 10,
+                borderColor: "black",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.29,
+                shadowRadius: 4.65,
+
+                elevation: 7,
+              }}
+            >
               <View style={{ flexDirection: "row" }}>
                 <Image
                   style={styles.avatar}
-                  size={64}
-                  rounded
                   source={{
-                    uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
+                    uri: convData.user_photo,
                   }}
                 />
-                <View>
+                <View style={{}}>
                   <Text style={styles.titleText}> {convData.firstname}: </Text>
                   <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
                 </View>
-                <View></View>
               </View>
             </Card>
           );
@@ -63,11 +90,8 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(
-      `https://roadtripsriders1.herokuapp.com/inbox/tripchat?idConv=${idConv}`
-    );
+    const data = await fetch(`${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`);
     var body = await data.json();
-    console.log("body", body.conversationObjects);
 
     setConversationsList(
       body.conversationObjects.map((convData, i) => {
@@ -79,7 +103,7 @@ function ChatScreen(props) {
                 size={64}
                 rounded
                 source={{
-                  uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
+                  uri: convData.user_photo,
                 }}
               />
               <View style={{ flexDirection: "row" }}>
@@ -96,18 +120,20 @@ function ChatScreen(props) {
 
   var handleSandMessage = async () => {
     console.log("click détecté");
-    const data1 = await fetch(
-      `https://roadtripsriders1.herokuapp.com/inbox/addmessage`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
-      }
-    );
-    var response = await data1.json();
-    reLoadConversations();
+    if (contentMessage != "") {
+      const data1 = await fetch(
+        `https://roadtripsriders1.herokuapp.com/inbox/addmessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
+        }
+      );
+      var response = await data1.json();
+      reLoadConversations();
+    }
   };
 
   return (
