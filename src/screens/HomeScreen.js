@@ -20,9 +20,7 @@ export default function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripsriders3.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
       console.log("body", body);
 
@@ -34,8 +32,11 @@ export default function HomepageScreen(props) {
               containerStyle={{ backgroundColor: "#FFEDAC", width: "100%" }}
             >
               <View>
-                <Image style={styles.avatar} source={{}} />
-                <Text></Text>
+                <Image
+                  style={styles.avatar}
+                  source={{ uri: tripData.user_photo }}
+                />
+                <Text>{tripData.firstname}</Text>
               </View>
               <View>
                 <Text>{tripData.event_title}</Text>
@@ -101,5 +102,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: deviceWidth,
+  },
+  avatar: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 35,
+    width: 70,
+    height: 70,
+    position: "relative",
   },
 });
