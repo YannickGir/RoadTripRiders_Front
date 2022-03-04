@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import { Card, Avatar } from "react-native-elements";
@@ -59,7 +60,11 @@ function ConversationsScreen(props) {
     loadConversations();
   }, []);
 
-  return <View style={styles.backgroundColor}>{conversationsList}</View>;
+  return (
+    <View style={styles.backgroundColor}>
+      <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   cards: {

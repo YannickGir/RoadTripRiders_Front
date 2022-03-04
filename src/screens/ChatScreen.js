@@ -49,7 +49,7 @@ function ChatScreen(props) {
               key={i}
               containerStyle={{
                 flexDirection: "row",
-                width: "100%",
+                width: "95%",
                 alignSelf: "center",
                 alignItems: "center",
                 backgroundColor: color,
@@ -71,13 +71,11 @@ function ChatScreen(props) {
               <View style={{ flexDirection: "row" }}>
                 <Image
                   style={styles.avatar}
-                  size={64}
-                  rounded
                   source={{
                     uri: convData.user_photo,
                   }}
                 />
-                <View>
+                <View style={{}}>
                   <Text style={styles.titleText}> {convData.firstname}: </Text>
                   <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
                 </View>
