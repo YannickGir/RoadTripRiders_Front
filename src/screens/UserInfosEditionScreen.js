@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   useWindowDimensions,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
@@ -253,32 +254,35 @@ function UserInfosEditionScreen(props) {
           setValue={setuserBikeModel}
           secureTextEntry={false}
         />
-
-        <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        >
-          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
-          {image2 && (
-            <Image
-              source={{ uri: image2 }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
-        </View>
+        <KeyboardAvoidingView>
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+            {image2 && (
+              <Image
+                source={{ uri: image2 }}
+                style={{ width: 200, height: 200 }}
+              />
+            )}
+          </View>
+        </KeyboardAvoidingView>
 
         <Text>As-tu un passager ?</Text>
         <View style={styles.secondary}>
           <CustomCheckBox title='Oui' />
           <CustomCheckBox title='Non' />
         </View>
-
-        {/* FLECHE PAGE SUIVANTE */}
-        <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
-            <CustomButton />
-          </View>
-        </View>
+        <KeyboardAvoidingView>
+          <CustomButton
+            title="C'EST TOUT BON"
+            onPress={() =>
+              props.navigation.navigate('BottomNavigator', {
+                screen: 'MyAccountScreen',
+              })
+            }
+          />
+        </KeyboardAvoidingView>
       </View>
     );
   }
