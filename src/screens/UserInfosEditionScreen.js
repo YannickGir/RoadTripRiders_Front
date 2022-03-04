@@ -89,11 +89,32 @@ function UserInfosEditionScreen(props) {
   //pour le step indicator
   const [formProgress, setFormProgress] = useState(0);
 
-  // //on initialise au premier écran
-  // useEffect(() => {
-  //   console.log('test useeffect');
-  //   setStepScreen(UserEditionStep1);
-  // }, []);
+  // var handleSubmitUserProfil = async () => {
+  //   console.log('click détecté sur login');
+  //   const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     body: `firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&`,
+  //   });
+  // };
+
+  // //Variables d'Etats des inputs
+  // const [userFirstName, setuserFirstName] = useState('');
+  // const [userLastName, setuserLastName] = useState('');
+  // const [userBirthDate, setuserBirthDate] = useState('');
+  // const [userBikeCateg, setuserBikeCateg] = useState('');
+  // const [userBikeBrand, setuserBikeBrand] = useState('');
+  // const [userBikeModel, setuserBikeModel] = useState('');
+
+  // //Variables d'Etats des checkboxes
+  // const [isMale, setIsMale] = useState('false');
+  // const [isFemale, setIsFemale] = useState('false');
+  // const [isOther, setIsOther] = useState('false');
+  // const [userGender, setUserGender] = useState('');
+  // const [hasPassenger, setHasPassenger] = useState('false');
+  // const [hasNoPassenger, setHasNoPassenger] = useState('false');
 
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
@@ -332,11 +353,12 @@ function UserInfosEditionScreen(props) {
         <KeyboardAvoidingView>
           <CustomButton
             title="C'EST TOUT BON"
-            onPress={() =>
+            onPress={() => {
               props.navigation.navigate('BottomNavigator', {
                 screen: 'MyAccountScreen',
-              })
-            }
+              }),
+                handleSubmitUserProfil();
+            }}
           />
         </KeyboardAvoidingView>
       </View>
