@@ -17,6 +17,7 @@ import CustomTimePicker from '../components/CustomTimePicker';
 import CustomButton from '../components/CustomButton';
 import ImageUploadComponent from '../components/ImageUploadComponent';
 import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
+import CustomButtonOrange from '../components/CustomButtonOrange';
 import * as ImagePicker from 'expo-image-picker';
 import CustomHeader from '../components/CustomHeader';
 
@@ -57,10 +58,10 @@ function UserInfosEditionScreen(props) {
   const [userBikeCateg, setuserBikeCateg] = useState('');
   const [userBikeBrand, setuserBikeBrand] = useState('');
   const [userBikeModel, setuserBikeModel] = useState('');
-  // pour le step indicator on introduit une variable d'état
-  const [stepScreen, setStepScreen] = useState();
+
   //Pour image picker
   const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
 
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
@@ -68,10 +69,11 @@ function UserInfosEditionScreen(props) {
   //pour le step indicator
   const [formProgress, setFormProgress] = useState(0);
 
-  //on initialise au premier écran
-  useEffect(() => {
-    setStepScreen(UserEditionStep1);
-  }, []);
+  // //on initialise au premier écran
+  // useEffect(() => {
+  //   console.log('test useeffect');
+  //   setStepScreen(UserEditionStep1);
+  // }, []);
 
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
@@ -123,7 +125,7 @@ function UserInfosEditionScreen(props) {
     console.log('result.uri ', result.uri);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage2(result.uri);
       var myMotoPicture = result.uri;
 
       var data = new FormData();
@@ -145,134 +147,143 @@ function UserInfosEditionScreen(props) {
     }
   };
 
-  const UserEditionStep1 = (
-    <View style={styles.container}>
-      <CustomHeader
-        onPress={() =>
-          props.navigation.navigate('BottomNavigator', {
-            screen: 'MyAccountScreen',
-          })
-        }
-        title='EDITE TON PROFIL'
-      />
-      <View style={styles.barprogress}>
-        <StepIndicator
-          customStyles={customStyles}
-          currentPosition={1}
-          stepCount={3}
+  var pagecontent = <></>;
+
+  if (formProgress == 0) {
+    pagecontent = (
+      <View style={styles.container}>
+        <CustomHeader
+          onPress={() =>
+            props.navigation.navigate('BottomNavigator', {
+              screen: 'MyAccountScreen',
+            })
+          }
+          title='EDITE TON PROFIL'
         />
-      </View>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-      </View>
-
-      <Text>Quel rider es-tu ?</Text>
-
-      <CustomInput
-        placeholder='Prénom'
-        value={userFirstName}
-        setValue={setuserFirstName}
-        secureTextEntry={false}
-      />
-
-      <CustomInput
-        placeholder='Nom'
-        value={userLastName}
-        setValue={setuserLastName}
-        secureTextEntry={false}
-      />
-
-      <Text>Date de naissance</Text>
-      <CustomDatePicker title='DATE' />
-
-      <Text>Sexe</Text>
-      <View style={styles.secondary}>
-        <CustomCheckBox title='Homme' />
-        <CustomCheckBox title='Femme' />
-        <CustomCheckBox title='Autre' />
-      </View>
-
-      {/* FLECHE PAGE SUIVANTE */}
-      <View style={styles.bottomPage}>
-        <View style={{ marginHorizontal: '40%' }}></View>
-        <View style={{ marginTop: '10%', marginBottom: '5%' }}>
-          <CustomButtonOrangeNext
-            onPress={() => setFormProgress(setStepScreen(UserEditionStep2))}
+        <View style={styles.barprogress}>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={0}
+            stepCount={2}
           />
         </View>
-      </View>
-    </View>
-  );
 
-  const UserEditionStep2 = (
-    <View style={styles.container}>
-      <CustomHeader
-        onPress={() =>
-          props.navigation.navigate('BottomNavigator', {
-            screen: 'MyAccountScreen',
-          })
-        }
-        title='EDITE TON PROFIL'
-      />
-      <View style={styles.barprogress}>
-        <StepIndicator
-          customStyles={customStyles}
-          currentPosition={2}
-          stepCount={3}
+        <Text>Quel rider es-tu ?</Text>
+
+        <CustomInput
+          placeholder='Prénom'
+          value={userFirstName}
+          setValue={setuserFirstName}
+          secureTextEntry={false}
         />
-      </View>
 
-      <Text>Et ta moto ?</Text>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-      </View>
+        <CustomInput
+          placeholder='Nom'
+          value={userLastName}
+          setValue={setuserLastName}
+          secureTextEntry={false}
+        />
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+        </View>
 
-      <CustomInput
-        placeholder='Catégorie'
-        value={userBikeCateg}
-        setValue={setuserBikeCateg}
-        secureTextEntry={false}
-      />
+        <Text>Date de naissance</Text>
+        <CustomDatePicker title='DATE' />
 
-      <CustomInput
-        placeholder='Marque'
-        value={userBikeBrand}
-        setValue={setuserBikeBrand}
-        secureTextEntry={false}
-      />
+        <Text>Sexe</Text>
+        <View style={styles.secondary}>
+          <CustomCheckBox title='Homme' />
+          <CustomCheckBox title='Femme' />
+          <CustomCheckBox title='Autre' />
+        </View>
 
-      <CustomInput
-        placeholder='Modèle'
-        value={userBikeModel}
-        setValue={setuserBikeModel}
-        secureTextEntry={false}
-      />
-
-      {/* FLECHE PAGE SUIVANTE */}
-      <View style={styles.bottomPage}>
-        <View style={{ marginHorizontal: '40%' }}></View>
-        <View style={{ marginTop: '10%', marginBottom: '5%' }}>
-          <CustomButtonOrangeNext
-            onPress={
-              (() =>
-                props.navigation.navigate('BottomNavigator', {
-                  screen: 'MyAccountScreen',
-                }),
-              () => setFormProgress(setStepScreen(UserEditionStep2)))
-            }
-          />
+        {/* FLECHE PAGE SUIVANTE */}
+        <View style={styles.bottomPage}>
+          <View style={{ marginHorizontal: '40%' }}></View>
+          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+            <CustomButtonOrangeNext
+              onPress={() => setFormProgress(formProgress + 1)}
+            />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else if (formProgress == 1) {
+    pagecontent = (
+      <View style={styles.container}>
+        <CustomHeader
+          onPress={() => setFormProgress(formProgress - 1)}
+          title='EDITE TON PROFIL'
+        />
+        <View style={styles.barprogress}>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={2}
+            stepCount={2}
+          />
+        </View>
 
-  return <View>{stepScreen}</View>;
+        <Text>Et ta moto ?</Text>
+
+        <CustomInput
+          placeholder='Catégorie'
+          value={userBikeCateg}
+          setValue={setuserBikeCateg}
+          secureTextEntry={false}
+        />
+
+        <CustomInput
+          placeholder='Marque'
+          value={userBikeBrand}
+          setValue={setuserBikeBrand}
+          secureTextEntry={false}
+        />
+
+        <CustomInput
+          placeholder='Modèle'
+          value={userBikeModel}
+          setValue={setuserBikeModel}
+          secureTextEntry={false}
+        />
+
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+          {image2 && (
+            <Image
+              source={{ uri: image2 }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+        </View>
+
+        <Text>As-tu un passager ?</Text>
+        <View style={styles.secondary}>
+          <CustomCheckBox title='Oui' />
+          <CustomCheckBox title='Non' />
+        </View>
+
+        {/* FLECHE PAGE SUIVANTE */}
+        <View style={styles.bottomPage}>
+          <View style={{ marginHorizontal: '40%' }}></View>
+          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+            <CustomButton />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  return <View style={{ marginTop: 25 }}>{pagecontent}</View>;
 }
 const styles = StyleSheet.create({
   container: {
