@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  Button,
   View,
   Text,
   TouchableOpacity,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
-import { Card, Avatar } from "react-native-elements";
+import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 
 function ConversationsScreen(props) {
@@ -20,41 +20,57 @@ function ConversationsScreen(props) {
         `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
+      console.log("body", body);
+      if (body.conversationObjects == "") {
+        return setConversationsList(
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              alignSelf: "center",
+              textAlign: "center",
+              paddingTop: "50%",
+            }}
+          >
+            Mince ! Vous n'avez toujours pas de discution!
+          </Text>
+        );
+      } else {
+        setConversationsList(
+          body.conversationObjects.map((convData, i) => {
+            console.log("convData", convData);
+            return (
+              <TouchableOpacity
+                key={i}
+                onPress={() =>
+                  props.navigation.navigate("Chat", {
+                    conversation_id: convData._id,
+                    conversation_firstname: convData.firstname,
+                  })
+                }
+              >
+                <View style={styles.user}>
+                  <Image
+                    style={styles.avatar}
+                    size={64}
+                    rounded
+                    source={{
+                      uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
+                    }}
+                  />
+                  <View style={{ justifyContent: "space-between" }}>
+                    <Text style={styles.titleText}>{convData.title}</Text>
 
-      setConversationsList(
-        body.conversationObjects.map((convData, i) => {
-          console.log("convData", convData);
-          return (
-            <TouchableOpacity
-              key={i}
-              onPress={() =>
-                props.navigation.navigate("Chat", {
-                  conversation_id: convData._id,
-                  conversation_firstname: convData.firstname,
-                })
-              }
-            >
-              <View style={styles.user}>
-                <Image
-                  style={styles.avatar}
-                  size={64}
-                  rounded
-                  source={{
-                    uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
-                  }}
-                />
-                <View style={{ justifyContent: "space-between" }}>
-                  <Text style={styles.titleText}>{convData.title}</Text>
-
-                  <Text style={{ alignSelf: "center" }}>
-                    {convData.firstname}: {convData.messagesEvent[i].content}
-                  </Text>
+                    <Text style={{}}>
+                      {convData.firstname}: {convData.messagesEvent[i].content}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          );
-        })
-      );
+              </TouchableOpacity>
+            );
+          })
+        );
+      }
     }
 
     loadConversations();
@@ -63,6 +79,17 @@ function ConversationsScreen(props) {
   return (
     <View style={styles.backgroundColor}>
       <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Button
+          // icon={<Icon name="envelope-o" size={20} color="#ffffff" />}
+          title="Chat général"
+          buttonStyle={{ backgroundColor: "#FF8B00" }}
+          type="solid"
+          onPress={() => props.navigation.navigate("ChatGeneral")}
+        />
+      </KeyboardAvoidingView>
     </View>
   );
 }
