@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   Button,
@@ -8,30 +8,28 @@ import {
   Image,
   ScrollView,
   Dimensions,
-} from "react-native";
-import { MA_VARIABLE } from "@env";
-import { Card } from "react-native-elements";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import CustomHeader from "../components/CustomHeader";
-import CustomInput from "../../src/components/CustomInput";
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { Card } from 'react-native-elements';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+import CustomInput from '../../src/components/CustomInput';
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 export default function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripsriders3.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
-      console.log("body", body);
+      console.log('body', body);
 
       setRoadTripList(
         body.map((tripData, i) => {
           return (
             <Card
               key={i}
-              containerStyle={{ backgroundColor: "#FFEDAC", width: "100%" }}
+              containerStyle={{ backgroundColor: '#FFEDAC', width: '100%' }}
             >
               <View>
                 <Image style={styles.avatar} source={{}} />
@@ -65,27 +63,27 @@ export default function HomepageScreen(props) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ flex: 1, width: "100%" }}>
+      <ScrollView style={{ flex: 1, width: '100%' }}>
         {roadTripList}
 
         <Text>Homepage Screen</Text>
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to itinerary !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate('Itinerary', {
+              screen: 'ItineraryScreen',
             })
           }
         />
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to roadtripList !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
+            props.navigation.navigate('RoadtripList', {
+              screen: 'RoadtripListScreen',
             })
           }
         />
@@ -97,9 +95,9 @@ export default function HomepageScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: deviceWidth,
   },
 });
