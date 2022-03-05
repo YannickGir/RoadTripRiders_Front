@@ -654,6 +654,7 @@ export default function ItineraryScreen() {
       {/* <Text>{departure_city}</Text>
       <Text>{arrival_city}</Text> */}
       <Text>"Etapes "{listWaypoints}</Text>
+      <Text>"Etapes "{listWaypoints}</Text>
       <Text>"Lieu de départ"{departure_name}</Text>
       <Text>"Ville de départ"{departure_city}</Text>
       <Text>"Ville d'arrivée"{arrival_city}</Text>
