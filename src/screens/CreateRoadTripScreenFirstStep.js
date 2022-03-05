@@ -83,6 +83,7 @@ function CreateRoadTripScreenFirstStep(props) {
     props.route.params.itinerary_id
   );
 
+  const [currentScreen, setCurrentScreen] = useState(pagecontent1);
   console.log(roadtripType);
 
   //gestion des étapes---------
@@ -103,11 +104,13 @@ function CreateRoadTripScreenFirstStep(props) {
           <View style={{ marginBottom: "3%" }}>
             <CustomButtonOrange
               title="NOUVEL ITINERAIRE"
-              onPress={() =>
+              onPress={() => {
                 props.navigation.navigate("Itinerary", {
                   screen: "ItineraryScreen",
-                })
-              }
+                }),
+                  setCurrentScreen(pagecontent2);
+                console.log(currentScreen);
+              }}
             />
             <CustomButton
               title="ITINERAIRE PROPOSE"
@@ -321,7 +324,7 @@ function CreateRoadTripScreenFirstStep(props) {
     );
   }
 
-  return <View>{pagecontent}</View>;
+  return <View>{currentScreen}</View>;
 }
 // onPageChange(position);
 // this.setState({ currentPosition: position });
@@ -351,15 +354,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     maxHeight: "10%",
     // marginTop: "10%",
-  },
-
-  bottomPage3: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    maxHeight: 80,
-    marginTop: "30%",
   },
 
   barprogress: {
@@ -406,22 +400,28 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: "saveTitle", title: title });
     },
     onSubmitDate: function (date) {
-      dispatch({ type: "saveDate", url: date });
+      dispatch({ type: "saveDate", date: date });
     },
     onSubmitDepartureTime: function (departure_time) {
-      dispatch({ type: "saveDepartureTime", url: departure_time });
+      dispatch({ type: "saveDepartureTime", departure_time: departure_time });
     },
     onSubmitArrivalTime: function (arrival_time) {
-      dispatch({ type: "saveArrivalTime", url: arrival_time });
+      dispatch({ type: "saveArrivalTime", arrival_time: arrival_time });
     },
     onSubmitRoadtripType: function (roadtrip_type) {
-      dispatch({ type: "saveRoadtripType", url: roadtrip_type });
+      dispatch({ type: "saveRoadtripType", roadtrip_type: roadtrip_type });
     },
     onSubmitMotoType: function (moto_type) {
-      dispatch({ type: "saveMotoType", url: moto_type });
+      dispatch({ type: "saveMotoType", moto_type: moto_type });
     },
     onSubmitSizeGroup: function (size_group) {
-      dispatch({ type: "saveSizeGroupe", url: size_group });
+      dispatch({ type: "saveSizeGroupe", size_group: size_group });
+    },
+    onSubmitformProgress: function (status_form_progress) {
+      dispatch({
+        type: "saveStatutformProgress",
+        status_form_progress: status_form_progress,
+      });
     },
   };
 }

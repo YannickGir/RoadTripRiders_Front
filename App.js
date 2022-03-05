@@ -5,7 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // importation typo externe (google fonts)
 import {
@@ -59,7 +58,8 @@ import OtherRiderProfil from "./src/screens/OtherRiderProfil";
 
 //Ecran des messages dans les conversations
 import ChatScreen from "./src/screens/ChatScreen";
-
+//Ecran du chat général
+import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 //Ecrans de création de roadtrips
 import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFirstStep2";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
@@ -160,6 +160,7 @@ export default function App() {
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="ChatGeneral" component={ChatGeneralScreen} />
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="MyContacts" component={MyContactsScreen} />
           <Stack.Screen name="UserInfos" component={UserInfosScreen} />
@@ -178,6 +179,10 @@ export default function App() {
           <Stack.Screen
             name="newRoadTripFirstStep"
             component={CreateRoadTripScreenFirstStep}
+          />
+          <Stack.Screen
+            name="newRoadTripFirstStep2"
+            component={CreateRoadTripScreenFirstStep2}
           />
           <Stack.Screen
             name="CreateRoadTripRecap"
