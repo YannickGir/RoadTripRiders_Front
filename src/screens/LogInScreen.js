@@ -100,7 +100,9 @@ function LogInScreen(props) {
         secureTextEntry={true}
       />
       {tabErrorsSignin}
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <CustomButton
           title='SE CONNECTER'
           onPress={() => handleSubmitLogin()}

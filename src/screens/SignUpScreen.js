@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   useWindowDimensions,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import Logo from '../../assets/images/motoLogo.png';
@@ -128,8 +129,11 @@ function SignUpScreen(props) {
       />
       <Text>{passwordError}</Text>
       {tabErrorsSignup}
-
-      <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
+      </KeyboardAvoidingView>
     </View>
   );
 }
