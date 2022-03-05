@@ -11,10 +11,13 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
+import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
+import CustomButton from "../../src/components/CustomButton";
 import { Card, Text } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
+
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 export default function HomepageScreen(props) {
@@ -29,9 +32,7 @@ export default function HomepageScreen(props) {
         body.map((tripData, i) => {
           return (
             <TouchableOpacity key={i}>
-              <Card
-                containerStyle={{ backgroundColor: "#FFEDAC", borderRadius: 5 }}
-              >
+              <Card containerStyle={styles.card}>
                 <View
                   style={{
                     flex: 1,
@@ -79,19 +80,37 @@ export default function HomepageScreen(props) {
                 >
                   <View>
                     <Text>Distance :</Text>
-                    <Text style={{ alignSelf: "center" }}>
-                      {tripData.distance}
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        fontWeight: "bold",
+                        fontSize: 15,
+                      }}
+                    >
+                      {tripData.distance} km
                     </Text>
                   </View>
                   <View>
                     <Text>Durée :</Text>
-                    <Text style={{ alignSelf: "center" }}>
-                      {tripData.duration}
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        fontWeight: "bold",
+                        fontSize: 15,
+                      }}
+                    >
+                      {tripData.duration}h
                     </Text>
                   </View>
                   <View>
                     <Text>Niveau :</Text>
-                    <Text style={{ alignSelf: "center" }}>
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        fontWeight: "bold",
+                        fontSize: 15,
+                      }}
+                    >
                       {tripData.driving_type}
                     </Text>
                   </View>
@@ -108,10 +127,15 @@ export default function HomepageScreen(props) {
 
   return (
     <View style={styles.container}>
+      <CustomHeaderNoArrow
+        containerStyle={{ paddingTop: 100 }}
+        title="Sorties"
+      />
       <ScrollView style={{ flex: 1, width: "100%" }}>{roadTripList}</ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        <CustomButton title="CREER UN TRIP" />
         <Button
           icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
           title="go to itinerary !"
@@ -144,6 +168,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: deviceWidth,
+    paddingTop: "10%",
+  },
+  card: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    backgroundColor: "#FFEDAC",
+    borderRadius: 15,
   },
   avatar: {
     borderWidth: 1,
