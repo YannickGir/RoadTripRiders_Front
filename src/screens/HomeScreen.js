@@ -3,14 +3,15 @@ import {
   StyleSheet,
   Button,
   View,
-  Text,
   Icon,
   Image,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
-import { Card } from "react-native-elements";
+import { Card, Text } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
@@ -27,35 +28,76 @@ export default function HomepageScreen(props) {
       setRoadTripList(
         body.map((tripData, i) => {
           return (
-            <Card
-              key={i}
-              containerStyle={{ backgroundColor: "#FFEDAC", width: "100%" }}
-            >
-              <View>
+            <TouchableOpacity key={i}>
+              <Card
+                containerStyle={{ backgroundColor: "#FFEDAC", borderRadius: 5 }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignSelf: "center",
+                    width: "70%",
+                  }}
+                >
+                  <Image
+                    style={styles.avatar}
+                    source={{ uri: tripData.user_photo }}
+                  />
+                  <Text style={{ paddingLeft: "3%" }}>
+                    {tripData.firstname}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignSelf: "center",
+                    width: "70%",
+                    paddingBottom: "2%",
+                  }}
+                >
+                  <Text style={styles.titleText}>{tripData.event_title}</Text>
+                  <Text>
+                    <FontAwesome name="star" size={14} color="black" />
+                    <FontAwesome name="star" size={14} color="black" />
+                    <FontAwesome name="star" size={14} color="black" />
+                    <FontAwesome name="star" size={14} color="black" />
+                    <FontAwesome name="star-half" size={14} color="black" />
+                  </Text>
+                </View>
                 <Image
-                  style={styles.avatar}
-                  source={{ uri: tripData.user_photo }}
+                  size={64}
+                  style={styles.map}
+                  source={{ uri: tripData.screenMap }}
                 />
-                <Text>{tripData.firstname}</Text>
-              </View>
-              <View>
-                <Text>{tripData.event_title}</Text>
-                <Text>Stars</Text>
-              </View>
-              <Image />
-              <View>
-                <Text>Distancejhiokmhfmu</Text>
-                <Text>km</Text>
-              </View>
-              <View>
-                <Text>Durée :</Text>
-                <Text>H</Text>
-              </View>
-              <View>
-                <Text>Niveau :</Text>
-                <Text>cool</Text>
-              </View>
-            </Card>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <View>
+                    <Text>Distance :</Text>
+                    <Text style={{ alignSelf: "center" }}>
+                      {tripData.distance}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text>Durée :</Text>
+                    <Text style={{ alignSelf: "center" }}>
+                      {tripData.duration}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text>Niveau :</Text>
+                    <Text style={{ alignSelf: "center" }}>
+                      {tripData.driving_type}
+                    </Text>
+                  </View>
+                </View>
+              </Card>
+            </TouchableOpacity>
           );
         })
       );
@@ -66,10 +108,10 @@ export default function HomepageScreen(props) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ flex: 1, width: "100%" }}>
-        {roadTripList}
-
-        <Text>Homepage Screen</Text>
+      <ScrollView style={{ flex: 1, width: "100%" }}>{roadTripList}</ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <Button
           icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
           title="go to itinerary !"
@@ -90,7 +132,7 @@ export default function HomepageScreen(props) {
             })
           }
         />
-      </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -107,8 +149,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     borderRadius: 35,
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     position: "relative",
+  },
+  map: {
+    width: "100%",
+    height: 150,
+    paddingTop: "2%",
+  },
+  titleText: {
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });
