@@ -325,6 +325,8 @@ export default function ItineraryScreen() {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
             placeholder="Ville depart"
             fetchDetails={true}
@@ -537,6 +539,8 @@ export default function ItineraryScreen() {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
             placeholder=" Etape"
             fetchDetails={true}
@@ -653,7 +657,7 @@ export default function ItineraryScreen() {
       </View>
       {/* <Text>{departure_city}</Text>
       <Text>{arrival_city}</Text> */}
-      <Text>"Etapes "{listWaypoints}</Text>
+      <Text>"Etapes "{etapesList.name}</Text>
       <Text>"Etapes "{listWaypoints}</Text>
       <Text>"Lieu de départ"{departure_name}</Text>
       <Text>"Ville de départ"{departure_city}</Text>
