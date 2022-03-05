@@ -4,7 +4,13 @@ import { Input } from 'react-native-elements';
 
 // On crée un composant qui pourra être injecté partout dans l'application car nous avons de nombreux inputs
 // on passe en argument toutes les valeurs que l'on va changer d'un input à l'autre
-const CustomInput = ({ value, setValue, placeholder, secureTextEntry }) => {
+const CustomInput = ({
+  value,
+  setValue,
+  placeholder,
+  secureTextEntry,
+  autoCapitalize,
+}) => {
   return (
     <SafeAreaView>
       <TextInput
@@ -13,6 +19,7 @@ const CustomInput = ({ value, setValue, placeholder, secureTextEntry }) => {
         placeholder={placeholder}
         style={styles.input}
         secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
     </SafeAreaView>
   );

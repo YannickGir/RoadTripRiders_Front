@@ -374,6 +374,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FEFAEA',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 25,
   },
   secondary: {
     flexDirection: 'row',

@@ -9,7 +9,6 @@ import {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { message } from 'antd';
 import { MA_VARIABLE } from '@env';
 import Logo from '../../assets/images/motoLogo.png';
 import CustomInput from '../../src/components/CustomInput';
@@ -22,6 +21,10 @@ function LogInScreen(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  // celle qui va récupérer les erreurs du match avec la base de données
+  const [listErrorsSignin, setErrorsSignin] = useState([]);
 
   //const [listErrors, setListErrors] = useState([]);
 
@@ -63,8 +66,17 @@ function LogInScreen(props) {
       props.navigation.navigate('BottomNavigator', {
         screen: 'Homepage',
       });
+      setUserEmail('');
+      setUserPassword('');
+    } else {
+      setErrorsSignin(response.error);
     }
   };
+
+  var tabErrorsSignin = listErrorsSignin.map((error, i) => {
+    return <Text>{error}</Text>;
+  });
+
   return (
     <View style={styles.container}>
       <Image
@@ -74,17 +86,20 @@ function LogInScreen(props) {
       />
       <Text>Se connecter avec une adresse mail:</Text>
       <CustomInput
+        autoCapitalize='none'
         placeholder='Email'
         value={userEmail}
         setValue={setUserEmail}
         secureTextEntry={false}
       />
       <CustomInput
+        autoCapitalize='none'
         placeholder='Mot de passe'
         value={userPassword}
         setValue={setUserPassword}
         secureTextEntry={true}
       />
+      {tabErrorsSignin}
       <KeyboardAvoidingView>
         <CustomButton
           title='SE CONNECTER'
