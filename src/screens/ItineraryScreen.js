@@ -414,7 +414,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: "grey",
+                backgroundColor: "#FFD230",
               },
               textInput: {
                 color: "black",
@@ -511,7 +511,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: "grey",
+                backgroundColor: "#FFD230",
               },
               textInput: {
                 color: "black",
@@ -628,7 +628,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: "grey",
+                backgroundColor: "#FFD230",
               },
               textInput: {
                 color: "black",
