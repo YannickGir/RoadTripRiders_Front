@@ -1,39 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import MapView, { Polyline, Marker } from 'react-native-maps';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Input, Button, Overlay } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { captureRef } from 'react-native-view-shot';
-import { MA_VARIABLE, APIGOOGLE } from '@env';
-import CustomButtonOrange from '../components/CustomButtonOrange';
-import CustomButton from '../components/CustomButton';
+import React, { useState, useEffect, useRef } from "react";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import MapView, { Polyline, Marker } from "react-native-maps";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { Input, Button, Overlay } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { captureRef } from "react-native-view-shot";
+import { MA_VARIABLE, APIGOOGLE } from "@env";
+import CustomButtonOrange from "../components/CustomButtonOrange";
+import CustomButton from "../components/CustomButton";
+import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 
-var polyline = require('@mapbox/polyline');
+var polyline = require("@mapbox/polyline");
 
 export default function ItineraryScreen() {
-  const [departure_city, setDeparture_city] = useState(''); //Nom de la ville  de depart
-  const [departure_Region, setDeparture_Region] = useState(''); //Nom de la region du popint de depart
+  const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
+  const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
   const [departure_Lng, setDeparture_Lng] = useState(0); //longitude du point de départ
-  const [departure_place_id, setDeparture_place_id] = useState(''); //place ID du point de depart
-  const [departure_name, setDeparture_name] = useState(''); //nom du lieu de départ
-  const [arrival_city, setArrival_city] = useState(''); //nom de la ville d'arrivée
+  const [departure_place_id, setDeparture_place_id] = useState(""); //place ID du point de depart
+  const [departure_name, setDeparture_name] = useState(""); //nom du lieu de départ
+  const [arrival_city, setArrival_city] = useState(""); //nom de la ville d'arrivée
   const [arrival_Lat, setArrival_Lat] = useState(0); //latitude de l'arrivée
   const [arrival_Lng, setArrival_Lng] = useState(0); //longitude de l'arrivée
-  const [arrival_place_id, setArrival_place_id] = useState(''); //place ID de l'arrivée
-  const [arrival_name, setArrival_name] = useState(''); //nom du lieu d'arrivée
-  const [etape_city, setEtape_city] = useState(''); //non envoye en BDD
+  const [arrival_place_id, setArrival_place_id] = useState(""); //place ID de l'arrivée
+  const [arrival_name, setArrival_name] = useState(""); //nom du lieu d'arrivée
+  const [etape_city, setEtape_city] = useState(""); //non envoye en BDD
   const [etape_Lat, setEtape_Lat] = useState(0); //non envoye en BDD
   const [etape_Lng, setEtape_Lng] = useState(0); //non envoye en BDD
-  const [etape_place_id, setEtape_place_id] = useState(''); //non envoye en BDD
-  const [etape_name, setEtape_name] = useState(''); //non envoye en BDD
+  const [etape_place_id, setEtape_place_id] = useState(""); //non envoye en BDD
+  const [etape_name, setEtape_name] = useState(""); //non envoye en BDD
   const [itinerary_distance, setItinerary_distance] = useState(0); //distance totale en nombre arrondi en KM
   const [itinerary_duration, setItinerary_duration] = useState(0); //durée du trip en secondes
-  const [sectotime, setSectotime] = useState(''); //durée du trip en sting HH/MM/SS
+  const [sectotime, setSectotime] = useState(""); //durée du trip en sting HH/MM/SS
   const [coords_parcours, setCoords_parcours] = useState([]); //tous les points du parcours(Map de points)
-  const [points, setPoints] = useState(''); //Polyline décodee
+  const [points, setPoints] = useState(""); //Polyline décodee
   const [thisVisible, setThisVisible] = useState(false); // pour afficher premier Overlay
   const [thisVisible2, setThisVisible2] = useState(false); // pour Overlay des etapes
   const [myInitialRegion, setMyInitialRegion] = useState({
@@ -43,14 +44,14 @@ export default function ItineraryScreen() {
     longitudeDelta: 15,
   }); // coordonnées initiales de la map
   const [myWaypoints, setMyWaypoints] = useState([]); //liste de tous les points d'etapes
-  const [listWaypoints, setListWaypoints] = useState(''); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
+  const [listWaypoints, setListWaypoints] = useState(""); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
   const [etapesList, setEtapesList] = useState([]); //contient nom du lieu, nom de la ville,latitude, longitude, de chaque point d'etape
   const captureViewRef = useRef();
 
   const itineraryClick = () => {
     setThisVisible(true);
   };
-  console.log('essai');
+  console.log("essai");
   //*****ajouter des etapes */
   const addEtap = () => {
     var wayp = [...myWaypoints, `place_id:${etape_place_id}`];
@@ -66,13 +67,13 @@ export default function ItineraryScreen() {
     ]);
 
     this.GooglePlacesAutocompleteRef.clear();
-    console.log('Clic detecté');
+    console.log("Clic detecté");
     if (myWaypoints.length > 1) {
-      var waypointsList = myWaypoints.join('|');
+      var waypointsList = myWaypoints.join("|");
     } else {
       var waypointsList = `place_id:${etape_place_id}`;
     }
-    setEtape_place_id('');
+    setEtape_place_id("");
     setListWaypoints(waypointsList);
   };
   //*****fin ajout etapes dans waypoints****$ */
@@ -82,7 +83,7 @@ export default function ItineraryScreen() {
     return (
       <Marker
         key={j}
-        pinColor='red'
+        pinColor="red"
         coordinate={{
           latitude: etape.latitude,
           longitude: etape.longitude,
@@ -98,21 +99,21 @@ export default function ItineraryScreen() {
   //************************************************* DEBUT ENVOI BACK  POUR BASE DE DONNEES****************************$ */
 
   var SubmitItinerary = async () => {
-    console.log('envoi Fetch');
+    console.log("envoi Fetch");
 
     //********************INSERTION VERSION MATHIEU ***************/
 
     var macapture = await captureRef(captureViewRef, {
-      format: 'jpg',
+      format: "jpg",
       quality: 0.7,
     });
     console.log(macapture);
 
     var data = new FormData();
-    data.append('macarte', {
+    data.append("macarte", {
       uri: macapture,
-      type: 'image/jpeg',
-      name: 'macarte.jpg',
+      type: "image/jpeg",
+      name: "macarte.jpg",
     });
 
     // var mydata = {
@@ -167,18 +168,18 @@ export default function ItineraryScreen() {
       coords_parcours: coords_parcours,
       etapesList: etapesList,
     };
-    console.log('mydata2 :', mydata2);
+    console.log("mydata2 :", mydata2);
 
-    data.append('mydata', JSON.stringify(mydata2));
+    data.append("mydata", JSON.stringify(mydata2));
     var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
-      method: 'POST',
+      method: "POST",
       body: data,
     });
     const response = await rawResponse.json();
-    console.log('console du fetch', response);
+    console.log("console du fetch", response);
 
-    props.navigation.navigate('RoadtripList', {
-      screen: 'newRoadTripFirstStep',
+    props.navigation.navigate("RoadtripList", {
+      screen: "newRoadTripFirstStep",
       itinerary_id: response.newItininerary._id,
     });
 
@@ -236,9 +237,9 @@ export default function ItineraryScreen() {
 
   // ********************************************************Consultation API GOOGLE**************************$$
   const handleClick = async () => {
-    console.log('listWaypoints', listWaypoints);
-    console.log('myWaypoints', myWaypoints);
-    var finalWaypointStr = myWaypoints.join('|');
+    console.log("listWaypoints", listWaypoints);
+    console.log("myWaypoints", myWaypoints);
+    var finalWaypointStr = myWaypoints.join("|");
 
     var rawResponse = await fetch(
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
@@ -277,7 +278,7 @@ export default function ItineraryScreen() {
       totalsecondes %= 3600;
       minutes = Math.floor(totalsecondes / 60);
       seconds = Math.floor(totalsecondes % 60);
-      return hours + 'h:' + minutes + 'min:';
+      return hours + "h:" + minutes + "min:";
     };
     setSectotime(secToTime(totalDuration));
     //*********Fin calcul duree totale******
@@ -307,8 +308,15 @@ export default function ItineraryScreen() {
   return (
     <View style={{ flex: 1, marginTop: 50 }}>
       <View style={{ height: 150 }}>
+        <CustomHeaderNoArrow
+          onPress={() =>
+            props.navigation.navigate("HomeScreen", {
+              screen: "HomeScreen",
+            })
+          }
+        />
         <CustomButtonOrange
-          title='CREER ITINERAIRE'
+          title="CREER ITINERAIRE"
           onPress={() => itineraryClick()}
         />
         <Overlay
@@ -317,8 +325,10 @@ export default function ItineraryScreen() {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
-            placeholder='Ville depart'
+            placeholder="Ville depart"
             fetchDetails={true}
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
@@ -343,32 +353,32 @@ export default function ItineraryScreen() {
             }
             loadnameposition(); */
               console.log(
-                'details.address_components[0].long_name  Départ=',
+                "details.address_components[0].long_name  Départ=",
                 details.address_components[0].long_name
               );
               console.log(
-                'details.address_components[2].long_name  Départ=',
+                "details.address_components[2].long_name  Départ=",
                 details.address_components[2].long_name
               );
               console.log(
-                'details.geometry.location.lat Départ=',
+                "details.geometry.location.lat Départ=",
                 details.geometry.location.lat
               );
               setDeparture_Lat(details.geometry.location.lat);
               console.log(
-                'details.geometry.location.lng  Départ=',
+                "details.geometry.location.lng  Départ=",
                 details.geometry.location.lng
               );
               setDeparture_Lng(details.geometry.location.lng);
-              console.log('details.place_id   Départ=', details.place_id);
+              console.log("details.place_id   Départ=", details.place_id);
               setDeparture_place_id(details.place_id);
-              console.log('details.name  Départ=', details.name);
+              console.log("details.name  Départ=", details.name);
               setDeparture_name(details.name);
               //****ajout fonction mathieu******
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == 'locality') {
+                if (details.address_components[i].types[0] == "locality") {
                   console.log(
-                    'la ville est : ',
+                    "la ville est : ",
                     details.address_components[i].long_name
                   );
                   setDeparture_city(details.address_components[i].long_name);
@@ -379,10 +389,10 @@ export default function ItineraryScreen() {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  'administrative_area_level_1'
+                  "administrative_area_level_1"
                 ) {
                   console.log(
-                    'la Region est : ',
+                    "la Region est : ",
                     details.address_components[i].long_name
                   );
                   setDeparture_Region(details.address_components[i].long_name);
@@ -396,30 +406,30 @@ export default function ItineraryScreen() {
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: 'fr',
+              language: "fr",
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: 'font-awesome', name: 'search' },
-              errorStyle: { color: 'red' },
+              leftIcon: { type: "font-awesome", name: "search" },
+              errorStyle: { color: "red" },
             }}
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: 'grey',
+                backgroundColor: "#FFD230",
               },
               textInput: {
-                color: 'black',
+                color: "black",
                 fontSize: 16,
               },
               predefinedPlacesDescription: {
-                color: '#FFF9DA',
+                color: "#FFF9DA",
               },
             }}
           />
 
           <GooglePlacesAutocomplete
-            placeholder='Ville Arrivée'
+            placeholder="Ville Arrivée"
             fetchDetails={true}
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
@@ -441,32 +451,32 @@ export default function ItineraryScreen() {
             }
             loadnameposition2(); */
               console.log(
-                'details.address_components[0].long_name  Arrivée=',
+                "details.address_components[0].long_name  Arrivée=",
                 details.address_components[0].long_name
               );
               console.log(
-                'details.address_components[2].long_name  Arrivée=',
+                "details.address_components[2].long_name  Arrivée=",
                 details.address_components[2].long_name
               );
               console.log(
-                'details.geometry.location.lat Arrivée=',
+                "details.geometry.location.lat Arrivée=",
                 details.geometry.location.lat
               );
               setArrival_Lat(details.geometry.location.lat);
               console.log(
-                'details.geometry.location.lng  Arrivée=',
+                "details.geometry.location.lng  Arrivée=",
                 details.geometry.location.lng
               );
               setArrival_Lng(details.geometry.location.lng);
-              console.log('details.place_id   Arrivée=', details.place_id);
+              console.log("details.place_id   Arrivée=", details.place_id);
               setArrival_place_id(details.place_id);
-              console.log('details.name  Arrivée=', details.name);
+              console.log("details.name  Arrivée=", details.name);
               setArrival_name(details.name);
 
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == 'locality') {
+                if (details.address_components[i].types[0] == "locality") {
                   console.log(
-                    'la ville est : ',
+                    "la ville est : ",
                     details.address_components[i].long_name
                   );
                   setArrival_city(details.address_components[i].long_name);
@@ -477,10 +487,10 @@ export default function ItineraryScreen() {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  'administrative_area_level_1'
+                  "administrative_area_level_1"
                 ) {
                   console.log(
-                    'la Region est : ',
+                    "la Region est : ",
                     details.address_components[i].long_name
                   );
                 }
@@ -493,34 +503,34 @@ export default function ItineraryScreen() {
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: 'fr',
+              language: "fr",
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: 'font-awesome', name: 'search' },
-              errorStyle: { color: 'red' },
+              leftIcon: { type: "font-awesome", name: "search" },
+              errorStyle: { color: "red" },
             }}
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: 'grey',
+                backgroundColor: "#FFD230",
               },
               textInput: {
-                color: 'black',
+                color: "black",
                 fontSize: 16,
               },
               predefinedPlacesDescription: {
-                color: '#FFF9DA',
+                color: "#FFF9DA",
               },
             }}
           />
           <CustomButtonOrange
-            title='AJOUTER DES ETAPES'
+            title="AJOUTER DES ETAPES"
             onPress={() => {
               setThisVisible2(true), setThisVisible(false);
             }}
           />
-          <CustomButton title='VALIDER' onPress={() => setThisVisible(false)} />
+          <CustomButton title="VALIDER" onPress={() => setThisVisible(false)} />
         </Overlay>
 
         <Overlay
@@ -529,8 +539,10 @@ export default function ItineraryScreen() {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
-            placeholder=' Etape'
+            placeholder=" Etape"
             fetchDetails={true}
             ref={(instance) => {
               this.GooglePlacesAutocompleteRef = instance;
@@ -558,32 +570,32 @@ export default function ItineraryScreen() {
             }
             loadnameposition(); */
               console.log(
-                'details.address_components[0].long_name  Etape=',
+                "details.address_components[0].long_name  Etape=",
                 details.address_components[0].long_name
               );
               console.log(
-                'details.address_components[2].long_name  Etape=',
+                "details.address_components[2].long_name  Etape=",
                 details.address_components[2].long_name
               );
               console.log(
-                'details.geometry.location.lat Etape=',
+                "details.geometry.location.lat Etape=",
                 details.geometry.location.lat
               );
               setEtape_Lat(details.geometry.location.lat);
               console.log(
-                'details.geometry.location.lng  Etape=',
+                "details.geometry.location.lng  Etape=",
                 details.geometry.location.lng
               );
               setEtape_Lng(details.geometry.location.lng);
-              console.log('details.place_id   Etape=', details.place_id);
+              console.log("details.place_id   Etape=", details.place_id);
               setEtape_place_id(details.place_id);
-              console.log('details.name  Etape=', details.name);
+              console.log("details.name  Etape=", details.name);
               setEtape_name(details.name);
               //****ajout fonction mathieu******
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == 'locality') {
+                if (details.address_components[i].types[0] == "locality") {
                   console.log(
-                    'la ville est : ',
+                    "la ville est : ",
                     details.address_components[i].long_name
                   );
                   setEtape_city(details.address_components[i].long_name);
@@ -594,10 +606,10 @@ export default function ItineraryScreen() {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  'administrative_area_level_1'
+                  "administrative_area_level_1"
                 ) {
                   console.log(
-                    'la Region est : ',
+                    "la Region est : ",
                     details.address_components[i].long_name
                   );
                   // setOriginCity(details.address_components[i].long_name)
@@ -610,41 +622,42 @@ export default function ItineraryScreen() {
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: 'fr',
+              language: "fr",
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: 'font-awesome', name: 'search' },
-              errorStyle: { color: 'red' },
+              leftIcon: { type: "font-awesome", name: "search" },
+              errorStyle: { color: "red" },
             }}
             styles={{
               height: 20,
               textInputContainer: {
-                backgroundColor: 'grey',
+                backgroundColor: "#FFD230",
               },
               textInput: {
-                color: 'black',
+                color: "black",
                 fontSize: 16,
               },
               predefinedPlacesDescription: {
-                color: '#FFF9DA',
+                color: "#FFF9DA",
               },
             }}
           />
           <CustomButtonOrange
-            title='AJOUTER UNE ETAPE'
+            title="AJOUTER UNE ETAPE"
             onPress={() => addEtap()}
           />
           <CustomButton
-            title='VALIDER'
+            title="VALIDER"
             onPress={() => {
-              setThisVisible(true), setThisVisible2(false);
+              setThisVisible(false), setThisVisible2(false);
             }}
           />
         </Overlay>
       </View>
       {/* <Text>{departure_city}</Text>
       <Text>{arrival_city}</Text> */}
+      <Text>"Etapes "{etapesList.name}</Text>
       <Text>"Etapes "{listWaypoints}</Text>
       <Text>"Lieu de départ"{departure_name}</Text>
       <Text>"Ville de départ"{departure_city}</Text>
@@ -665,22 +678,22 @@ export default function ItineraryScreen() {
       >
         <Marker
           size={10}
-          pinColor='black'
+          pinColor="black"
           coordinate={{
             latitude: departure_Lat,
             longitude: departure_Lng,
           }}
-          title='Départ'
+          title="Départ"
           description={departure_name}
         ></Marker>
         <Marker
-          icon={<Icon name='fa-motorcycle' size={20} color='#ffffff' />}
-          pinColor='black'
+          icon={<Icon name="fa-motorcycle" size={20} color="#ffffff" />}
+          pinColor="black"
           coordinate={{
             latitude: arrival_Lat,
             longitude: arrival_Lng,
           }}
-          title='Arrivee'
+          title="Arrivee"
           description={arrival_name}
         ></Marker>
         {/* <Marker
@@ -697,7 +710,7 @@ export default function ItineraryScreen() {
         <Polyline
           style={{}}
           coordinates={coords_parcours}
-          strokeColor={'#000'}
+          strokeColor={"#000"}
           strokeWidth={3}
           lineDashPattern={[1]}
         />
@@ -705,9 +718,9 @@ export default function ItineraryScreen() {
         {/* <Input onChangeText={(value) => setText(value)} value={text} />
       <Button title="valider" /> */}
       </MapView>
-      <CustomButton title='VALIDER ITINERAIRE' onPress={() => handleClick()} />
+      <CustomButton title="VALIDER ITINERAIRE" onPress={() => handleClick()} />
       <CustomButtonOrange
-        title='ENVOI EN BDD'
+        title="ENVOI EN BDD"
         onPress={() => SubmitItinerary()}
       />
     </View>
@@ -717,8 +730,8 @@ export default function ItineraryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
