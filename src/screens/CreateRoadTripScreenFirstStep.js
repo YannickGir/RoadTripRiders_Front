@@ -20,6 +20,7 @@ import CustomHeader from "../components/CustomHeader";
 import CustomButtonValidation from "../components/CustomButtonValidation";
 import CustomButtonChoice from "../components/CustomButtonChoice";
 import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate";
+import { MA_VARIABLE } from "@env";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -173,7 +174,7 @@ function CreateRoadTripScreenFirstStep(props) {
       </View>
     );
   }
-  console.log("props.data_new_roadtrip:", props.data_new_roadtrip);
+  // console.log("props.data_new_roadtrip:", props.data_new_roadtrip);
   // console.log(formProgress);
   // console.log(itineraryexist);
   var pagecontent = <></>;
@@ -421,30 +422,6 @@ function mapDispatchToProps(dispatch) {
     onSubmitData: function (roadtripData) {
       dispatch({ type: "saveData", roadtripData: roadtripData });
     },
-    // onSubmitDate: function (date) {
-    //   dispatch({ type: "saveDate", date: date });
-    // },
-    // onSubmitDepartureTime: function (departure_time) {
-    //   dispatch({ type: "saveDepartureTime", departure_time: departure_time });
-    // },
-    // onSubmitArrivalTime: function (arrival_time) {
-    //   dispatch({ type: "saveArrivalTime", arrival_time: arrival_time });
-    // },
-    // onSubmitRoadtripType: function (roadtrip_type) {
-    //   dispatch({ type: "saveRoadtripType", roadtrip_type: roadtrip_type });
-    // },
-    // onSubmitMotoType: function (moto_type) {
-    //   dispatch({ type: "saveMotoType", moto_type: moto_type });
-    // },
-    // onSubmitSizeGroup: function (size_group) {
-    //   dispatch({ type: "saveSizeGroupe", size_group: size_group });
-    // },
-    // onSubmitformProgress: function (status_form_progress) {
-    //   dispatch({
-    //     type: "saveStatutformProgress",
-    //     status_form_progress: status_form_progress,
-    //   });
-    // },
   };
 }
 

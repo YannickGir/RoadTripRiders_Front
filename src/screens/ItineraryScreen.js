@@ -9,7 +9,7 @@ import { captureRef } from "react-native-view-shot";
 import { MA_VARIABLE, APIGOOGLE } from "@env";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import CustomButton from "../components/CustomButton";
-<<<<<<< HEAD
+import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 
 var polyline = require("@mapbox/polyline");
 
@@ -17,13 +17,6 @@ var polyline = require("@mapbox/polyline");
 import CreateRoadTripScreenFirstStep2 from "./CreateRoadTripScreenFirstStep2";
 
 export default function ItineraryScreen(props) {
-=======
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-
-var polyline = require("@mapbox/polyline");
-
-export default function ItineraryScreen() {
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
   const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
   const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
@@ -183,20 +176,10 @@ export default function ItineraryScreen() {
     console.log("mydata2 :", mydata2);
 
     data.append("mydata", JSON.stringify(mydata2));
-<<<<<<< HEAD
-    var rawResponse = await fetch(
-      `https://roadtripridersyann.herokuapp.com/itineraries/add`,
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-=======
     var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
       method: "POST",
       body: data,
     });
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
     const response = await rawResponse.json();
     console.log("console du fetch", response);
 
@@ -263,11 +246,12 @@ export default function ItineraryScreen() {
     console.log("myWaypoints", myWaypoints);
     var finalWaypointStr = myWaypoints.join("|");
 
-    var rawResponse = await fetch(
+    await fetch(
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`
     );
 
-    var response = await rawResponse.json();
+    // var response = await rawResponse.json();
+
     //console.log("reponse google", response);
     /*  var namecity = response(["nom"]);
   console.log(namecity); */
@@ -427,11 +411,7 @@ export default function ItineraryScreen() {
           props.onClickAddOriginData(details); */
             }}
             query={{
-<<<<<<< HEAD
-              key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
-=======
               key: `${APIGOOGLE}`,
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -442,11 +422,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-<<<<<<< HEAD
-                backgroundColor: "grey",
-=======
                 backgroundColor: "#FFD230",
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
@@ -532,11 +508,7 @@ export default function ItineraryScreen() {
             console.log("Arrivée", arrival_city); */
             }}
             query={{
-<<<<<<< HEAD
-              key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
-=======
               key: `${APIGOOGLE}`,
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -547,11 +519,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-<<<<<<< HEAD
-                backgroundColor: "grey",
-=======
                 backgroundColor: "#FFD230",
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
@@ -659,11 +627,7 @@ export default function ItineraryScreen() {
           props.onClickAddOriginData(details); */
             }}
             query={{
-<<<<<<< HEAD
-              key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
-=======
               key: `${APIGOOGLE}`,
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -674,11 +638,7 @@ export default function ItineraryScreen() {
             styles={{
               height: 20,
               textInputContainer: {
-<<<<<<< HEAD
-                backgroundColor: "grey",
-=======
                 backgroundColor: "#FFD230",
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
