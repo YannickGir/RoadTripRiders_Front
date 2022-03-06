@@ -7,7 +7,8 @@ import {
   Dimensions,
   useWindowDimensions,
   KeyboardAvoidingView,
-<<<<<<< HEAD
+  StatusBar,
+  SafeAreaView,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import { connect } from "react-redux";
@@ -22,25 +23,7 @@ import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import * as ImagePicker from "expo-image-picker";
 import CustomHeader from "../components/CustomHeader";
-=======
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
-import { MA_VARIABLE } from '@env';
-import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
-import CustomCheckBox from '../components/CustomCheckBox';
-import CustomInput from '../components/CustomInput';
-import CustomDatePicker from '../components/CustomDatePicker';
-import CustomTimePicker from '../components/CustomTimePicker';
-import CustomButton from '../components/CustomButton';
-import ImageUploadComponent from '../components/ImageUploadComponent';
-import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
-import CustomButtonOrange from '../components/CustomButtonOrange';
-import * as ImagePicker from 'expo-image-picker';
-import CustomHeader from '../components/CustomHeader';
-import CustomHeaderRNE from '../components/CustomHeaderRNE';
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
+import CustomHeaderRNE from "../components/CustomHeaderRNE";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -71,8 +54,8 @@ const customStyles = {
   labelSize: 13,
 };
 
-const STYLES = ['default', 'dark-content', 'light-content'];
-const TRANSITIONS = ['fade', 'slide', 'none'];
+const STYLES = ["default", "dark-content", "light-content"];
+const TRANSITIONS = ["fade", "slide", "none"];
 
 function UserInfosEditionScreen(props) {
   //Variables d'Etats des inputs
@@ -251,7 +234,7 @@ function UserInfosEditionScreen(props) {
       <View style={styles.container}>
         <StatusBar
           animated={true}
-          backgroundColor='#61dafb'
+          backgroundColor="#61dafb"
           barStyle={statusBarStyle}
           showHideTransition={statusBarTransition}
           hidden={hidden}
@@ -288,15 +271,8 @@ function UserInfosEditionScreen(props) {
           setValue={setuserLastName}
           secureTextEntry={false}
         />
-<<<<<<< HEAD
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <CustomButton title="CHARGE TON AVATAR" onPress={pickImage} />
-=======
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
           {image && (
             <Image
               source={{ uri: image }}
@@ -305,13 +281,8 @@ function UserInfosEditionScreen(props) {
           )}
         </View>
 
-<<<<<<< HEAD
-        <Text>Date de naissance</Text>
-        <CustomDatePicker title="DATE" />
-=======
         <Text>Quelle est ta date de naissance ?</Text>
-        <CustomDatePicker title='DATE' />
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
+        <CustomDatePicker title="DATE" />
 
         <Text>Ton sexe ?</Text>
         <View style={styles.secondary}>
@@ -399,15 +370,8 @@ function UserInfosEditionScreen(props) {
           secureTextEntry={false}
         />
 
-<<<<<<< HEAD
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <CustomButton title="CHARGE TA BECANE!" onPress={pickImage2} />
-=======
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
           {image2 && (
             <Image
               source={{ uri: image2 }}
@@ -448,19 +412,13 @@ function UserInfosEditionScreen(props) {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: '10%',
+    paddingTop: "10%",
     width: deviceWidth,
     height: deviceHeight,
-<<<<<<< HEAD
     backgroundColor: "#FEFAEA",
     alignItems: "center",
     justifyContent: "center",
-=======
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginTop: 25,
->>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
   },
   secondary: {
     flexDirection: "row",
