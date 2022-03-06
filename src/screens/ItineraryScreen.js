@@ -46,6 +46,8 @@ export default function ItineraryScreen() {
   const [myWaypoints, setMyWaypoints] = useState([]); //liste de tous les points d'etapes
   const [listWaypoints, setListWaypoints] = useState(""); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
   const [etapesList, setEtapesList] = useState([]); //contient nom du lieu, nom de la ville,latitude, longitude, de chaque point d'etape
+  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState("");
+  const [nameEtapesList, setNameEtapesList] = useState([]);
   const captureViewRef = useRef();
 
   const itineraryClick = () => {
@@ -56,6 +58,7 @@ export default function ItineraryScreen() {
   const addEtap = () => {
     var wayp = [...myWaypoints, `place_id:${etape_place_id}`];
     setMyWaypoints(wayp);
+    setNameEtapesList([...nameEtapesList, etape_name]);
     setEtapesList([
       ...etapesList,
       {
@@ -79,6 +82,7 @@ export default function ItineraryScreen() {
     //     console.log(this.state.listWaypoints, "listwaypoint a jour");
     //   });
     // }, 10);
+    // setTimeout();
 
     setListWaypoints(waypointsList);
     //************ essai resolution etapes */
@@ -252,6 +256,8 @@ export default function ItineraryScreen() {
     console.log("listWaypoints", listWaypoints);
     console.log("myWaypoints", myWaypoints);
     var finalWaypointStr = myWaypoints.join("|");
+    var theFINALFINALETAPESSTR = nameEtapesList.join(";");
+    setTheFinalEtapesStr(theFINALFINALETAPESSTR);
 
     var rawResponse = await fetch(
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
@@ -339,6 +345,7 @@ export default function ItineraryScreen() {
         >
           <Text></Text>
           <Text></Text>
+
           <GooglePlacesAutocomplete
             placeholder="Ville depart"
             fetchDetails={true}
@@ -536,6 +543,7 @@ export default function ItineraryScreen() {
               },
             }}
           />
+
           <CustomButtonOrange
             title="AJOUTER DES ETAPES"
             onPress={() => {
@@ -680,7 +688,15 @@ export default function ItineraryScreen() {
         Ville de départ : {departure_city}
       </Text>
       <Text>Lieu de départ : {departure_name}</Text>
-      <Text>"Etapes "{listWaypoints}</Text>
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Etapes : {theFinalEtapesStr}
+      </Text>
       <Text
         style={{
           color: "#363432",
