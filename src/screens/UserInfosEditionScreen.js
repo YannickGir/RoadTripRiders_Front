@@ -483,7 +483,7 @@ function UserInfosEditionScreen(props) {
             <CustomButtonOrange
               title="C'EST TOUT BON"
               onPress={() => {
-                console.log(token),
+                console.log('token :', token),
                   props.navigation.navigate('BottomNavigator', {
                     screen: 'MyAccountScreen',
                   }),
