@@ -117,7 +117,7 @@ function UserInfosEditionScreen(props) {
     } else if (hasNoPassenger) {
       passenger = false;
     }
-    var gender = '';
+    var gender;
     if (isMale == true) {
       gender = 'male';
     } else if (isFemale == true) {
