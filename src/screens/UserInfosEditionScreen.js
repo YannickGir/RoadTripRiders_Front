@@ -205,7 +205,7 @@ function UserInfosEditionScreen(props) {
       });
 
       var response = await rawResponse.json();
-      console.log(response);
+      //console.log(response);
       // NE PAS OUBLIER DE SET IMAGE2 AVEC L'URL NOUVELLEMENT GENEREE
       setImage2(response.urlToCloudImage);
       props.onSubmitImage(response.urlToCloudImage);
