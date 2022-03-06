@@ -30,6 +30,8 @@ import CustomLongInput from '../components/CustomLongInput';
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
 import { color } from 'react-native-elements/dist/helpers';
+import token from '../reducers/token';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 const labels = ['User 1', 'Bike 2', 'Bike 3'];
 
 let deviceHeight = Dimensions.get('window').height;
@@ -481,9 +483,10 @@ function UserInfosEditionScreen(props) {
             <CustomButtonOrange
               title="C'EST TOUT BON"
               onPress={() => {
-                props.navigation.navigate('BottomNavigator', {
-                  screen: 'MyAccountScreen',
-                }),
+                console.log(token),
+                  props.navigation.navigate('BottomNavigator', {
+                    screen: 'MyAccountScreen',
+                  }),
                   handleSubmitUserProfil();
               }}
             />
