@@ -15,10 +15,9 @@ import CustomInput from "../../src/components/CustomInput";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
+let deviceWidth = Dimensions.get("window").width;
 function ChatScreen(props) {
-  const [dimensions, setDimensions] = useState({ window, screen });
+  // const [dimensions, setDimensions] = useState({ window, screen });
   const [color, setColor] = useState("");
 
   var idConv = props.route.params.conversation_id;
@@ -40,46 +39,48 @@ function ChatScreen(props) {
         body.conversationObjects.map((convData, i) => {
           if (props.token != convData.senderToken) {
             var color = "#FFEDAC";
+            var row = "row";
           } else {
             color = "#FF8B00";
+            row = "row-reverse";
           }
           console.log("body", convData.senderToken);
           return (
             <Card
               key={i}
               containerStyle={{
-                flexDirection: "row",
+                flexDirection: row,
                 width: "95%",
+                height: "auto",
                 alignSelf: "center",
                 alignItems: "center",
-                backgroundColor: color,
+                backgroundColor: "#FEFAEA",
                 padding: 10,
-                borderRadius: 35,
-                marginTop: 10,
-                borderColor: "black",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.29,
-                shadowRadius: 4.65,
 
-                elevation: 7,
+                marginTop: 10,
               }}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: row }}>
                 <Image
                   style={styles.avatar}
                   source={{
                     uri: convData.user_photo,
                   }}
                 />
-                <View style={{}}>
-                  <Text style={styles.titleText}> {convData.firstname}: </Text>
-                  <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
-                </View>
+                <Text style={styles.titleText}> {convData.firstname} </Text>
               </View>
+
+              <Text
+                style={{
+                  backgroundColor: color,
+                  borderColor: "black",
+                  borderRadius: 15,
+                  padding: "3%",
+                  alignSelf: "center",
+                }}
+              >
+                {convData.content}
+              </Text>
             </Card>
           );
         })
@@ -95,24 +96,50 @@ function ChatScreen(props) {
 
     setConversationsList(
       body.conversationObjects.map((convData, i) => {
+        if (props.token != convData.senderToken) {
+          var color = "#FFF3C7";
+          var row = "row";
+        } else {
+          color = "#FFD178";
+          row = "row-reverse";
+        }
         return (
-          <View key={i}>
-            <View style={styles.user}>
+          <Card
+            key={i}
+            containerStyle={{
+              flexDirection: row,
+              width: "95%",
+              height: "auto",
+              alignSelf: "center",
+              alignItems: "center",
+              backgroundColor: "#FEFAEA",
+              padding: 10,
+
+              marginTop: 10,
+            }}
+          >
+            <View style={{ flexDirection: row }}>
               <Image
                 style={styles.avatar}
-                size={64}
-                rounded
                 source={{
                   uri: convData.user_photo,
                 }}
               />
-              <View style={{ flexDirection: "row" }}>
-                <Text style={styles.titleText}> {convData.firstname}: </Text>
-                <Text style={{ flexWrap: "wrap" }}>{convData.content}</Text>
-              </View>
-              <View></View>
+              <Text style={styles.titleText}> {convData.firstname} </Text>
             </View>
-          </View>
+
+            <Text
+              style={{
+                backgroundColor: color,
+                borderColor: "black",
+                borderRadius: 15,
+                padding: "3%",
+                alignSelf: "center",
+              }}
+            >
+              {convData.content}
+            </Text>
+          </Card>
         );
       })
     );
@@ -121,16 +148,13 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(
-        `https://roadtripsriders1.herokuapp.com/inbox/addmessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
-        }
-      );
+      const data1 = await fetch(`${MA_VARIABLE}/inbox/addmessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
+      });
       var response = await data1.json();
       reLoadConversations();
     }
@@ -236,15 +260,16 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 15,
+    alignSelf: "center",
   },
+  text: {},
   avatar: {
     borderWidth: 1,
     borderColor: "black",
     borderRadius: 35,
-    width: 70,
-    height: 70,
-    position: "relative",
+    width: 50,
+    height: 50,
   },
 });
 
