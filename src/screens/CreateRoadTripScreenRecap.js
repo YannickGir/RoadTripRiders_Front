@@ -73,12 +73,13 @@ function CreateRoadTripScreenFirstStep(props) {
 
   //-------------------------Envoi des infos au store et en BDD-----------------
   const NewRoadtripData = async () => {
-    await fetch(`https://roadtripridersyann.herokuapp.com/add_roadtrip`, {
+    await fetch(`https://roadtripridersyann.herokuapp.com/addroadtrip`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "event_title=props.data_new_roadtrip.roadtripTitle&date_sortie=props.data_new_roadtrip.roadtripDate&departure_time=props.data_new_roadtrip.roadtriptimeDeparture&driving_type=props.data_new_roadtrip.roadtripType&moto_type=props.data_new_roadtrip.roadtripMotoType&max_users=props.data_new_roadtrip.roadtripSizeGroup&token=props.token",
+      body: `event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
+      //   body: "event_data=props.data_new_roadtrip&token=props.token",
     });
-
+    console.log("dans fetch", props.data_new_roadtrip);
     // var response = await rawResponse.json();
     // console.log("response", response);
   };
@@ -157,13 +158,12 @@ function CreateRoadTripScreenFirstStep(props) {
       <View style={{ marginBottom: "1%" }}>
         <CustomButtonValidation
           title="C'EST PARTI !"
-          onPress={
-            (NewRoadtripData(),
-            () =>
+          onPress={() => {
+            NewRoadtripData(),
               props.navigation.navigate("RoadtripList", {
                 screen: "RoadtripListScreen",
-              }))
-          }
+              });
+          }}
         />
       </View>
     </View>

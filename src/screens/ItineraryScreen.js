@@ -192,10 +192,13 @@ export default function ItineraryScreen() {
     console.log("mydata2 :", mydata2);
 
     data.append("mydata", JSON.stringify(mydata2));
-    var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
-      method: "POST",
-      body: data,
-    });
+    var rawResponse = await fetch(
+      `https://roadtripridersyann.herokuapp.com/itineraries/add`,
+      {
+        method: "POST",
+        body: data,
+      }
+    );
     const response = await rawResponse.json();
     console.log("console du fetch", response);
 
