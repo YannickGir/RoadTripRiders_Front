@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { CheckBox, Icon } from 'react-native-elements';
 
-const CustomCheckbox = ({ title }) => {
-  const [check, setCheck] = useState(false);
-
+const CustomCheckbox = ({ title, checked, onPress }) => {
   return (
     <CheckBox
       title={title}
-      checked={check}
+      checked={checked}
       checkedColor='#ff8b00'
-      onPress={check ? () => setCheck(false) : () => setCheck(true)}
+      onPress={onPress}
     />
   );
 };

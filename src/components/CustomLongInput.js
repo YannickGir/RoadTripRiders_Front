@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput } from 'react-native';
 
 // On crée un composant qui pourra être injecté partout dans l'application car nous avons de nombreux inputs
 // on passe en argument toutes les valeurs que l'on va changer d'un input à l'autre
-const CustomInput = ({
+const CustomLongInput = ({
   value,
   setValue,
   placeholder,
@@ -13,6 +13,9 @@ const CustomInput = ({
   return (
     <SafeAreaView>
       <TextInput
+        multiline={true}
+        blurOnSubmit={true}
+        numberOfLines={4}
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
@@ -35,7 +38,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginVertical: 5,
     width: 250,
+    height: 100,
   },
 });
 
-export default CustomInput;
+export default CustomLongInput;
