@@ -24,8 +24,9 @@ import CustomButtonOrange from '../components/CustomButtonOrange';
 import * as ImagePicker from 'expo-image-picker';
 import CustomHeader from '../components/CustomHeader';
 import CustomHeaderRNE from '../components/CustomHeaderRNE';
-import CustomPicker from '../components/CustomPicker';
-
+import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
+import CustomRegionPicker from '../components/CustomRegionPicker';
+import CustomLongInput from '../components/CustomLongInput';
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
 import { color } from 'react-native-elements/dist/helpers';
@@ -60,9 +61,12 @@ function UserInfosEditionScreen(props) {
   const [userFirstName, setuserFirstName] = useState(''); //prénom utilisateur
   const [userLastName, setuserLastName] = useState(''); //nom utilisateur
   const [userBirthDate, setuserBirthDate] = useState(''); //date de naissance de l'utilisateur
-  const [userBikeCateg, setuserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
-  const [userBikeBrand, setuserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
-  const [userBikeModel, setuserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
+  const [userRegion, setuserRegion] = useState(''); //région où sort l'utilisateur
+  const [userCity, setuserCity] = useState(''); //ville où vit l'utilisateur
+  const [userBio, setuserBio] = useState(''); //biographie de l'utilisateur
+  const [userAspiration, setuserAspiration] = useState(''); //envies de l'utilisateur
+  const [userUsageProfil, setuserUsageProfil] = useState('New Biker'); //statut de l'utilisateur en fonction de sa participation dans l'appli
+  const [userConnexionStatus, setuserConnexionStatus] = useState(''); //statut de connexion l'utilisateur par rapport au chat
 
   //Variables d'Etats des checkboxes
   const [isMale, setIsMale] = useState('false');
@@ -71,6 +75,10 @@ function UserInfosEditionScreen(props) {
   const [userGender, setUserGender] = useState('');
   const [hasPassenger, setHasPassenger] = useState('false');
   const [hasNoPassenger, setHasNoPassenger] = useState('false');
+
+  const [userBikeCateg, setuserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
+  const [userBikeBrand, setuserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
+  const [userBikeModel, setuserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
 
   if (isMale == true) {
     setIsFemale(false);
@@ -102,30 +110,17 @@ function UserInfosEditionScreen(props) {
   //pour le step indicator nous permet de faire défiler les 3 rendus dans un screen
   const [formProgress, setFormProgress] = useState(0);
 
-  // var handleSubmitUserProfil = async () => {
-  //   console.log('click détecté sur login');
-  //   const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     body: `firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&`,
-  //   });
-  // };
+  var handleSubmitUserProfil = async () => {
+    console.log('click détecté sur login');
+    const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}`,
+    });
+  };
 
-  // //Variables d'Etats des inputs
-  // const [userFirstName, setuserFirstName] = useState('');
-  // const [userLastName, setuserLastName] = useState('');
-  // const [userBirthDate, setuserBirthDate] = useState('');
-  // const [userBikeCateg, setuserBikeCateg] = useState('');
-  // const [userBikeBrand, setuserBikeBrand] = useState('');
-  // const [userBikeModel, setuserBikeModel] = useState('');
-
-  // //Variables d'Etats des checkboxes
-  // const [isMale, setIsMale] = useState('false');
-  // const [isFemale, setIsFemale] = useState('false');
-  // const [isOther, setIsOther] = useState('false');
-  // const [userGender, setUserGender] = useState('');
   // const [hasPassenger, setHasPassenger] = useState('false');
   // const [hasNoPassenger, setHasNoPassenger] = useState('false');
 
@@ -218,7 +213,7 @@ function UserInfosEditionScreen(props) {
           <StepIndicator
             customStyles={customStyles}
             currentPosition={0}
-            stepCount={3}
+            stepCount={4}
           />
         </View>
         <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
@@ -246,7 +241,7 @@ function UserInfosEditionScreen(props) {
           {image && (
             <Image
               source={{ uri: image }}
-              style={{ width: 150, height: 150 }}
+              style={{ width: 200, height: 200 }}
             />
           )}
         </View>
@@ -320,7 +315,51 @@ function UserInfosEditionScreen(props) {
           <StepIndicator
             customStyles={customStyles}
             currentPosition={1}
-            stepCount={3}
+            stepCount={4}
+          />
+        </View>
+
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          Parles nous de toi:
+        </Text>
+        <CustomLongInput
+          placeholder='Partage ta bio'
+          value={userBio}
+          setValue={setuserBio}
+          secureTextEntry={false}
+        />
+        <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
+          Dans quel coin roules-tu ?
+        </Text>
+
+        <CustomRegionPicker
+          selectedValue={userRegion}
+          onValueChange={(value, index) => setuserRegion(value)}
+        />
+
+        {/* FLECHE PAGE SUIVANTE */}
+        <View style={styles.bottomPage}>
+          <View style={{ marginHorizontal: '40%' }}></View>
+          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+            <CustomButtonOrangeNext
+              onPress={() => setFormProgress(formProgress + 1)}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  } else if (formProgress == 2) {
+    pagecontent = (
+      <View style={styles.container}>
+        <CustomHeader
+          onPress={() => setFormProgress(formProgress - 1)}
+          title='EDITE TON PROFIL'
+        />
+        <View style={styles.barprogress}>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={2}
+            stepCount={4}
           />
         </View>
 
@@ -349,7 +388,11 @@ function UserInfosEditionScreen(props) {
         >
           Sa catégorie?
         </Text>
-        <CustomPicker style={{ flex: 1 }} />
+        <CustomBikeCategPicker
+          selectedValue={userBikeCateg}
+          onValueChange={(value, index) => setuserBikeCateg(value)}
+          style={{ flex: 1 }}
+        />
 
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
@@ -362,7 +405,7 @@ function UserInfosEditionScreen(props) {
         </View>
       </View>
     );
-  } else if (formProgress == 2) {
+  } else if (formProgress == 3) {
     pagecontent = (
       <View style={styles.container}>
         <CustomHeader
@@ -372,8 +415,8 @@ function UserInfosEditionScreen(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={2}
-            stepCount={3}
+            currentPosition={3}
+            stepCount={4}
           />
         </View>
 

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-function CustomPicker() {
+function CustomBikeCategPicker({ selectedValue, onValueChange }) {
   const [userBikeCateg, setuserBikeCateg] = useState('');
 
   return (
     <View style={styles.screen}>
       <Picker
-        selectedValue={userBikeCateg}
-        onValueChange={(value, index) => setuserBikeCateg(value)}
+        selectedValue={selectedValue}
+        onValueChange={onValueChange}
         mode='dropdown' // Android only
         style={styles.picker}
       >
@@ -21,12 +21,12 @@ function CustomPicker() {
         <Picker.Item label='Supermotards' value='Supermotards' />
         <Picker.Item label='Customs' value='Customs' />
       </Picker>
-      <Text style={styles.text}>Ta catégorie: {userBikeCateg}</Text>
+      <Text style={styles.text}>Ta catégorie: {selectedValue}</Text>
     </View>
   );
 }
 
-export default CustomPicker;
+export default CustomBikeCategPicker;
 
 // Just some styles
 const styles = StyleSheet.create({
