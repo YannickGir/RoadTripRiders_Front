@@ -81,7 +81,6 @@ export default function ItineraryScreen() {
     // }, 10);
 
     setListWaypoints(waypointsList);
-    console.log("ca ne marche pas");
     //************ essai resolution etapes */
     // console.log("listWaypoints", listWaypoints);
     // console.log("myWaypoints", myWaypoints);
