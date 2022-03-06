@@ -9,6 +9,7 @@ import { captureRef } from "react-native-view-shot";
 import { MA_VARIABLE, APIGOOGLE } from "@env";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import CustomButton from "../components/CustomButton";
+<<<<<<< HEAD
 
 var polyline = require("@mapbox/polyline");
 
@@ -16,6 +17,13 @@ var polyline = require("@mapbox/polyline");
 import CreateRoadTripScreenFirstStep2 from "./CreateRoadTripScreenFirstStep2";
 
 export default function ItineraryScreen(props) {
+=======
+import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
+
+var polyline = require("@mapbox/polyline");
+
+export default function ItineraryScreen() {
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
   const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
   const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
@@ -175,6 +183,7 @@ export default function ItineraryScreen(props) {
     console.log("mydata2 :", mydata2);
 
     data.append("mydata", JSON.stringify(mydata2));
+<<<<<<< HEAD
     var rawResponse = await fetch(
       `https://roadtripridersyann.herokuapp.com/itineraries/add`,
       {
@@ -182,6 +191,12 @@ export default function ItineraryScreen(props) {
         body: data,
       }
     );
+=======
+    var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
+      method: "POST",
+      body: data,
+    });
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
     const response = await rawResponse.json();
     console.log("console du fetch", response);
 
@@ -315,6 +330,13 @@ export default function ItineraryScreen(props) {
   return (
     <View style={{ flex: 1, marginTop: 50 }}>
       <View style={{ height: 150 }}>
+        <CustomHeaderNoArrow
+          onPress={() =>
+            props.navigation.navigate("HomeScreen", {
+              screen: "HomeScreen",
+            })
+          }
+        />
         <CustomButtonOrange
           title="CREER ITINERAIRE"
           onPress={() => itineraryClick()}
@@ -325,6 +347,8 @@ export default function ItineraryScreen(props) {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
             placeholder="Ville depart"
             fetchDetails={true}
@@ -403,7 +427,11 @@ export default function ItineraryScreen(props) {
           props.onClickAddOriginData(details); */
             }}
             query={{
+<<<<<<< HEAD
               key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
+=======
+              key: `${APIGOOGLE}`,
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -414,7 +442,11 @@ export default function ItineraryScreen(props) {
             styles={{
               height: 20,
               textInputContainer: {
+<<<<<<< HEAD
                 backgroundColor: "grey",
+=======
+                backgroundColor: "#FFD230",
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
@@ -500,7 +532,11 @@ export default function ItineraryScreen(props) {
             console.log("Arrivée", arrival_city); */
             }}
             query={{
+<<<<<<< HEAD
               key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
+=======
+              key: `${APIGOOGLE}`,
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -511,7 +547,11 @@ export default function ItineraryScreen(props) {
             styles={{
               height: 20,
               textInputContainer: {
+<<<<<<< HEAD
                 backgroundColor: "grey",
+=======
+                backgroundColor: "#FFD230",
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
@@ -537,6 +577,8 @@ export default function ItineraryScreen(props) {
             setIsVisible(false);
           }}
         >
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
             placeholder=" Etape"
             fetchDetails={true}
@@ -617,7 +659,11 @@ export default function ItineraryScreen(props) {
           props.onClickAddOriginData(details); */
             }}
             query={{
+<<<<<<< HEAD
               key: `AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`,
+=======
+              key: `${APIGOOGLE}`,
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               language: "fr",
             }}
             textInputProps={{
@@ -628,7 +674,11 @@ export default function ItineraryScreen(props) {
             styles={{
               height: 20,
               textInputContainer: {
+<<<<<<< HEAD
                 backgroundColor: "grey",
+=======
+                backgroundColor: "#FFD230",
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
               },
               textInput: {
                 color: "black",
@@ -646,13 +696,14 @@ export default function ItineraryScreen(props) {
           <CustomButton
             title="VALIDER"
             onPress={() => {
-              setThisVisible(true), setThisVisible2(false);
+              setThisVisible(false), setThisVisible2(false);
             }}
           />
         </Overlay>
       </View>
       {/* <Text>{departure_city}</Text>
       <Text>{arrival_city}</Text> */}
+      <Text>"Etapes "{etapesList.name}</Text>
       <Text>"Etapes "{listWaypoints}</Text>
       <Text>"Lieu de départ"{departure_name}</Text>
       <Text>"Ville de départ"{departure_city}</Text>

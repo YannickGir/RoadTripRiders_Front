@@ -55,7 +55,7 @@ function ConversationsScreen(props) {
                     size={64}
                     rounded
                     source={{
-                      uri: "https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb",
+                      uri: convData.user_photo,
                     }}
                   />
                   <View style={{ justifyContent: "space-between" }}>

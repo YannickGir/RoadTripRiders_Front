@@ -7,6 +7,7 @@ import {
   Dimensions,
   useWindowDimensions,
   KeyboardAvoidingView,
+<<<<<<< HEAD
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import { connect } from "react-redux";
@@ -21,6 +22,25 @@ import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
 import CustomButtonOrange from "../components/CustomButtonOrange";
 import * as ImagePicker from "expo-image-picker";
 import CustomHeader from "../components/CustomHeader";
+=======
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
+import CustomCheckBox from '../components/CustomCheckBox';
+import CustomInput from '../components/CustomInput';
+import CustomDatePicker from '../components/CustomDatePicker';
+import CustomTimePicker from '../components/CustomTimePicker';
+import CustomButton from '../components/CustomButton';
+import ImageUploadComponent from '../components/ImageUploadComponent';
+import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
+import CustomButtonOrange from '../components/CustomButtonOrange';
+import * as ImagePicker from 'expo-image-picker';
+import CustomHeader from '../components/CustomHeader';
+import CustomHeaderRNE from '../components/CustomHeaderRNE';
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -51,6 +71,9 @@ const customStyles = {
   labelSize: 13,
 };
 
+const STYLES = ['default', 'dark-content', 'light-content'];
+const TRANSITIONS = ['fade', 'slide', 'none'];
+
 function UserInfosEditionScreen(props) {
   //Variables d'Etats des inputs
   const [userFirstName, setuserFirstName] = useState("");
@@ -67,6 +90,33 @@ function UserInfosEditionScreen(props) {
   const [userGender, setUserGender] = useState("");
   const [hasPassenger, setHasPassenger] = useState("false");
   const [hasNoPassenger, setHasNoPassenger] = useState("false");
+
+  //variables d'état de la status bar
+  const [hidden, setHidden] = useState(false);
+  const [statusBarStyle, setStatusBarStyle] = useState(STYLES[0]);
+  const [statusBarTransition, setStatusBarTransition] = useState(
+    TRANSITIONS[0]
+  );
+
+  const changeStatusBarVisibility = () => setHidden(!hidden);
+
+  const changeStatusBarStyle = () => {
+    const styleId = STYLES.indexOf(statusBarStyle) + 1;
+    if (styleId === STYLES.length) {
+      setStatusBarStyle(STYLES[0]);
+    } else {
+      setStatusBarStyle(STYLES[styleId]);
+    }
+  };
+
+  const changeStatusBarTransition = () => {
+    const transition = TRANSITIONS.indexOf(statusBarTransition) + 1;
+    if (transition === TRANSITIONS.length) {
+      setStatusBarTransition(TRANSITIONS[0]);
+    } else {
+      setStatusBarTransition(TRANSITIONS[transition]);
+    }
+  };
 
   if (isMale == true) {
     setIsFemale(false);
@@ -199,6 +249,14 @@ function UserInfosEditionScreen(props) {
   if (formProgress == 0) {
     pagecontent = (
       <View style={styles.container}>
+        <StatusBar
+          animated={true}
+          backgroundColor='#61dafb'
+          barStyle={statusBarStyle}
+          showHideTransition={statusBarTransition}
+          hidden={hidden}
+        />
+
         <CustomHeader
           onPress={() =>
             props.navigation.navigate("BottomNavigator", {
@@ -230,10 +288,15 @@ function UserInfosEditionScreen(props) {
           setValue={setuserLastName}
           secureTextEntry={false}
         />
+<<<<<<< HEAD
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <CustomButton title="CHARGE TON AVATAR" onPress={pickImage} />
+=======
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
           {image && (
             <Image
               source={{ uri: image }}
@@ -242,10 +305,15 @@ function UserInfosEditionScreen(props) {
           )}
         </View>
 
+<<<<<<< HEAD
         <Text>Date de naissance</Text>
         <CustomDatePicker title="DATE" />
+=======
+        <Text>Quelle est ta date de naissance ?</Text>
+        <CustomDatePicker title='DATE' />
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
 
-        <Text>Sexe</Text>
+        <Text>Ton sexe ?</Text>
         <View style={styles.secondary}>
           <CustomCheckBox
             title="Homme"
@@ -331,10 +399,15 @@ function UserInfosEditionScreen(props) {
           secureTextEntry={false}
         />
 
+<<<<<<< HEAD
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <CustomButton title="CHARGE TA BECANE!" onPress={pickImage2} />
+=======
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
           {image2 && (
             <Image
               source={{ uri: image2 }}
@@ -375,11 +448,19 @@ function UserInfosEditionScreen(props) {
 }
 const styles = StyleSheet.create({
   container: {
+    paddingTop: '10%',
     width: deviceWidth,
     height: deviceHeight,
+<<<<<<< HEAD
     backgroundColor: "#FEFAEA",
     alignItems: "center",
     justifyContent: "center",
+=======
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 25,
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
   },
   secondary: {
     flexDirection: "row",

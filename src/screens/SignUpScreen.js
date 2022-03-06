@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
+  Alert,
   StyleSheet,
   View,
   Text,
   Image,
   useWindowDimensions,
+<<<<<<< HEAD
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import Logo from "../../assets/images/motoLogo.png";
 import CustomInput from "../../src/components/CustomInput";
 import CustomButton from "../../src/components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+=======
+  KeyboardAvoidingView,
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import Logo from '../../assets/images/motoLogo.png';
+import CustomInput from '../../src/components/CustomInput';
+import CustomButton from '../../src/components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
 
 //Ici on réexploite ce qui a été créé pour la page Log In
 function SignUpScreen(props) {
@@ -20,6 +31,11 @@ function SignUpScreen(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+
+  // ici on définit les variables d'état qui vont nous permettre d'afficher des messages d'erreurs
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [listErrorsSignup, setErrorsSignup] = useState([]);
 
   useEffect(() => {
     console.log("find token :", findToken);
@@ -38,6 +54,7 @@ function SignUpScreen(props) {
   }, []);
 
   var handleSubmitSignUp = async () => {
+<<<<<<< HEAD
     console.log("click détecté");
     const data = await fetch(
       `https://roadtripridersyann.herokuapp.com/users/log-in`,
@@ -59,9 +76,66 @@ function SignUpScreen(props) {
 
       props.navigation.navigate("BottomNavigator", {
         screen: "Homepage",
+=======
+    console.log('click détecté');
+
+    //On rajoute toutes les conditions d'affichage des messages d'erreurs
+    var emailValid = false;
+    if (userEmail.length == 0) {
+      setEmailError("L'Email est requis");
+    } else if (userEmail.length < 6) {
+      setEmailError("L'Email doit faire plus de 6 caractères");
+    } else if (userEmail.indexOf(' ') >= 0) {
+      setEmailError("L'Email ne peut pas contenir d'espace");
+    } else {
+      setEmailError('');
+      emailValid = true;
+    }
+
+    var passwordValid = false;
+    if (userPassword.length == 0) {
+      setPasswordError('La mot de passe est requis');
+    } else if (userPassword.length < 6) {
+      setPasswordError('Le mot de passe doit faire plus de 6 caractères');
+    } else if (userPassword.indexOf(' ') >= 0) {
+      setPasswordError('Password cannot contain spaces');
+    } else {
+      setPasswordError('');
+      passwordValid = true;
+    }
+
+    if (emailValid && passwordValid) {
+      const data = await fetch(`${MA_VARIABLE}/users/sign-up`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
       });
+      var response = await data.json();
+      console.log(response);
+      if (response.result === true) {
+        //ajout du token dans le store
+        props.addToken(response.token);
+        //ajout du token dans le local storage
+        AsyncStorage.setItem('token', response.token);
+        Alert.alert('Compte crée!', 'avec ton Email: ' + userEmail);
+        setUserEmail('');
+        setUserPassword('');
+
+        props.navigation.navigate('BottomNavigator', {
+          screen: 'Homepage',
+        });
+      } else {
+        setErrorsSignup(response.error);
+      }
     }
   };
+
+  var tabErrorsSignup = listErrorsSignup.map((error, i) => {
+    return <Text>{error}</Text>;
+  });
 
   return (
     <View style={styles.container}>
@@ -72,19 +146,35 @@ function SignUpScreen(props) {
       />
       <Text>S'inscrire avec une adresse mail:</Text>
       <CustomInput
+<<<<<<< HEAD
         placeholder="Email"
+=======
+        autoCapitalize='none'
+        placeholder='Email'
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
         value={userEmail}
         setValue={setUserEmail}
         secureTextEntry={false}
       />
+      <Text>{emailError}</Text>
       <CustomInput
+<<<<<<< HEAD
         placeholder="Mot de passe"
+=======
+        autoCapitalize='none'
+        placeholder='Mot de passe'
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
         value={userPassword}
         setValue={setUserPassword}
         secureTextEntry={true}
       />
-
-      <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
+      <Text>{passwordError}</Text>
+      {tabErrorsSignup}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
+      </KeyboardAvoidingView>
     </View>
   );
 }

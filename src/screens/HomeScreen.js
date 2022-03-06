@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   Button,
   View,
-  Text,
   Icon,
   Image,
   ScrollView,
   Dimensions,
+<<<<<<< HEAD
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import { Card, Overlay } from "react-native-elements";
@@ -18,6 +18,21 @@ import LoadingOverlay from "../../src/components/LoadingOverlay";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
+=======
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import CustomButton from '../../src/components/CustomButton';
+import { Card, Text } from 'react-native-elements';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+import CustomInput from '../../src/components/CustomInput';
+
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
 export default function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -27,40 +42,97 @@ export default function HomepageScreen(props) {
         `https://roadtripridersyann.herokuapp.com/roadtriplist`
       );
       var body = await data.json();
-      console.log("body", body);
+      console.log('body', body);
 
       setRoadTripList(
         body.map((tripData, i) => {
           return (
-            <Card
-              key={i}
-              containerStyle={{ backgroundColor: "#FFEDAC", width: "100%" }}
-            >
-              <View>
+            <TouchableOpacity key={i}>
+              <Card containerStyle={styles.card}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    width: '70%',
+                  }}
+                >
+                  <Image
+                    style={styles.avatar}
+                    source={{ uri: tripData.user_photo }}
+                  />
+                  <Text style={{ paddingLeft: '3%' }}>
+                    {tripData.firstname}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    width: '70%',
+                    paddingBottom: '2%',
+                  }}
+                >
+                  <Text style={styles.titleText}>{tripData.event_title}</Text>
+                  <Text>
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star-half' size={14} color='black' />
+                  </Text>
+                </View>
                 <Image
-                  style={styles.avatar}
-                  source={{ uri: tripData.user_photo }}
+                  size={64}
+                  style={styles.map}
+                  source={{ uri: tripData.screenMap }}
                 />
-                <Text>{tripData.firstname}</Text>
-              </View>
-              <View>
-                <Text>{tripData.event_title}</Text>
-                <Text>Stars</Text>
-              </View>
-              <Image />
-              <View>
-                <Text>Distancejhiokmhfmu</Text>
-                <Text>km</Text>
-              </View>
-              <View>
-                <Text>Durée :</Text>
-                <Text>H</Text>
-              </View>
-              <View>
-                <Text>Niveau :</Text>
-                <Text>cool</Text>
-              </View>
-            </Card>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}
+                >
+                  <View>
+                    <Text>Distance :</Text>
+                    <Text
+                      style={{
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                      }}
+                    >
+                      {tripData.distance} km
+                    </Text>
+                  </View>
+                  <View>
+                    <Text>Durée :</Text>
+                    <Text
+                      style={{
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                      }}
+                    >
+                      {tripData.duration}h
+                    </Text>
+                  </View>
+                  <View>
+                    <Text>Niveau :</Text>
+                    <Text
+                      style={{
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                      }}
+                    >
+                      {tripData.driving_type}
+                    </Text>
+                  </View>
+                </View>
+              </Card>
+            </TouchableOpacity>
           );
         })
       );
@@ -71,6 +143,7 @@ export default function HomepageScreen(props) {
 
   return (
     <View style={styles.container}>
+<<<<<<< HEAD
       <Overlay isVisible={visible} style={styles.image}>
         <Image source={require("../Loading_overlay.gif")} />
       </Overlay>
@@ -78,26 +151,38 @@ export default function HomepageScreen(props) {
       <ScrollView style={{ flex: 1, width: "100%" }}>
         {roadTripList}
         <Text>Homepage Screen</Text>
+=======
+      <CustomHeaderNoArrow
+        containerStyle={{ paddingTop: 100 }}
+        title='Sorties'
+      />
+      <ScrollView style={{ flex: 1, width: '100%' }}>{roadTripList}</ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <CustomButton title='CREER UN TRIP' />
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to itinerary !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate('Itinerary', {
+              screen: 'ItineraryScreen',
             })
           }
         />
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to roadtripList !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
+            props.navigation.navigate('RoadtripList', {
+              screen: 'RoadtripListScreen',
             })
           }
         />
+<<<<<<< HEAD
         <Button
           title="go to roadtripList !"
           onPress={async () => (
@@ -108,6 +193,9 @@ export default function HomepageScreen(props) {
           )}
         />
       </ScrollView>
+=======
+      </KeyboardAvoidingView>
+>>>>>>> 0bdf1196a00395a7c38bcbfc0b8a5301f5550675
     </View>
   );
 }
@@ -115,10 +203,23 @@ export default function HomepageScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: deviceWidth,
+    paddingTop: '10%',
+  },
+  card: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    backgroundColor: '#FFEDAC',
+    borderRadius: 15,
   },
 
   image: {
@@ -128,10 +229,19 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
-    width: 70,
-    height: 70,
-    position: "relative",
+    width: 50,
+    height: 50,
+    position: 'relative',
+  },
+  map: {
+    width: '100%',
+    height: 150,
+    paddingTop: '2%',
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
