@@ -15,7 +15,6 @@ import CustomInput from "../../src/components/CustomInput";
 import CustomButton from "../../src/components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CreateRoadTripScreenFirstStep from "./CreateRoadTripScreenFirstStep";
 import RoadtripListScreen from "./RoadtripListScreen";
 RoadtripListScreen;
 
