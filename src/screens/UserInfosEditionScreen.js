@@ -261,35 +261,17 @@ function UserInfosEditionScreen(props) {
           <CustomCheckBox
             title='Homme'
             checked={isMale}
-            onPress={
-              isMale
-                ? () => setIsMale(false)
-                : () => {
-                    setIsMale(true), setIsFemale(false), setIsOther(false);
-                  }
-            }
+            onPress={() => setIsMale(!isMale)}
           />
           <CustomCheckBox
             title='Femme'
             checked={isFemale}
-            onPress={
-              isFemale
-                ? () => setIsFemale(false)
-                : () => {
-                    setIsFemale(true), setIsMale(false), setIsOther(false);
-                  }
-            }
+            onPress={() => setIsFemale(!isFemale)}
           />
           <CustomCheckBox
             title='Autre'
             checked={isOther}
-            onPress={
-              isOther
-                ? () => setIsOther(false)
-                : () => {
-                    setIsOther(true), setIsMale(false), setIsFemale(false);
-                  }
-            }
+            onPress={() => setIsOther(!isOther)}
           />
         </View>
 
