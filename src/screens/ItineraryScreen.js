@@ -46,6 +46,8 @@ export default function ItineraryScreen() {
   const [myWaypoints, setMyWaypoints] = useState([]); //liste de tous les points d'etapes
   const [listWaypoints, setListWaypoints] = useState(""); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
   const [etapesList, setEtapesList] = useState([]); //contient nom du lieu, nom de la ville,latitude, longitude, de chaque point d'etape
+  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState("");
+  const [nameEtapesList, setNameEtapesList] = useState([]);
   const captureViewRef = useRef();
 
   const itineraryClick = () => {
@@ -56,6 +58,7 @@ export default function ItineraryScreen() {
   const addEtap = () => {
     var wayp = [...myWaypoints, `place_id:${etape_place_id}`];
     setMyWaypoints(wayp);
+    setNameEtapesList([...nameEtapesList, etape_name]);
     setEtapesList([
       ...etapesList,
       {
@@ -74,8 +77,21 @@ export default function ItineraryScreen() {
       var waypointsList = `place_id:${etape_place_id}`;
     }
     setEtape_place_id("");
+    // setTimeout(() => {
+    //   this.setState({ ListWaypoints: waypointsList }, function () {
+    //     console.log(this.state.listWaypoints, "listwaypoint a jour");
+    //   });
+    // }, 10);
+    // setTimeout();
+
     setListWaypoints(waypointsList);
+    //************ essai resolution etapes */
+    // console.log("listWaypoints", listWaypoints);
+    // console.log("myWaypoints", myWaypoints);
+    // var finaletapeStr = myWaypoints.join(";");
+    // console.log("string des etapes ", finaletapeStr);
   };
+
   //*****fin ajout etapes dans waypoints****$ */
 
   // ****************************$créer des Marker pour chaque etape***********************
@@ -240,6 +256,8 @@ export default function ItineraryScreen() {
     console.log("listWaypoints", listWaypoints);
     console.log("myWaypoints", myWaypoints);
     var finalWaypointStr = myWaypoints.join("|");
+    var theFINALFINALETAPESSTR = nameEtapesList.join(";");
+    setTheFinalEtapesStr(theFINALFINALETAPESSTR);
 
     var rawResponse = await fetch(
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
@@ -327,6 +345,7 @@ export default function ItineraryScreen() {
         >
           <Text></Text>
           <Text></Text>
+
           <GooglePlacesAutocomplete
             placeholder="Ville depart"
             fetchDetails={true}
@@ -524,6 +543,7 @@ export default function ItineraryScreen() {
               },
             }}
           />
+
           <CustomButtonOrange
             title="AJOUTER DES ETAPES"
             onPress={() => {
@@ -657,14 +677,54 @@ export default function ItineraryScreen() {
       </View>
       {/* <Text>{departure_city}</Text>
       <Text>{arrival_city}</Text> */}
-      <Text>"Etapes "{etapesList.name}</Text>
-      <Text>"Etapes "{listWaypoints}</Text>
-      <Text>"Lieu de départ"{departure_name}</Text>
-      <Text>"Ville de départ"{departure_city}</Text>
-      <Text>"Ville d'arrivée"{arrival_city}</Text>
-      <Text>"Lieu d'arrivée"{arrival_name}</Text>
-      <Text>"duration"{sectotime}</Text>
-      <Text>"distance"{itinerary_distance}"KM"</Text>
+
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Ville de départ : {departure_city}
+      </Text>
+      <Text>Lieu de départ : {departure_name}</Text>
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Etapes : {theFinalEtapesStr}
+      </Text>
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Ville d'arrivée : {arrival_city}
+      </Text>
+      <Text>Lieu d'arrivée : {arrival_name}</Text>
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Durée : {sectotime}
+      </Text>
+      <Text
+        style={{
+          color: "#363432",
+          fontFamily: "poppins",
+          fontWeight: "bold",
+        }}
+      >
+        Distance : {itinerary_distance} KMs
+      </Text>
 
       {/* <Button
       title={"faire itineraire"}
