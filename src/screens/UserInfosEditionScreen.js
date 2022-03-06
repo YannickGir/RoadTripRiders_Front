@@ -7,6 +7,9 @@ import {
   Dimensions,
   useWindowDimensions,
   KeyboardAvoidingView,
+  StatusBar,
+  SafeAreaView,
+  YellowBox,
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
@@ -21,11 +24,13 @@ import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
 import CustomButtonOrange from '../components/CustomButtonOrange';
 import * as ImagePicker from 'expo-image-picker';
 import CustomHeader from '../components/CustomHeader';
+import CustomHeaderRNE from '../components/CustomHeaderRNE';
+import CustomPicker from '../components/CustomPicker';
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
 import { color } from 'react-native-elements/dist/helpers';
-const labels = ['User 1', 'User 2', 'Bike 3'];
+const labels = ['User 1', 'Bike 2', 'Bike 3'];
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -205,11 +210,12 @@ function UserInfosEditionScreen(props) {
           <StepIndicator
             customStyles={customStyles}
             currentPosition={0}
-            stepCount={2}
+            stepCount={3}
           />
         </View>
-
-        <Text>Quel rider es-tu ?</Text>
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          Quel rider es-tu ?
+        </Text>
 
         <CustomInput
           placeholder='Prénom'
@@ -224,6 +230,7 @@ function UserInfosEditionScreen(props) {
           setValue={setuserLastName}
           secureTextEntry={false}
         />
+
         <View
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
@@ -231,15 +238,18 @@ function UserInfosEditionScreen(props) {
           {image && (
             <Image
               source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
+              style={{ width: 150, height: 150 }}
             />
           )}
         </View>
-
-        <Text>Date de naissance</Text>
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          Quelle est ta date de naissance ?
+        </Text>
         <CustomDatePicker title='DATE' />
 
-        <Text>Sexe</Text>
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          Ton sexe ?
+        </Text>
         <View style={styles.secondary}>
           <CustomCheckBox
             title='Homme'
@@ -298,18 +308,11 @@ function UserInfosEditionScreen(props) {
           <StepIndicator
             customStyles={customStyles}
             currentPosition={1}
-            stepCount={2}
+            stepCount={3}
           />
         </View>
 
-        <Text>Et ta moto ?</Text>
-
-        <CustomInput
-          placeholder='Catégorie'
-          value={userBikeCateg}
-          setValue={setuserBikeCateg}
-          secureTextEntry={false}
-        />
+        <Text style={{ paddingBottom: '5%' }}>Et ta moto ?</Text>
 
         <CustomInput
           placeholder='Marque'
@@ -325,8 +328,59 @@ function UserInfosEditionScreen(props) {
           secureTextEntry={false}
         />
 
+        <Text
+          style={{
+            paddingTop: '5%',
+            paddingBottom: '5%',
+            alignContent: 'center',
+          }}
+        >
+          Sa catégorie?
+        </Text>
+        <CustomPicker style={{ flex: 1 }} />
+
+        {/* FLECHE PAGE SUIVANTE */}
+        <View style={styles.bottomPage}>
+          <View style={{ marginHorizontal: '40%' }}></View>
+          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+            <CustomButtonOrangeNext
+              onPress={() => setFormProgress(formProgress + 1)}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  } else if (formProgress == 2) {
+    pagecontent = (
+      <View style={styles.container}>
+        <CustomHeader
+          onPress={() => setFormProgress(formProgress - 1)}
+          title='EDITE TON PROFIL'
+        />
+        <View style={styles.barprogress}>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={2}
+            stepCount={3}
+          />
+        </View>
+
+        <Text
+          style={{
+            paddingTop: '5%',
+            paddingBottom: '5%',
+            alignContent: 'center',
+          }}
+        >
+          Partage une photo
+        </Text>
+
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
           <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
           {image2 && (
@@ -337,7 +391,9 @@ function UserInfosEditionScreen(props) {
           )}
         </View>
 
-        <Text>As-tu un passager ?</Text>
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          As-tu un passager ?
+        </Text>
         <View style={styles.secondary}>
           <CustomCheckBox
             title='Oui'
@@ -350,17 +406,21 @@ function UserInfosEditionScreen(props) {
             onPress={() => setHasPassenger(!hasNoPassenger)}
           />
         </View>
-        <KeyboardAvoidingView>
-          <CustomButton
-            title="C'EST TOUT BON"
-            onPress={() => {
-              props.navigation.navigate('BottomNavigator', {
-                screen: 'MyAccountScreen',
-              }),
-                handleSubmitUserProfil();
-            }}
-          />
-        </KeyboardAvoidingView>
+        <View style={styles.bottomPage}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
+            <CustomButtonOrange
+              title="C'EST TOUT BON"
+              onPress={() => {
+                props.navigation.navigate('BottomNavigator', {
+                  screen: 'MyAccountScreen',
+                }),
+                  handleSubmitUserProfil();
+              }}
+            />
+          </KeyboardAvoidingView>
+        </View>
       </View>
     );
   }
@@ -369,11 +429,14 @@ function UserInfosEditionScreen(props) {
 }
 const styles = StyleSheet.create({
   container: {
+    paddingTop: '10%',
     width: deviceWidth,
     height: deviceHeight,
     backgroundColor: '#FEFAEA',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 0,
+    paddingTop: 0,
   },
   secondary: {
     flexDirection: 'row',
@@ -384,7 +447,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     maxHeight: '10%',
-    // marginTop: "10%",
+    marginTop: '10%',
+    marginBottom: '10%',
   },
   barprogress: {
     width: deviceWidth,
