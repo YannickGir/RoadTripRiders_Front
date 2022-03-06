@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   SafeAreaView,
-  YellowBox,
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
@@ -58,12 +57,12 @@ const customStyles = {
 
 function UserInfosEditionScreen(props) {
   //Variables d'Etats des inputs
-  const [userFirstName, setuserFirstName] = useState('');
-  const [userLastName, setuserLastName] = useState('');
-  const [userBirthDate, setuserBirthDate] = useState('');
-  const [userBikeCateg, setuserBikeCateg] = useState('');
-  const [userBikeBrand, setuserBikeBrand] = useState('');
-  const [userBikeModel, setuserBikeModel] = useState('');
+  const [userFirstName, setuserFirstName] = useState(''); //prénom utilisateur
+  const [userLastName, setuserLastName] = useState(''); //nom utilisateur
+  const [userBirthDate, setuserBirthDate] = useState(''); //date de naissance de l'utilisateur
+  const [userBikeCateg, setuserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
+  const [userBikeBrand, setuserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
+  const [userBikeModel, setuserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
 
   //Variables d'Etats des checkboxes
   const [isMale, setIsMale] = useState('false');
@@ -76,22 +75,31 @@ function UserInfosEditionScreen(props) {
   if (isMale == true) {
     setIsFemale(false);
     setIsOther(false);
+    setUserGender('male');
   } else if (isFemale == true) {
     setIsMale(false);
     setIsOther(false);
+    setUserGender('female');
   } else if (isOther == true) {
     setIsMale(false);
     setIsFemale(false);
+    setUserGender('other');
+  }
+
+  if (hasPassenger == true) {
+    setHasPassenger(false);
+  } else if (hasNoPassenger == true) {
+    setHasNoPassenger(false);
   }
 
   //Pour image picker
-  const [image, setImage] = useState(null);
-  const [image2, setImage2] = useState(null);
+  const [image, setImage] = useState(null); // image avatar user
+  const [image2, setImage2] = useState(null); // image moto user
 
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
-  //pour le step indicator
+  //pour le step indicator nous permet de faire défiler les 3 rendus dans un screen
   const [formProgress, setFormProgress] = useState(0);
 
   // var handleSubmitUserProfil = async () => {
@@ -174,7 +182,7 @@ function UserInfosEditionScreen(props) {
       setImage2(result.uri);
       var myMotoPicture = result.uri;
 
-      var data = new FormData();
+      data = new FormData();
 
       data.append('bike', {
         uri: myMotoPicture,
@@ -245,7 +253,11 @@ function UserInfosEditionScreen(props) {
         <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
           Quelle est ta date de naissance ?
         </Text>
-        <CustomDatePicker title='DATE' />
+        <CustomDatePicker
+          selectedValue={userBirthDate}
+          onValueChange={(value, index) => setuserBirthDate(value)}
+          title='DATE'
+        />
 
         <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
           Ton sexe ?
@@ -398,12 +410,16 @@ function UserInfosEditionScreen(props) {
           <CustomCheckBox
             title='Oui'
             checked={hasPassenger}
-            onPress={() => setHasPassenger(!hasPassenger)}
+            onPress={() => {
+              setHasPassenger(!hasPassenger), setHasNoPassenger(false);
+            }}
           />
           <CustomCheckBox
             title='Non'
             checked={hasNoPassenger}
-            onPress={() => setHasPassenger(!hasNoPassenger)}
+            onPress={() => {
+              setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
+            }}
           />
         </View>
         <View style={styles.bottomPage}>

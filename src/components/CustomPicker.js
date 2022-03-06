@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 function CustomPicker() {
-  const [userBikeCateg, setuserBikeCateg] = useState('Unknown');
+  const [userBikeCateg, setuserBikeCateg] = useState('');
 
   return (
     <View style={styles.screen}>
