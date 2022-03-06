@@ -13,7 +13,8 @@ const CustomLongInput = ({
   return (
     <SafeAreaView>
       <TextInput
-        multiline
+        multiline={true}
+        blurOnSubmit={true}
         numberOfLines={4}
         value={value}
         onChangeText={setValue}

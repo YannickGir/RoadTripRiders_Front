@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, CheckBox } from 'react-native-elements';
 import CustomCheckBox from '../components/CustomCheckBox';
 import CustomInput from '../components/CustomInput';
 import CustomDatePicker from '../components/CustomDatePicker';
@@ -69,36 +69,36 @@ function UserInfosEditionScreen(props) {
   const [userConnexionStatus, setuserConnexionStatus] = useState(''); //statut de connexion l'utilisateur par rapport au chat
 
   //Variables d'Etats des checkboxes
-  const [isMale, setIsMale] = useState('false');
-  const [isFemale, setIsFemale] = useState('false');
-  const [isOther, setIsOther] = useState('false');
+  const [isMale, setIsMale] = useState(false);
+  const [isFemale, setIsFemale] = useState(false);
+  const [isOther, setIsOther] = useState(false);
   const [userGender, setUserGender] = useState('');
-  const [hasPassenger, setHasPassenger] = useState('false');
-  const [hasNoPassenger, setHasNoPassenger] = useState('false');
+  const [hasPassenger, setHasPassenger] = useState(false);
+  const [hasNoPassenger, setHasNoPassenger] = useState(false);
 
   const [userBikeCateg, setuserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
   const [userBikeBrand, setuserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
   const [userBikeModel, setuserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
 
-  if (isMale == true) {
-    setIsFemale(false);
-    setIsOther(false);
-    setUserGender('male');
-  } else if (isFemale == true) {
-    setIsMale(false);
-    setIsOther(false);
-    setUserGender('female');
-  } else if (isOther == true) {
-    setIsMale(false);
-    setIsFemale(false);
-    setUserGender('other');
-  }
+  // if (isMale == true) {
+  //   setIsFemale(false);
+  //   setIsOther(false);
+  //   setUserGender('male');
+  // } else if (isFemale == true) {
+  //   setIsMale(false);
+  //   setIsOther(false);
+  //   setUserGender('female');
+  // } else if (isOther == true) {
+  //   setIsMale(false);
+  //   setIsFemale(false);
+  //   setUserGender('other');
+  // }
 
-  if (hasPassenger == true) {
-    setHasPassenger(false);
-  } else if (hasNoPassenger == true) {
-    setHasNoPassenger(false);
-  }
+  // if (hasPassenger == true) {
+  //   setHasPassenger(false);
+  // } else if (hasNoPassenger == true) {
+  //   setHasNoPassenger(false);
+  // }
 
   //Pour image picker
   const [image, setImage] = useState(null); // image avatar user
@@ -111,18 +111,30 @@ function UserInfosEditionScreen(props) {
   const [formProgress, setFormProgress] = useState(0);
 
   var handleSubmitUserProfil = async () => {
-    console.log('click détecté sur login');
+    console.log('click détecté sur handleSubmitUserProfil');
+    var passenger;
+    if (hasPassenger) {
+      passenger = true;
+    } else if (hasNoPassenger) {
+      passenger = false;
+    }
+    var gender = '';
+    if (isMale == true) {
+      gender = 'male';
+    } else if (isFemale == true) {
+      gender = 'female';
+    } else if (isOther == true) {
+      gender = 'other';
+    }
+
     const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}`,
+      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}`,
     });
   };
-
-  // const [hasPassenger, setHasPassenger] = useState('false');
-  // const [hasNoPassenger, setHasNoPassenger] = useState('false');
 
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
@@ -216,9 +228,7 @@ function UserInfosEditionScreen(props) {
             stepCount={4}
           />
         </View>
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
-          Quel rider es-tu ?
-        </Text>
+        <Text style={{ paddingTop: '5%' }}>Quel rider es-tu ?</Text>
 
         <CustomInput
           placeholder='Prénom'
@@ -241,7 +251,7 @@ function UserInfosEditionScreen(props) {
           {image && (
             <Image
               source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
+              style={{ width: 150, height: 150 }}
             />
           )}
         </View>
@@ -254,22 +264,23 @@ function UserInfosEditionScreen(props) {
           title='DATE'
         />
 
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
-          Ton sexe ?
-        </Text>
+        <Text style={{ paddingTop: 0, paddingBottom: '2%' }}>Ton sexe ?</Text>
         <View style={styles.secondary}>
-          <CustomCheckBox
+          <CheckBox
             title='Homme'
+            checkedColor='#ff8b00'
             checked={isMale}
             onPress={() => setIsMale(!isMale)}
           />
-          <CustomCheckBox
+          <CheckBox
             title='Femme'
+            checkedColor='#ff8b00'
             checked={isFemale}
             onPress={() => setIsFemale(!isFemale)}
           />
-          <CustomCheckBox
+          <CheckBox
             title='Autre'
+            checkedColor='#ff8b00'
             checked={isOther}
             onPress={() => setIsOther(!isOther)}
           />
@@ -278,7 +289,7 @@ function UserInfosEditionScreen(props) {
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+          <View style={{ marginTop: '10%', marginBottom: '2%' }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -301,7 +312,7 @@ function UserInfosEditionScreen(props) {
           />
         </View>
 
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+        <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
           Parles nous de toi:
         </Text>
         <CustomLongInput
@@ -310,7 +321,7 @@ function UserInfosEditionScreen(props) {
           setValue={setuserBio}
           secureTextEntry={false}
         />
-        <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
+        <Text style={{ paddingTop: '5%', paddingBottom: '20%' }}>
           Dans quel coin roules-tu ?
         </Text>
 
@@ -319,10 +330,20 @@ function UserInfosEditionScreen(props) {
           onValueChange={(value, index) => setuserRegion(value)}
         />
 
+        <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
+          Dans quelle ville vis-tu ?
+        </Text>
+        <CustomInput
+          placeholder='Ta ville'
+          value={userCity}
+          setValue={setuserCity}
+          secureTextEntry={false}
+        />
+
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+          <View style={{ marginBottom: '5%' }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -432,15 +453,17 @@ function UserInfosEditionScreen(props) {
           As-tu un passager ?
         </Text>
         <View style={styles.secondary}>
-          <CustomCheckBox
+          <CheckBox
             title='Oui'
+            checkedColor='#ff8b00'
             checked={hasPassenger}
             onPress={() => {
               setHasPassenger(!hasPassenger), setHasNoPassenger(false);
             }}
           />
-          <CustomCheckBox
+          <CheckBox
             title='Non'
+            checkedColor='#ff8b00'
             checked={hasNoPassenger}
             onPress={() => {
               setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
