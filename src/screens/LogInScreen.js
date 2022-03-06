@@ -121,15 +121,6 @@ function LogInScreen(props) {
           title="CREER UN COMPTE"
           onPress={() => props.navigation.navigate("SignUp")}
         />
-
-        <CustomButton
-          title="CREER UN COMPTE"
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: RoadtripListScreen,
-            })
-          }
-        />
       </KeyboardAvoidingView>
     </View>
   );
