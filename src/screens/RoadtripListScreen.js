@@ -52,7 +52,7 @@ const customStyles = {
   labelSize: 13,
 };
 
-export default function CreateRoadTripScreenFirstStep(props) {
+export default function RoadtripListScreen(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [event_title, setEvent_title] = useState("");
   const [date_sortie, setDate_sortie] = useState("");
@@ -91,7 +91,11 @@ export default function CreateRoadTripScreenFirstStep(props) {
       >
         <CustomButton
           title="CREER UN TRIP"
-          onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
+          onPress={() =>
+            props.navigation.navigate("newRoadTripFirstStep", {
+              itinerary_id: "",
+            })
+          }
         />
       </View>
     </View>

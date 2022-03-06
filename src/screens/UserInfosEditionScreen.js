@@ -162,10 +162,13 @@ function UserInfosEditionScreen(props) {
         name: 'avatar',
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
-        method: 'post',
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-avatar`,
+        {
+          method: 'post',
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       console.log(response);
@@ -201,10 +204,13 @@ function UserInfosEditionScreen(props) {
         name: 'bike',
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
-        method: 'post',
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-moto-photo`,
+        {
+          method: 'post',
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       //console.log(response);
@@ -483,7 +489,7 @@ function UserInfosEditionScreen(props) {
             <CustomButtonOrange
               title="C'EST TOUT BON"
               onPress={() => {
-                console.log('token :', token),
+                console.log('token :', props.token),
                   props.navigation.navigate('BottomNavigator', {
                     screen: 'MyAccountScreen',
                   }),
@@ -530,6 +536,10 @@ const styles = StyleSheet.create({
   text: {},
 });
 
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitImage: function (urldufetch) {
@@ -538,4 +548,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(UserInfosEditionScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserInfosEditionScreen);

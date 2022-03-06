@@ -1,6 +1,7 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { Input } from "react-native-elements";
+import { TextInput } from "react-native-gesture-handler";
 
 // On crée un composant qui pourra être injecté partout dans l'application car nous avons de nombreux inputs
 // on passe en argument toutes les valeurs que l'on va changer d'un input à l'autre

@@ -13,6 +13,9 @@ import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 
 var polyline = require("@mapbox/polyline");
 
+//---------------IMPORTS A LAISSER POUR DEMO !!!------
+import CreateRoadTripScreenFirstStep2 from "./CreateRoadTripScreenFirstStep2";
+
 export default function ItineraryScreen() {
   const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
   const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
@@ -37,6 +40,8 @@ export default function ItineraryScreen() {
   const [points, setPoints] = useState(""); //Polyline décodee
   const [thisVisible, setThisVisible] = useState(false); // pour afficher premier Overlay
   const [thisVisible2, setThisVisible2] = useState(false); // pour Overlay des etapes
+  const [isVisible, setIsVisible] = useState(false);
+
   const [myInitialRegion, setMyInitialRegion] = useState({
     latitude: 48.8566,
     longitude: 2.3522,
@@ -259,11 +264,12 @@ export default function ItineraryScreen() {
     var theFINALFINALETAPESSTR = nameEtapesList.join(";");
     setTheFinalEtapesStr(theFINALFINALETAPESSTR);
 
-    var rawResponse = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
+    await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=AIzaSyBYP36DdQshZpnFEayBaalJRcOw-tWJlT8`
     );
 
-    var response = await rawResponse.json();
+    // var response = await rawResponse.json();
+
     //console.log("reponse google", response);
     /*  var namecity = response(["nom"]);
   console.log(namecity); */
@@ -782,6 +788,15 @@ export default function ItineraryScreen() {
       <CustomButtonOrange
         title="ENVOI EN BDD"
         onPress={() => SubmitItinerary()}
+      />
+      {/*//----------------------BUTTON CI APRES A LAISSER POUR DEMO !!!!!*/}
+      <CustomButton
+        title="CREER UN TRIP"
+        onPress={() =>
+          props.navigation.navigate("newRoadTripFirstStep2", {
+            screen: CreateRoadTripScreenFirstStep2,
+          })
+        }
       />
     </View>
   );

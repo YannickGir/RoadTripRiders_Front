@@ -20,7 +20,7 @@ import CustomHeader from "../components/CustomHeader";
 import CustomButtonValidation from "../components/CustomButtonValidation";
 import CustomButtonChoice from "../components/CustomButtonChoice";
 import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate";
-import { MA_VARIABLE } from "@env";
+import CreateRoadTripScreenRecap from "./CreateRoadTripScreenRecap";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -80,106 +80,49 @@ function CreateRoadTripScreenFirstStep(props) {
   const [roadtripType, setRoadtripType] = useState("Cool");
   const [roadtripMotoType, setRoadtripMotoType] = useState("Toutes catégories");
   const [roadtripSizeGroup, setRoadtripSizeGroup] = useState(0);
-  const [itineraryexist, setItineraryexist] = useState(
-    ""
-    // props.route.params.itinerary_id
+  const [itineraryexist, setitineraryexist] = useState(
+    props.route.params.itinerary_id
   );
 
-  const [currentScreen, setCurrentScreen] = useState();
-  // console.log(roadtripType);
+  console.log(roadtripType);
 
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
 
   var Bottom = <></>;
 
-  if (itineraryexist == "") {
-    Bottom = (
-      <View>
-        <View
-          style={{
-            alignItems: "center",
-            height: "30%",
-            marginTop: "5%",
-          }}
-        >
-          <View style={{ marginBottom: "3%" }}>
-            <CustomButtonOrange
-              title="NOUVEL ITINERAIRE"
-              onPress={() => {
-                props.navigation.navigate("Itinerary", {
-                  screen: "ItineraryScreen",
-                });
-                // console.log(currentScreen);
-              }}
-            />
-            <CustomButton
-              title="ITINERAIRE PROPOSE"
-              onPress={() => (
-                setItineraryexist("ok"),
-                setFormProgress(1),
-                props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                })
-              )}
-            />
-          </View>
-          <View style={{ marginTop: "15%" }}>
-            <Text>Aucun itinéraire choisit ou créé</Text>
-          </View>
-        </View>
-
-        <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "10%", marginBottom: "5%" }}></View>
-        </View>
-      </View>
-    );
-  } else {
-    Bottom = (
+  Bottom = (
+    <View>
       <View
         style={{
-          flexDirection: "column",
+          alignItems: "center",
+          height: "30%",
+          marginTop: "5%",
         }}
       >
-        <View
-          style={{
-            alignItems: "center",
-            height: "30%",
-            marginTop: "5%",
-          }}
-        >
+        <View style={{ marginBottom: "3%" }}>
           <Image source={require("../carte_trajet.jpg")} />
         </View>
+      </View>
 
-        <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "80%", marginBottom: "5%" }}>
-            <CustomButtonOrangeNext
-              onPress={() => (
-                setFormProgress(2),
-                props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                })
-              )}
-            />
-          </View>
+      <View style={styles.bottomPage}>
+        <View style={{ marginHorizontal: "40%" }}></View>
+        <View style={{ marginTop: "10%", marginBottom: "5%" }}>
+          <CustomButtonOrangeNext
+            onPress={() =>
+              props.navigation.navigate("CreateRoadTripRecap", {
+                screen: CreateRoadTripScreenRecap,
+              })
+            }
+          />
         </View>
       </View>
-    );
-  }
-  // console.log("props.data_new_roadtrip:", props.data_new_roadtrip);
-  // console.log(formProgress);
-  // console.log(itineraryexist);
+    </View>
+  );
+
   var pagecontent = <></>;
 
-  if (formProgress == 0 || formProgress == 1) {
+  if (formProgress == 0) {
     pagecontent = (
       <View style={styles.container}>
         <CustomHeader
@@ -193,7 +136,7 @@ function CreateRoadTripScreenFirstStep(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={formProgress}
+            currentPosition={0}
             stepCount={3}
           />
         </View>
@@ -244,7 +187,7 @@ function CreateRoadTripScreenFirstStep(props) {
         {Bottom}
       </View>
     );
-  } else if (formProgress == 2) {
+  } else if (formProgress == 1) {
     pagecontent = (
       <View style={styles.container}>
         <CustomHeader
@@ -258,7 +201,7 @@ function CreateRoadTripScreenFirstStep(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={formProgress}
+            currentPosition={2}
             stepCount={3}
           />
         </View>
@@ -326,23 +269,15 @@ function CreateRoadTripScreenFirstStep(props) {
           <View style={styles.bottomPage3}>
             <CustomButtonValidation
               title="VALIDER !"
-              onPress={() => (
+              onPress={() =>
                 props.navigation.navigate("CreateRoadTripRecap", {
                   screen: "CreateRoadTripScreenRecap",
-                }),
-                props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                  roadtripMotoType,
-                  roadtripSizeGroup,
-                  roadtripType,
                 })
-              )}
+              }
             />
           </View>
         </View>
+        {Bottom}
       </View>
     );
   }
@@ -377,6 +312,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     maxHeight: "10%",
     // marginTop: "10%",
+  },
+
+  bottomPage3: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    maxHeight: 80,
+    marginTop: "30%",
   },
 
   barprogress: {
@@ -419,8 +363,26 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmitData: function (roadtripData) {
-      dispatch({ type: "saveData", roadtripData: roadtripData });
+    onSubmitTitle: function (title) {
+      dispatch({ type: "saveTitle", title: title });
+    },
+    onSubmitDate: function (date) {
+      dispatch({ type: "saveDate", url: date });
+    },
+    onSubmitDepartureTime: function (departure_time) {
+      dispatch({ type: "saveDepartureTime", url: departure_time });
+    },
+    onSubmitArrivalTime: function (arrival_time) {
+      dispatch({ type: "saveArrivalTime", url: arrival_time });
+    },
+    onSubmitRoadtripType: function (roadtrip_type) {
+      dispatch({ type: "saveRoadtripType", url: roadtrip_type });
+    },
+    onSubmitMotoType: function (moto_type) {
+      dispatch({ type: "saveMotoType", url: moto_type });
+    },
+    onSubmitSizeGroup: function (size_group) {
+      dispatch({ type: "saveSizeGroupe", url: size_group });
     },
   };
 }

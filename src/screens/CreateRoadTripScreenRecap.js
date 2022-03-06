@@ -22,6 +22,8 @@ import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate
 import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 import CustomTextBackground from "../components/CustomTextBackground";
 import CustomButtonModif from "../components/CustomButtonModif";
+import { connect } from "react-redux";
+import { MA_VARIABLE } from "@env";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -58,7 +60,7 @@ const customStyles = {
   labelSize: 13,
 };
 
-export default function CreateRoadTripScreenFirstStep(props) {
+function CreateRoadTripScreenFirstStep(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [event_title, setEvent_title] = useState("");
   const [date_sortie, setDate_sortie] = useState("");
@@ -69,8 +71,22 @@ export default function CreateRoadTripScreenFirstStep(props) {
   const [formProgress, setFormProgress] = useState(0);
   const [toggleButton, setToggleButton] = useState(false);
 
+  //-------------------------Envoi des infos au store et en BDD-----------------
+  const NewRoadtripData = async () => {
+    await fetch(`https://roadtripridersyann.herokuapp.com/add_roadtrip`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "event_title=props.data_new_roadtrip.roadtripTitle&date_sortie=props.data_new_roadtrip.roadtripDate&departure_time=props.data_new_roadtrip.roadtriptimeDeparture&driving_type=props.data_new_roadtrip.roadtripType&moto_type=props.data_new_roadtrip.roadtripMotoType&max_users=props.data_new_roadtrip.roadtripSizeGroup&token=props.token",
+    });
+
+    // var response = await rawResponse.json();
+    // console.log("response", response);
+  };
+
+  console.log("props.data_new_roadtrip", props.data_new_roadtrip);
+  console.log("props.token", props.token);
+
   return (
-    //------------------------------------------ FIRST STEP PAGE---------------------
     <View style={styles.container}>
       <CustomHeaderNoArrow
         onPress={() =>
@@ -103,14 +119,32 @@ export default function CreateRoadTripScreenFirstStep(props) {
       <View style={{ paddingBottom: 10, paddingTop: 10 }}>
         <CustomTextBackground
           text1="Titre:"
-          text2="               En avant !"
+          text2={props.data_new_roadtrip.roadtripTitle}
         />
-        <CustomTextBackground text1="Date de départ:" text2="06/07/2022" />
-        <CustomTextBackground text1="Heure de départ:" text2="09:00" />
-        <CustomTextBackground text1="Heure d'arrivée:" text2="18:00 " />
-        <CustomTextBackground text1="Type de ballade:" text2="Cool" />
-        <CustomTextBackground text1="Type de moto:" text2="    Roadster" />
-        <CustomTextBackground text1="Taille du groupe:" text2="10" />
+        <CustomTextBackground
+          text1="Date de départ:"
+          text2={props.data_new_roadtrip.roadtripDate}
+        />
+        <CustomTextBackground
+          text1="Heure de départ:"
+          text2={props.data_new_roadtrip.roadtriptimeDeparture}
+        />
+        <CustomTextBackground
+          text1="Heure d'arrivée:"
+          text2={props.data_new_roadtrip.roadtriptimeArrival}
+        />
+        <CustomTextBackground
+          text1="Type de ballade:"
+          text2={props.data_new_roadtrip.roadtripType}
+        />
+        <CustomTextBackground
+          text1="Type de moto:"
+          text2={props.data_new_roadtrip.roadtripMotoType}
+        />
+        <CustomTextBackground
+          text1="Taille du groupe:"
+          text2={props.data_new_roadtrip.roadtripSizeGroup}
+        />
       </View>
 
       <View style={styles.carte}>
@@ -123,16 +157,19 @@ export default function CreateRoadTripScreenFirstStep(props) {
       <View style={{ marginBottom: "1%" }}>
         <CustomButtonValidation
           title="C'EST PARTI !"
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
+          onPress={
+            (NewRoadtripData(),
+            () =>
+              props.navigation.navigate("RoadtripList", {
+                screen: "RoadtripListScreen",
+              }))
           }
         />
       </View>
     </View>
   );
 }
+
 // onPageChange(position);
 // this.setState({ currentPosition: position });
 
@@ -177,3 +214,9 @@ const styles = StyleSheet.create({
     width: "70%",
   },
 });
+
+function mapStateToProps(state) {
+  return { data_new_roadtrip: state.data_new_roadtrip, token: state.token };
+}
+
+export default connect(mapStateToProps, null)(CreateRoadTripScreenFirstStep);
