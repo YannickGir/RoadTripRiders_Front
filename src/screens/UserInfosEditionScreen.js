@@ -64,7 +64,6 @@ function UserInfosEditionScreen(props) {
   const [userRegion, setuserRegion] = useState(''); //région où sort l'utilisateur
   const [userCity, setuserCity] = useState(''); //ville où vit l'utilisateur
   const [userBio, setuserBio] = useState(''); //biographie de l'utilisateur
-  const [userAspiration, setuserAspiration] = useState(''); //envies de l'utilisateur
   const [userUsageProfil, setuserUsageProfil] = useState('New Biker'); //statut de l'utilisateur en fonction de sa participation dans l'appli
   const [userConnexionStatus, setuserConnexionStatus] = useState(''); //statut de connexion l'utilisateur par rapport au chat
 
@@ -132,7 +131,7 @@ function UserInfosEditionScreen(props) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}`,
+      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
     });
   };
 
@@ -168,6 +167,9 @@ function UserInfosEditionScreen(props) {
 
       var response = await rawResponse.json();
       console.log(response);
+
+      // NE PAS OUBLIER DE SET IMAGE AVEC L'URL NOUVELLEMENT GENEREE PAR CLOUDINARY
+      setImage(response.urlToCloudImage);
       props.onSubmitImage(response.urlToCloudImage);
     }
   };
@@ -204,6 +206,8 @@ function UserInfosEditionScreen(props) {
 
       var response = await rawResponse.json();
       console.log(response);
+      // NE PAS OUBLIER DE SET IMAGE2 AVEC L'URL NOUVELLEMENT GENEREE
+      setImage2(response.urlToCloudImage);
       props.onSubmitImage(response.urlToCloudImage);
     }
   };
