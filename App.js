@@ -18,7 +18,6 @@ import {
 
 import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import { Reducer as formReducer } from "redux-form";
 
 import token from "./src/reducers/token";
 import urlImgList from "./src/reducers/url-list";
