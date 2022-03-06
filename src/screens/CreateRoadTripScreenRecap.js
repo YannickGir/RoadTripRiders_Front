@@ -22,6 +22,7 @@ import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate
 import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 import CustomTextBackground from "../components/CustomTextBackground";
 import CustomButtonModif from "../components/CustomButtonModif";
+import { connect } from "react-redux";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -58,7 +59,7 @@ const customStyles = {
   labelSize: 13,
 };
 
-export default function CreateRoadTripScreenFirstStep(props) {
+function CreateRoadTripScreenFirstStep(props) {
   // On définit ici les variables d'état qui vont nous servir à enregistrer les valeurs des inputs
   const [event_title, setEvent_title] = useState("");
   const [date_sortie, setDate_sortie] = useState("");
@@ -68,6 +69,8 @@ export default function CreateRoadTripScreenFirstStep(props) {
 
   const [formProgress, setFormProgress] = useState(0);
   const [toggleButton, setToggleButton] = useState(false);
+
+  console.log("props.data_new_roadtrip:", props.data_new_roadtrip);
 
   return (
     //------------------------------------------ FIRST STEP PAGE---------------------
@@ -103,14 +106,32 @@ export default function CreateRoadTripScreenFirstStep(props) {
       <View style={{ paddingBottom: 10, paddingTop: 10 }}>
         <CustomTextBackground
           text1="Titre:"
-          text2="               En avant !"
+          text2={props.data_new_roadtrip.roadtripTitle}
         />
-        <CustomTextBackground text1="Date de départ:" text2="06/07/2022" />
-        <CustomTextBackground text1="Heure de départ:" text2="09:00" />
-        <CustomTextBackground text1="Heure d'arrivée:" text2="18:00 " />
-        <CustomTextBackground text1="Type de ballade:" text2="Cool" />
-        <CustomTextBackground text1="Type de moto:" text2="    Roadster" />
-        <CustomTextBackground text1="Taille du groupe:" text2="10" />
+        <CustomTextBackground
+          text1="Date de départ:"
+          text2={props.data_new_roadtrip.roadtripDate}
+        />
+        <CustomTextBackground
+          text1="Heure de départ:"
+          text2={props.data_new_roadtrip.roadtriptimeDeparture}
+        />
+        <CustomTextBackground
+          text1="Heure d'arrivée:"
+          text2={props.data_new_roadtrip.roadtriptimeArrival}
+        />
+        <CustomTextBackground
+          text1="Type de ballade:"
+          text2={props.data_new_roadtrip.roadtripType}
+        />
+        <CustomTextBackground
+          text1="Type de moto:"
+          text2={props.data_new_roadtrip.roadtripMotoType}
+        />
+        <CustomTextBackground
+          text1="Taille du groupe:"
+          text2={props.data_new_roadtrip.roadtripSizeGroup}
+        />
       </View>
 
       <View style={styles.carte}>
@@ -177,3 +198,9 @@ const styles = StyleSheet.create({
     width: "70%",
   },
 });
+
+function mapStateToProps(state) {
+  return { data_new_roadtrip: state.data_new_roadtrip };
+}
+
+export default connect(mapStateToProps, null)(CreateRoadTripScreenFirstStep);

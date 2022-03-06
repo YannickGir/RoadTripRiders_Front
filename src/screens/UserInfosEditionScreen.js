@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,65 +7,66 @@ import {
   Dimensions,
   useWindowDimensions,
   KeyboardAvoidingView,
-} from 'react-native';
-import { MA_VARIABLE } from '@env';
-import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
-import CustomCheckBox from '../components/CustomCheckBox';
-import CustomInput from '../components/CustomInput';
-import CustomDatePicker from '../components/CustomDatePicker';
-import CustomTimePicker from '../components/CustomTimePicker';
-import CustomButton from '../components/CustomButton';
-import ImageUploadComponent from '../components/ImageUploadComponent';
-import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
-import CustomButtonOrange from '../components/CustomButtonOrange';
-import * as ImagePicker from 'expo-image-picker';
-import CustomHeader from '../components/CustomHeader';
+} from "react-native";
+import { MA_VARIABLE } from "@env";
+import { connect } from "react-redux";
+import { Button } from "react-native-elements";
+import CustomCheckBox from "../components/CustomCheckBox";
+import CustomInput from "../components/CustomInput";
+import CustomDatePicker from "../components/CustomDatePicker";
+import CustomTimePicker from "../components/CustomTimePicker";
+import CustomButton from "../components/CustomButton";
+import ImageUploadComponent from "../components/ImageUploadComponent";
+import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
+import CustomButtonOrange from "../components/CustomButtonOrange";
+import * as ImagePicker from "expo-image-picker";
+import CustomHeader from "../components/CustomHeader";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
-import StepIndicator from 'react-native-step-indicator';
-import { color } from 'react-native-elements/dist/helpers';
-const labels = ['User 1', 'User 2', 'Bike 3'];
+import StepIndicator from "react-native-step-indicator";
+import { color } from "react-native-elements/dist/helpers";
+const labels = ["User 1", "User 2", "Bike 3"];
 
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize: 30,
   separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: '#fe7013',
+  stepStrokeCurrentColor: "#fe7013",
   stepStrokeWidth: 3,
-  stepStrokeFinishedColor: '#ff8b00',
-  stepStrokeUnFinishedColor: '#363432',
-  separatorFinishedColor: '#ff8b00',
-  separatorUnFinishedColor: '#363432',
-  stepIndicatorFinishedColor: '#ff8b00',
-  stepIndicatorUnFinishedColor: '#363432',
-  stepIndicatorCurrentColor: '#FEFAEA',
+  stepStrokeFinishedColor: "#ff8b00",
+  stepStrokeUnFinishedColor: "#363432",
+  separatorFinishedColor: "#ff8b00",
+  separatorUnFinishedColor: "#363432",
+  stepIndicatorFinishedColor: "#ff8b00",
+  stepIndicatorUnFinishedColor: "#363432",
+  stepIndicatorCurrentColor: "#FEFAEA",
   stepIndicatorLabelFontSize: 13,
   currentStepIndicatorLabelFontSize: 13,
-  stepIndicatorLabelCurrentColor: '#ff8b00',
-  stepIndicatorLabelFinishedColor: '#FEFAEA',
-  stepIndicatorLabelUnFinishedColor: '#FEFAEA',
+  stepIndicatorLabelCurrentColor: "#ff8b00",
+  stepIndicatorLabelFinishedColor: "#FEFAEA",
+  stepIndicatorLabelUnFinishedColor: "#FEFAEA",
   labelSize: 13,
 };
 
 function UserInfosEditionScreen(props) {
   //Variables d'Etats des inputs
-  const [userFirstName, setuserFirstName] = useState('');
-  const [userLastName, setuserLastName] = useState('');
-  const [userBirthDate, setuserBirthDate] = useState('');
-  const [userBikeCateg, setuserBikeCateg] = useState('');
-  const [userBikeBrand, setuserBikeBrand] = useState('');
-  const [userBikeModel, setuserBikeModel] = useState('');
+  const [userFirstName, setuserFirstName] = useState("");
+  const [userLastName, setuserLastName] = useState("");
+  const [userBirthDate, setuserBirthDate] = useState("");
+  const [userBikeCateg, setuserBikeCateg] = useState("");
+  const [userBikeBrand, setuserBikeBrand] = useState("");
+  const [userBikeModel, setuserBikeModel] = useState("");
 
   //Variables d'Etats des checkboxes
-  const [isMale, setIsMale] = useState('false');
-  const [isFemale, setIsFemale] = useState('false');
-  const [isOther, setIsOther] = useState('false');
-  const [hasPassenger, setHasPassenger] = useState('false');
-  const [hasNoPassenger, setHasNoPassenger] = useState('false');
+  const [isMale, setIsMale] = useState("false");
+  const [isFemale, setIsFemale] = useState("false");
+  const [isOther, setIsOther] = useState("false");
+  const [userGender, setUserGender] = useState("");
+  const [hasPassenger, setHasPassenger] = useState("false");
+  const [hasNoPassenger, setHasNoPassenger] = useState("false");
 
   if (isMale == true) {
     setIsFemale(false);
@@ -88,11 +89,32 @@ function UserInfosEditionScreen(props) {
   //pour le step indicator
   const [formProgress, setFormProgress] = useState(0);
 
-  // //on initialise au premier écran
-  // useEffect(() => {
-  //   console.log('test useeffect');
-  //   setStepScreen(UserEditionStep1);
-  // }, []);
+  // var handleSubmitUserProfil = async () => {
+  //   console.log('click détecté sur login');
+  //   const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     body: `firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&`,
+  //   });
+  // };
+
+  // //Variables d'Etats des inputs
+  // const [userFirstName, setuserFirstName] = useState('');
+  // const [userLastName, setuserLastName] = useState('');
+  // const [userBirthDate, setuserBirthDate] = useState('');
+  // const [userBikeCateg, setuserBikeCateg] = useState('');
+  // const [userBikeBrand, setuserBikeBrand] = useState('');
+  // const [userBikeModel, setuserBikeModel] = useState('');
+
+  // //Variables d'Etats des checkboxes
+  // const [isMale, setIsMale] = useState('false');
+  // const [isFemale, setIsFemale] = useState('false');
+  // const [isOther, setIsOther] = useState('false');
+  // const [userGender, setUserGender] = useState('');
+  // const [hasPassenger, setHasPassenger] = useState('false');
+  // const [hasNoPassenger, setHasNoPassenger] = useState('false');
 
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
@@ -104,8 +126,8 @@ function UserInfosEditionScreen(props) {
       quality: 1,
     });
 
-    console.log('result', result);
-    console.log('result.uri ', result.uri);
+    console.log("result", result);
+    console.log("result.uri ", result.uri);
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -113,16 +135,19 @@ function UserInfosEditionScreen(props) {
 
       var data = new FormData();
 
-      data.append('avatar', {
+      data.append("avatar", {
         uri: myAvatar,
-        type: 'image/jpeg',
-        name: 'avatar',
+        type: "image/jpeg",
+        name: "avatar",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
-        method: 'post',
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-avatar`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       console.log(response);
@@ -140,8 +165,8 @@ function UserInfosEditionScreen(props) {
       quality: 1,
     });
 
-    console.log('result', result);
-    console.log('result.uri ', result.uri);
+    console.log("result", result);
+    console.log("result.uri ", result.uri);
 
     if (!result.cancelled) {
       setImage2(result.uri);
@@ -149,16 +174,19 @@ function UserInfosEditionScreen(props) {
 
       var data = new FormData();
 
-      data.append('bike', {
+      data.append("bike", {
         uri: myMotoPicture,
-        type: 'image/jpeg',
-        name: 'bike',
+        type: "image/jpeg",
+        name: "bike",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
-        method: 'post',
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-moto-photo`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       console.log(response);
@@ -173,11 +201,11 @@ function UserInfosEditionScreen(props) {
       <View style={styles.container}>
         <CustomHeader
           onPress={() =>
-            props.navigation.navigate('BottomNavigator', {
-              screen: 'MyAccountScreen',
+            props.navigation.navigate("BottomNavigator", {
+              screen: "MyAccountScreen",
             })
           }
-          title='EDITE TON PROFIL'
+          title="EDITE TON PROFIL"
         />
         <View style={styles.barprogress}>
           <StepIndicator
@@ -190,22 +218,22 @@ function UserInfosEditionScreen(props) {
         <Text>Quel rider es-tu ?</Text>
 
         <CustomInput
-          placeholder='Prénom'
+          placeholder="Prénom"
           value={userFirstName}
           setValue={setuserFirstName}
           secureTextEntry={false}
         />
 
         <CustomInput
-          placeholder='Nom'
+          placeholder="Nom"
           value={userLastName}
           setValue={setuserLastName}
           secureTextEntry={false}
         />
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
+          <CustomButton title="CHARGE TON AVATAR" onPress={pickImage} />
           {image && (
             <Image
               source={{ uri: image }}
@@ -215,31 +243,49 @@ function UserInfosEditionScreen(props) {
         </View>
 
         <Text>Date de naissance</Text>
-        <CustomDatePicker title='DATE' />
+        <CustomDatePicker title="DATE" />
 
         <Text>Sexe</Text>
         <View style={styles.secondary}>
           <CustomCheckBox
-            title='Homme'
+            title="Homme"
             checked={isMale}
-            onPress={() => setIsMale(!isMale)}
+            onPress={
+              isMale
+                ? () => setIsMale(false)
+                : () => {
+                    setIsMale(true), setIsFemale(false), setIsOther(false);
+                  }
+            }
           />
           <CustomCheckBox
-            title='Femme'
+            title="Femme"
             checked={isFemale}
-            onPress={() => setIsFemale(!isFemale)}
+            onPress={
+              isFemale
+                ? () => setIsFemale(false)
+                : () => {
+                    setIsFemale(true), setIsMale(false), setIsOther(false);
+                  }
+            }
           />
           <CustomCheckBox
-            title='Autre'
+            title="Autre"
             checked={isOther}
-            onPress={() => setIsOther(!isOther)}
+            onPress={
+              isOther
+                ? () => setIsOther(false)
+                : () => {
+                    setIsOther(true), setIsMale(false), setIsFemale(false);
+                  }
+            }
           />
         </View>
 
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
-          <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+          <View style={{ marginHorizontal: "40%" }}></View>
+          <View style={{ marginTop: "10%", marginBottom: "5%" }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -252,7 +298,7 @@ function UserInfosEditionScreen(props) {
       <View style={styles.container}>
         <CustomHeader
           onPress={() => setFormProgress(formProgress - 1)}
-          title='EDITE TON PROFIL'
+          title="EDITE TON PROFIL"
         />
         <View style={styles.barprogress}>
           <StepIndicator
@@ -265,30 +311,30 @@ function UserInfosEditionScreen(props) {
         <Text>Et ta moto ?</Text>
 
         <CustomInput
-          placeholder='Catégorie'
+          placeholder="Catégorie"
           value={userBikeCateg}
           setValue={setuserBikeCateg}
           secureTextEntry={false}
         />
 
         <CustomInput
-          placeholder='Marque'
+          placeholder="Marque"
           value={userBikeBrand}
           setValue={setuserBikeBrand}
           secureTextEntry={false}
         />
 
         <CustomInput
-          placeholder='Modèle'
+          placeholder="Modèle"
           value={userBikeModel}
           setValue={setuserBikeModel}
           secureTextEntry={false}
         />
 
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+          <CustomButton title="CHARGE TA BECANE!" onPress={pickImage2} />
           {image2 && (
             <Image
               source={{ uri: image2 }}
@@ -300,12 +346,12 @@ function UserInfosEditionScreen(props) {
         <Text>As-tu un passager ?</Text>
         <View style={styles.secondary}>
           <CustomCheckBox
-            title='Oui'
+            title="Oui"
             checked={hasPassenger}
             onPress={() => setHasPassenger(!hasPassenger)}
           />
           <CustomCheckBox
-            title='Non'
+            title="Non"
             checked={hasNoPassenger}
             onPress={() => setHasPassenger(!hasNoPassenger)}
           />
@@ -313,11 +359,12 @@ function UserInfosEditionScreen(props) {
         <KeyboardAvoidingView>
           <CustomButton
             title="C'EST TOUT BON"
-            onPress={() =>
-              props.navigation.navigate('BottomNavigator', {
-                screen: 'MyAccountScreen',
-              })
-            }
+            onPress={() => {
+              props.navigation.navigate("BottomNavigator", {
+                screen: "MyAccountScreen",
+              }),
+                handleSubmitUserProfil();
+            }}
           />
         </KeyboardAvoidingView>
       </View>
@@ -330,26 +377,26 @@ const styles = StyleSheet.create({
   container: {
     width: deviceWidth,
     height: deviceHeight,
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
   },
   secondary: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   bottomPage: {
     width: deviceWidth,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    maxHeight: '10%',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    maxHeight: "10%",
     // marginTop: "10%",
   },
   barprogress: {
     width: deviceWidth,
-    backgroundColor: '#FEFAEA',
-    paddingTop: '3%',
-    marginBottom: '3%',
+    backgroundColor: "#FEFAEA",
+    paddingTop: "3%",
+    marginBottom: "3%",
   },
   text: {},
 });
@@ -357,7 +404,7 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitImage: function (urldufetch) {
-      dispatch({ type: 'saveUrl', url: urldufetch });
+      dispatch({ type: "saveUrl", url: urldufetch });
     },
   };
 }

@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // importation typo externe (google fonts)
 import {
@@ -64,10 +65,10 @@ import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFirstStep2";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
-import ItineraryScreen from "./src/screens/ItineraryScreen";
 
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
+import ItineraryScreen from "./src/screens/ItineraryScreen";
 
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs();
@@ -180,6 +181,7 @@ export default function App() {
             name="newRoadTripFirstStep"
             component={CreateRoadTripScreenFirstStep}
           />
+          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
           <Stack.Screen
             name="newRoadTripFirstStep2"
             component={CreateRoadTripScreenFirstStep2}
@@ -188,7 +190,6 @@ export default function App() {
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}
           />
-          <Stack.Screen name="Itinerary" component={ItineraryScreen} />
 
           <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
         </Stack.Navigator>

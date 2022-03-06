@@ -30,7 +30,7 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
+        `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
       );
       var body = await data.json();
       for (let i = 0; i < body.length; i++) {}
@@ -90,7 +90,9 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(`${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`);
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
+    );
     var body = await data.json();
 
     setConversationsList(

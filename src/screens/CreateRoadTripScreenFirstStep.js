@@ -79,12 +79,13 @@ function CreateRoadTripScreenFirstStep(props) {
   const [roadtripType, setRoadtripType] = useState("Cool");
   const [roadtripMotoType, setRoadtripMotoType] = useState("Toutes catégories");
   const [roadtripSizeGroup, setRoadtripSizeGroup] = useState(0);
-  const [itineraryexist, setitineraryexist] = useState(
-    props.route.params.itinerary_id
+  const [itineraryexist, setItineraryexist] = useState(
+    ""
+    // props.route.params.itinerary_id
   );
 
-  const [currentScreen, setCurrentScreen] = useState(pagecontent1);
-  console.log(roadtripType);
+  const [currentScreen, setCurrentScreen] = useState();
+  // console.log(roadtripType);
 
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
@@ -107,14 +108,22 @@ function CreateRoadTripScreenFirstStep(props) {
               onPress={() => {
                 props.navigation.navigate("Itinerary", {
                   screen: "ItineraryScreen",
-                }),
-                  setCurrentScreen(pagecontent2);
-                console.log(currentScreen);
+                });
+                // console.log(currentScreen);
               }}
             />
             <CustomButton
               title="ITINERAIRE PROPOSE"
-              onPress={() => props.navigation.navigate("newRoadTripFirstStep")}
+              onPress={() => (
+                setItineraryexist("ok"),
+                setFormProgress(1),
+                props.onSubmitData({
+                  roadtripTitle,
+                  roadtripDate,
+                  roadtriptimeDeparture,
+                  roadtriptimeArrival,
+                })
+              )}
             />
           </View>
           <View style={{ marginTop: "15%" }}>
@@ -130,7 +139,11 @@ function CreateRoadTripScreenFirstStep(props) {
     );
   } else {
     Bottom = (
-      <View>
+      <View
+        style={{
+          flexDirection: "column",
+        }}
+      >
         <View
           style={{
             alignItems: "center",
@@ -138,33 +151,34 @@ function CreateRoadTripScreenFirstStep(props) {
             marginTop: "5%",
           }}
         >
-          <View style={{ marginBottom: "3%" }}>
-            <Image source={require("../carte_trajet.jpg")} />
-          </View>
-          <View style={{ marginTop: "15%" }}>
-            <Text>Aucun itinéraire choisit ou créé</Text>
-          </View>
+          <Image source={require("../carte_trajet.jpg")} />
         </View>
 
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "10%", marginBottom: "5%" }}>
+          <View style={{ marginTop: "80%", marginBottom: "5%" }}>
             <CustomButtonOrangeNext
-              onPress={
-                (() => setStepScreen(secondstep),
-                props.onSubmitTitle({ roadtripTitle }),
-                console.log("roadtripTitle", { roadtripTitle }))
-              }
+              onPress={() => (
+                setFormProgress(2),
+                props.onSubmitData({
+                  roadtripTitle,
+                  roadtripDate,
+                  roadtriptimeDeparture,
+                  roadtriptimeArrival,
+                })
+              )}
             />
           </View>
         </View>
       </View>
     );
   }
-
+  console.log("props.data_new_roadtrip:", props.data_new_roadtrip);
+  // console.log(formProgress);
+  // console.log(itineraryexist);
   var pagecontent = <></>;
 
-  if (formProgress == 0) {
+  if (formProgress == 0 || formProgress == 1) {
     pagecontent = (
       <View style={styles.container}>
         <CustomHeader
@@ -178,7 +192,7 @@ function CreateRoadTripScreenFirstStep(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={0}
+            currentPosition={formProgress}
             stepCount={3}
           />
         </View>
@@ -229,7 +243,7 @@ function CreateRoadTripScreenFirstStep(props) {
         {Bottom}
       </View>
     );
-  } else if (formProgress == 1) {
+  } else if (formProgress == 2) {
     pagecontent = (
       <View style={styles.container}>
         <CustomHeader
@@ -243,7 +257,7 @@ function CreateRoadTripScreenFirstStep(props) {
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
-            currentPosition={2}
+            currentPosition={formProgress}
             stepCount={3}
           />
         </View>
@@ -311,20 +325,28 @@ function CreateRoadTripScreenFirstStep(props) {
           <View style={styles.bottomPage3}>
             <CustomButtonValidation
               title="VALIDER !"
-              onPress={() =>
+              onPress={() => (
                 props.navigation.navigate("CreateRoadTripRecap", {
                   screen: "CreateRoadTripScreenRecap",
+                }),
+                props.onSubmitData({
+                  roadtripTitle,
+                  roadtripDate,
+                  roadtriptimeDeparture,
+                  roadtriptimeArrival,
+                  roadtripMotoType,
+                  roadtripSizeGroup,
+                  roadtripType,
                 })
-              }
+              )}
             />
           </View>
         </View>
-        {Bottom}
       </View>
     );
   }
 
-  return <View>{currentScreen}</View>;
+  return <View>{pagecontent}</View>;
 }
 // onPageChange(position);
 // this.setState({ currentPosition: position });
@@ -396,33 +418,33 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmitTitle: function (title) {
-      dispatch({ type: "saveTitle", title: title });
+    onSubmitData: function (roadtripData) {
+      dispatch({ type: "saveData", roadtripData: roadtripData });
     },
-    onSubmitDate: function (date) {
-      dispatch({ type: "saveDate", date: date });
-    },
-    onSubmitDepartureTime: function (departure_time) {
-      dispatch({ type: "saveDepartureTime", departure_time: departure_time });
-    },
-    onSubmitArrivalTime: function (arrival_time) {
-      dispatch({ type: "saveArrivalTime", arrival_time: arrival_time });
-    },
-    onSubmitRoadtripType: function (roadtrip_type) {
-      dispatch({ type: "saveRoadtripType", roadtrip_type: roadtrip_type });
-    },
-    onSubmitMotoType: function (moto_type) {
-      dispatch({ type: "saveMotoType", moto_type: moto_type });
-    },
-    onSubmitSizeGroup: function (size_group) {
-      dispatch({ type: "saveSizeGroupe", size_group: size_group });
-    },
-    onSubmitformProgress: function (status_form_progress) {
-      dispatch({
-        type: "saveStatutformProgress",
-        status_form_progress: status_form_progress,
-      });
-    },
+    // onSubmitDate: function (date) {
+    //   dispatch({ type: "saveDate", date: date });
+    // },
+    // onSubmitDepartureTime: function (departure_time) {
+    //   dispatch({ type: "saveDepartureTime", departure_time: departure_time });
+    // },
+    // onSubmitArrivalTime: function (arrival_time) {
+    //   dispatch({ type: "saveArrivalTime", arrival_time: arrival_time });
+    // },
+    // onSubmitRoadtripType: function (roadtrip_type) {
+    //   dispatch({ type: "saveRoadtripType", roadtrip_type: roadtrip_type });
+    // },
+    // onSubmitMotoType: function (moto_type) {
+    //   dispatch({ type: "saveMotoType", moto_type: moto_type });
+    // },
+    // onSubmitSizeGroup: function (size_group) {
+    //   dispatch({ type: "saveSizeGroupe", size_group: size_group });
+    // },
+    // onSubmitformProgress: function (status_form_progress) {
+    //   dispatch({
+    //     type: "saveStatutformProgress",
+    //     status_form_progress: status_form_progress,
+    //   });
+    // },
   };
 }
 

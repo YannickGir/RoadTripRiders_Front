@@ -17,7 +17,7 @@ function ConversationsScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
       console.log("body", body);

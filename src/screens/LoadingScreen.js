@@ -1,11 +1,11 @@
 import React from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import { StyleSheet, Button, View, Text, Image } from "react-native";
 
 export default function LoadingScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Loading Screen</Text>
-    </View>
+    <Overlay isVisible={visible} width="auto" height="auto">
+      <Image source={require("../Loading_overlay.gif")} />
+    </Overlay>
   );
 }
 const styles = StyleSheet.create({
