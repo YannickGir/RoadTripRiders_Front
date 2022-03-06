@@ -26,9 +26,7 @@ export default function HomepageScreen(props) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
       console.log("body", body);
 
