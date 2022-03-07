@@ -28,6 +28,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import RidersAroundScreen from "./src/screens/RidersAroundScreen";
 import ConversationsScreen from "./src/screens/ConversationsScreen";
 import MyAccountScreen from "./src/screens/MyAccountScreen";
+import RoadTripDetailsScreen from "./src/screens/RoadTripDetailsScreen";
 
 //Stack Navigation
 //Ecran d'accueil Logo
@@ -164,6 +165,10 @@ export default function App() {
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="MyContacts" component={MyContactsScreen} />
           <Stack.Screen name="UserInfos" component={UserInfosScreen} />
+          <Stack.Screen
+            name="RoadTripDetails"
+            component={RoadTripDetailsScreen}
+          />
           <Stack.Screen
             name="UserInfosEdition"
             component={UserInfosEditionScreen}

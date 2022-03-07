@@ -11,7 +11,7 @@ import {
 import { Card, Text, Avatar, Input, Button } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
-import CustomInput from "../../src/components/CustomInput";
+import CustomInputWhite from "../../src/components/CustomInputWhite";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -41,7 +41,7 @@ function ChatScreen(props) {
             var color = "#FFEDAC";
             var row = "row";
           } else {
-            color = "#FF8B00";
+            color = "#FFD178";
             row = "row-reverse";
           }
           console.log("body", convData.senderToken);
@@ -56,8 +56,8 @@ function ChatScreen(props) {
                 alignItems: "center",
                 backgroundColor: "#FEFAEA",
                 padding: 10,
-
-                marginTop: 10,
+                marginTop: 30,
+                border: 0,
               }}
             >
               <View style={{ flexDirection: row }}>
@@ -97,7 +97,7 @@ function ChatScreen(props) {
     setConversationsList(
       body.conversationObjects.map((convData, i) => {
         if (props.token != convData.senderToken) {
-          var color = "#FFF3C7";
+          var color = "#FFEDAC";
           var row = "row";
         } else {
           color = "#FFD178";
@@ -181,6 +181,7 @@ function ChatScreen(props) {
       </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ backgroundColor: "#FFD230" }}
       >
         <View
           style={{
@@ -199,10 +200,11 @@ function ChatScreen(props) {
               }}
             />
           </TouchableOpacity>
-          <CustomInput
+          <CustomInputWhite
             placeholder="Your message"
             setValue={setContentMessage}
             value={contentMessage}
+            style={{ backgroundColor: "#FFFF" }}
           />
           <TouchableOpacity style={{ paddingLeft: "2%" }}>
             <Ionicons
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   backgroundColor: {
-    backgroundColor: "#FEFAEA",
+    backgroundColor: "#FFFF",
     paddingTop: "10%",
     flex: 1,
   },
