@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Button, View, Text, Platform, Image } from 'react-native';
 import CustomButton from '../../src/components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { connect } from 'react-redux';
 // import pour le header
 import { Header as HeaderRNE } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
