@@ -13,6 +13,7 @@ import {
 import { Header as HeaderRNE } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
 import { Button, CheckBox } from 'react-native-elements';
@@ -30,7 +31,7 @@ import CustomHeaderRNE from '../components/CustomHeaderRNE';
 import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
 import CustomRegionPicker from '../components/CustomRegionPicker';
 import CustomLongInput from '../components/CustomLongInput';
-import { AntDesign } from '@expo/vector-icons';
+
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
 import { color } from 'react-native-elements/dist/helpers';
@@ -248,15 +249,15 @@ function UserInfosEditionScreen(props) {
               style: styles.heading,
             }}
           />
-        </SafeAreaProvider>
 
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={0}
-            stepCount={4}
-          />
-        </View>
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={0}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
         <Text style={{ paddingTop: '5%' }}>Quel rider es-tu ?</Text>
 
         <CustomInput
@@ -329,17 +330,30 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 1) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title='EDITE TON PROFIL'
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={1}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor='#FFD230'
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name='arrowleft' color='#363432' size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: 'EDITE TON PROFIL',
+              style: styles.heading,
+            }}
           />
-        </View>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={1}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
 
         <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
           Parles nous de toi:
@@ -535,11 +549,12 @@ const styles = StyleSheet.create({
   secondary: {
     flexDirection: 'row',
   },
+  //style pour le header
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'yellow',
-    marginBottom: 20,
+    marginBottom: 10,
     width: '100%',
     paddingVertical: 15,
   },
@@ -554,6 +569,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: '#FFD230',
   },
+  //fin du style pour le header
   bottomPage: {
     width: deviceWidth,
     alignItems: 'center',
@@ -566,8 +582,8 @@ const styles = StyleSheet.create({
   barprogress: {
     width: deviceWidth,
     backgroundColor: '#FEFAEA',
-    paddingTop: '3%',
     marginBottom: '3%',
+    marginTop: '3%',
   },
   text: {},
 });

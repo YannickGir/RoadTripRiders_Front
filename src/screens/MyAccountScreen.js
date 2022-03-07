@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Button,
-  View,
-  Text,
-  Platform,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Button, View, Text, Platform } from 'react-native';
 import CustomButton from '../../src/components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import pour le header
+import { Header as HeaderRNE } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
+// fin import pour le header
 import { connect } from 'react-redux';
 import LogInScreen from './LogInScreen';
 import {
@@ -44,82 +43,115 @@ function MyAccountScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text>My Account Screen</Text>
-      <View style={styles.secondary}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            props.navigation.navigate('UserInfosEdition', {
-              screen: 'UserInfosEditionScreen',
-            })
-          }
-        >
-          <MaterialCommunityIcons
-            name='pen'
-            size={60}
-            color='#363432'
-            style={{ paddingTop: 20, paddingBottom: 10 }}
-          />
-          <Text>Editer</Text>
-          <Text>mon profil</Text>
-        </TouchableOpacity>
+      <SafeAreaProvider>
+        <HeaderRNE
+          backgroundColor='#FFD230'
+          centerComponent={{
+            text: 'MON PROFIL',
+            style: styles.heading,
+          }}
+        />
+        <View style={styles.secondary}>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FFD230',
+              padding: 10,
+              height: 160,
+              width: 340,
+              borderRadius: 15,
+              margin: 10,
+              marginTop: '10%',
+            }}
+          >
+            <View></View>
+            <View>
+              <Text style={{ fontSize: 30 }}>Hello</Text>
+              <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
+              <Text>
+                <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
+                Statut : Newbi(ker)
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.secondary}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              props.navigation.navigate('UserInfosEdition', {
+                screen: 'UserInfosEditionScreen',
+              })
+            }
+          >
+            <MaterialCommunityIcons
+              name='pen'
+              size={60}
+              color='#363432'
+              style={{ paddingTop: 20, paddingBottom: 10 }}
+            />
+            <Text>Editer</Text>
+            <Text>mon profil</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            props.navigation.navigate('MyContacts', {
-              screen: 'MyContactsScreen',
-            })
-          }
-        >
-          <FontAwesome
-            name='group'
-            size={60}
-            color='#363432'
-            style={{ paddingTop: 20, paddingBottom: 10 }}
-          />
-          <Text>Mes</Text>
-          <Text>contacts</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.secondary}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            props.navigation.navigate('UserPastRoadtrips', {
-              screen: 'UserPastRoadtripsScreen',
-            })
-          }
-        >
-          <FontAwesome
-            name='history'
-            size={60}
-            color='#363432'
-            style={{ paddingTop: 20, paddingBottom: 10 }}
-          />
-          <Text>Parcours déjà</Text>
-          <Text>effectués</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              props.navigation.navigate('MyContacts', {
+                screen: 'MyContactsScreen',
+              })
+            }
+          >
+            <FontAwesome
+              name='group'
+              size={60}
+              color='#363432'
+              style={{ paddingTop: 20, paddingBottom: 10 }}
+            />
+            <Text>Mes</Text>
+            <Text>contacts</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.secondary}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              props.navigation.navigate('UserPastRoadtrips', {
+                screen: 'UserPastRoadtripsScreen',
+              })
+            }
+          >
+            <FontAwesome
+              name='history'
+              size={60}
+              color='#363432'
+              style={{ paddingTop: 20, paddingBottom: 10 }}
+            />
+            <Text>Parcours déjà</Text>
+            <Text>effectués</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            props.navigation.navigate('UserRoadtripsToCome', {
-              screen: 'UserRoadtripsToComeScreen',
-            })
-          }
-        >
-          <FontAwesome
-            name='calendar'
-            size={60}
-            color='#363432'
-            style={{ paddingTop: 20, paddingBottom: 10 }}
-          />
-          <Text>Mes sorties</Text>
-          <Text>à venir</Text>
-        </TouchableOpacity>
-      </View>
-      <CustomButton title='SE DECONNECTER' onPress={() => handleLogOut()} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              props.navigation.navigate('UserRoadtripsToCome', {
+                screen: 'UserRoadtripsToComeScreen',
+              })
+            }
+          >
+            <FontAwesome
+              name='calendar'
+              size={60}
+              color='#363432'
+              style={{ paddingTop: 20, paddingBottom: 10 }}
+            />
+            <Text>Mes sorties</Text>
+            <Text>à venir</Text>
+          </TouchableOpacity>
+        </View>
+        <CustomButton title='SE DECONNECTER' onPress={() => handleLogOut()} />
+      </SafeAreaProvider>
     </View>
   );
 }
@@ -142,7 +174,30 @@ const styles = StyleSheet.create({
   },
   secondary: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  //style pour le header
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
+    marginBottom: 20,
+    width: '100%',
+    paddingVertical: 15,
+  },
+  heading: {
+    color: '#363432',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  subheaderText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: '#FFD230',
+  },
+  //fin du style pour le header
 });
 
 function mapDispatchToProps(dispatch) {
