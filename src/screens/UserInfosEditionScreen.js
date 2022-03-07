@@ -421,7 +421,6 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-
         <Text style={{ paddingBottom: '5%' }}>Et ta moto ?</Text>
 
         <CustomInput
@@ -456,7 +455,7 @@ function UserInfosEditionScreen(props) {
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '10%', marginBottom: '5%' }}>
+          <View style={{ marginTop: '25%', marginBottom: '5%' }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -563,7 +562,6 @@ function UserInfosEditionScreen(props) {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: '10%',
     width: deviceWidth,
     height: deviceHeight,
     backgroundColor: '#FEFAEA',

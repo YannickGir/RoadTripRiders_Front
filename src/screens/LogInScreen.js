@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Image,
+  ImageBackground,
   useWindowDimensions,
   KeyboardAvoidingView,
   ScrollView,
@@ -85,7 +86,7 @@ function LogInScreen(props) {
 
   return (
     <ImageBackground
-      source={require('../images/loginbg.png')}
+      source={require('../../assets/images/loginbg.png')}
       style={styles.container}
       resizeMode='cover'
     >
@@ -121,15 +122,6 @@ function LogInScreen(props) {
         <CustomButton
           title='CREER UN COMPTE'
           onPress={() => props.navigation.navigate('SignUp')}
-        />
-
-        <CustomButton
-          title='CREER UN COMPTE'
-          onPress={() =>
-            props.navigation.navigate('RoadtripList', {
-              screen: RoadtripListScreen,
-            })
-          }
         />
       </KeyboardAvoidingView>
     </ImageBackground>

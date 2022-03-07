@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Image,
+  ImageBackground,
   useWindowDimensions,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -106,7 +107,7 @@ function SignUpScreen(props) {
 
   return (
     <ImageBackground
-      source={require('../images/loginbg.png')}
+      source={require('../../assets/images/loginbg.png')}
       style={styles.container}
       resizeMode='cover'
     >
