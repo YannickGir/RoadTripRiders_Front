@@ -33,8 +33,8 @@ function HomepageScreen(props) {
       var bodyUser = await dataUser.json();
       console.log('bodyUser', bodyUser);
       props.onSubmitUserData({
-        avatar: userData.user_photo,
-        username: userData.firstname,
+        avatar: bodyUser.user_photo,
+        username: bodyUser.firstname,
       });
     }
 
