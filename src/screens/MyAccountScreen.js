@@ -227,6 +227,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  console.log('myaccountscreen state :', state);
   return { userData: state.userData };
 }
 

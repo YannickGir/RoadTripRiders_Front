@@ -77,9 +77,6 @@ function UserInfosEditionScreen(props) {
   const [userConnexionStatus, setuserConnexionStatus] = useState(''); //statut de connexion l'utilisateur par rapport au chat
 
   //Variables d'Etats des checkboxes
-  const [isMale, setIsMale] = useState(false);
-  const [isFemale, setIsFemale] = useState(false);
-  const [isOther, setIsOther] = useState(false);
   const [userGender, setUserGender] = useState('');
   const [hasPassenger, setHasPassenger] = useState(false);
   const [hasNoPassenger, setHasNoPassenger] = useState(false);
@@ -87,26 +84,6 @@ function UserInfosEditionScreen(props) {
   const [userBikeCateg, setuserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
   const [userBikeBrand, setuserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
   const [userBikeModel, setuserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
-
-  // if (isMale == true) {
-  //   setIsFemale(false);
-  //   setIsOther(false);
-  //   setUserGender('male');
-  // } else if (isFemale == true) {
-  //   setIsMale(false);
-  //   setIsOther(false);
-  //   setUserGender('female');
-  // } else if (isOther == true) {
-  //   setIsMale(false);
-  //   setIsFemale(false);
-  //   setUserGender('other');
-  // }
-
-  // if (hasPassenger == true) {
-  //   setHasPassenger(false);
-  // } else if (hasNoPassenger == true) {
-  //   setHasNoPassenger(false);
-  // }
 
   //Pour image picker
   const [image, setImage] = useState(null); // image avatar user
@@ -127,14 +104,6 @@ function UserInfosEditionScreen(props) {
     } else if (hasNoPassenger) {
       passenger = false;
     }
-    var gender;
-    if (isMale == true) {
-      gender = 'male';
-    } else if (isFemale == true) {
-      gender = 'female';
-    } else if (isOther == true) {
-      gender = 'other';
-    }
 
     const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
       method: 'POST',
@@ -143,9 +112,24 @@ function UserInfosEditionScreen(props) {
       },
       body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
     });
-    var response = data.json();
-    console.log(response);
-    props.onSubmitUserData({ avatar: image, username: userFirstName });
+
+    const body = await data.json();
+
+    if (body.result) {
+      const dataUser = await fetch(
+        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+      );
+      var bodyUser = await dataUser.json();
+      props.onSubmitUserData({
+        avatar: bodyUser.userData.user_photo,
+        username: bodyUser.userData.firstname,
+      });
+    } else {
+      console.log('POST users/edit-profil failed', body);
+    }
+
+    // var bodyUser = await data.json();
+    // console.log('usereditionscreen bodyUser', bodyUser);
   };
 
   //pour envoyer l'avatar vers le back et dans le store
@@ -173,13 +157,10 @@ function UserInfosEditionScreen(props) {
         name: 'avatar',
       });
 
-      var rawResponse = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/upload-avatar`,
-        {
-          method: 'post',
-          body: data,
-        }
-      );
+      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
+        method: 'post',
+        body: data,
+      });
 
       var response = await rawResponse.json();
       console.log(response);
@@ -232,6 +213,11 @@ function UserInfosEditionScreen(props) {
   var pagecontent = <></>;
 
   if (formProgress == 0) {
+    // gender == male | female | other
+    const setGenderCheckbox = (gender) => {
+      setUserGender(userGender != gender ? gender : '');
+    };
+
     pagecontent = (
       <View style={styles.container}>
         <SafeAreaProvider>
@@ -297,39 +283,13 @@ function UserInfosEditionScreen(props) {
         <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
           Quelle est ta date de naissance ?
         </Text>
-        <DatePicker
-          style={styles.datePickerStyle}
-          date={date} // Initial date from state
-          mode='date' // The enum of date, datetime and time
-          placeholder='select date'
-          format='DD-MM-YYYY'
-          // minDate="01-01-2016"
-          // maxDate="01-01-2019"
-          confirmBtnText='Confirm'
-          cancelBtnText='Cancel'
-          customStyles={{
-            dateIcon: {
-              //display: 'none',
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0,
-            },
-            dateInput: {
-              marginLeft: 36,
-              borderRadius: 15,
-              backgroundColor: '#FFEDAC',
-            },
-          }}
-          onDateChange={(date) => {
-            setuserBirthDate(date);
-          }}
-        />
+
         <CustomDatePicker
           selectedValue={userBirthDate}
-          onValueChange={(value, index) => setuserBirthDate(value)}
+          onChange={(value, index) => setuserBirthDate(value)}
           title='DATE'
         />
+        <Text>{userBirthDate}</Text>
 
         <Text style={{ paddingTop: '5%', paddingBottom: '2%' }}>
           Ton sexe ?
@@ -338,20 +298,20 @@ function UserInfosEditionScreen(props) {
           <CheckBox
             title='Homme'
             checkedColor='#ff8b00'
-            checked={isMale}
-            onPress={() => setIsMale(!isMale)}
+            checked={userGender === 'male'}
+            onPress={() => setGenderCheckbox('male')}
           />
           <CheckBox
             title='Femme'
             checkedColor='#ff8b00'
-            checked={isFemale}
-            onPress={() => setIsFemale(!isFemale)}
+            checked={userGender === 'female'}
+            onPress={() => setGenderCheckbox('female')}
           />
           <CheckBox
             title='Autre'
             checkedColor='#ff8b00'
-            checked={isOther}
-            onPress={() => setIsOther(!isOther)}
+            checked={userGender === 'other'}
+            onPress={() => setGenderCheckbox('other')}
           />
         </View>
 

@@ -6,7 +6,8 @@ export default function (
   },
   action
 ) {
-  if (action.type == 'saveUserInfos') {
+  if (action.type == 'saveUserData') {
+    console.log('USER DATA REDUCER', action);
     return action.userData;
   } else {
     return userData;

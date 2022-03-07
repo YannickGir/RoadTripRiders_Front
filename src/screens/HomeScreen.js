@@ -25,19 +25,22 @@ let deviceWidth = Dimensions.get('window').width;
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
         `${MA_VARIABLE}/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
-      console.log('bodyUser', bodyUser);
       props.onSubmitUserData({
-        avatar: bodyUser.user_photo,
-        username: bodyUser.firstname,
+        avatar: bodyUser.userData.user_photo,
+        username: bodyUser.userData.firstname,
       });
     }
+    loadUserData();
+  }, [props.token]);
 
+  useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
@@ -138,7 +141,6 @@ function HomepageScreen(props) {
     }
 
     loadRoadTrip();
-    loadUserData();
   }, []);
 
   return (
@@ -236,6 +238,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
+  console.log('HOMESCREEN', state.token, state);
   return { token: state.token };
 }
 
