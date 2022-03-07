@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 // fin import pour le header
-import { connect } from 'react-redux';
+
 import LogInScreen from './LogInScreen';
 import {
   FontAwesome,
@@ -66,21 +66,31 @@ function MyAccountScreen(props) {
               marginTop: '10%',
             }}
           >
-            <View>
-              <Image
-                source={{ uri: props.userData.avatar }}
-                style={{ width: 100, height: 100 }}
-              />
-            </View>
-            <View>
-              <Text style={{ fontSize: 30 }}>
-                Hello {props.userData.username}
-              </Text>
-              <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
-              <Text>
-                <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
-                Statut : Newbi(ker)
-              </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <View>
+                <Image
+                  source={{ uri: props.userData.avatar }}
+                  style={{
+                    width: 80,
+                    height: 80,
+                    marginRight: '5%',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderRadius: 50,
+                  }}
+                />
+              </View>
+              <View>
+                <Text style={{ fontSize: 30 }}>
+                  Hello {props.userData.username}
+                </Text>
+                <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
+                <Text>
+                  <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
+                  Statut : Newbi(ker)
+                </Text>
+              </View>
             </View>
           </TouchableOpacity>
         </View>

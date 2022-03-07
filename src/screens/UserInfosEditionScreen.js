@@ -10,6 +10,7 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import { Header as HeaderRNE } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -68,6 +69,7 @@ function UserInfosEditionScreen(props) {
   const [userFirstName, setuserFirstName] = useState(''); //prénom utilisateur
   const [userLastName, setuserLastName] = useState(''); //nom utilisateur
   const [userBirthDate, setuserBirthDate] = useState(''); //date de naissance de l'utilisateur
+  const [date, setDate] = useState('07-03-2022'); // date d'initialisation du date picker
   const [userRegion, setuserRegion] = useState(''); //région où sort l'utilisateur
   const [userCity, setuserCity] = useState(''); //ville où vit l'utilisateur
   const [userBio, setuserBio] = useState(''); //biographie de l'utilisateur
@@ -295,6 +297,34 @@ function UserInfosEditionScreen(props) {
         <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
           Quelle est ta date de naissance ?
         </Text>
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={date} // Initial date from state
+          mode='date' // The enum of date, datetime and time
+          placeholder='select date'
+          format='DD-MM-YYYY'
+          // minDate="01-01-2016"
+          // maxDate="01-01-2019"
+          confirmBtnText='Confirm'
+          cancelBtnText='Cancel'
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+              borderRadius: 15,
+              backgroundColor: '#FFEDAC',
+            },
+          }}
+          onDateChange={(date) => {
+            setuserBirthDate(date);
+          }}
+        />
         <CustomDatePicker
           selectedValue={userBirthDate}
           onValueChange={(value, index) => setuserBirthDate(value)}

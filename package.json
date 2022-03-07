@@ -16,6 +16,7 @@
     "@react-native-community/checkbox": "^0.5.11",
     "@react-native-community/datetimepicker": "4.0.0",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-picker/picker": "2.2.1",
     "@react-navigation/bottom-tabs": "^5.11.15",
     "@react-navigation/native": "^5.9.8",
     "@react-navigation/stack": "^5.14.9",
@@ -29,6 +30,7 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-bouncy-checkbox": "^2.1.10",
+    "react-native-datepicker": "^1.7.2",
     "react-native-dotenv": "^3.3.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.1.0",
@@ -42,8 +44,7 @@
     "react-native-view-shot": "^3.1.2",
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
-    "redux": "^4.1.2",
-    "@react-native-picker/picker": "2.2.1"
+    "redux": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
