@@ -184,7 +184,6 @@ function UserInfosEditionScreen(props) {
 
       // NE PAS OUBLIER DE SET IMAGE AVEC L'URL NOUVELLEMENT GENEREE PAR CLOUDINARY
       setImage(response.urlToCloudImage);
-      props.onSubmitImage(response.urlToCloudImage);
     }
   };
 

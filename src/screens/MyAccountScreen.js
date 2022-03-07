@@ -67,12 +67,14 @@ function MyAccountScreen(props) {
           >
             <View>
               <Image
-                source={{ uri: props.urlAvatar }}
+                source={{ uri: props.userData.avatar }}
                 style={{ width: 100, height: 100 }}
               />
             </View>
             <View>
-              <Text style={{ fontSize: 30 }}>Hello</Text>
+              <Text style={{ fontSize: 30 }}>
+                Hello {props.userData.username}
+              </Text>
               <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
               <Text>
                 <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
@@ -214,7 +216,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { urlAvatar: state.urlAvatar };
+  return { userData: state.userData };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountScreen);
