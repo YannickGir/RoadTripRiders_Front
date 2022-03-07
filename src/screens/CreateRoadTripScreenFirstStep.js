@@ -21,6 +21,11 @@ import CustomButtonValidation from "../components/CustomButtonValidation";
 import CustomButtonChoice from "../components/CustomButtonChoice";
 import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate";
 import { MA_VARIABLE } from "@env";
+import CustomBikeCategPicker2 from "../components/CustomBikeCategPicker2";
+import CustomDatePicker from "../components/CustomDatePicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "react-native-datepicker";
+import TimePicker from "react-native-simple-time-picker";
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -71,25 +76,97 @@ function CreateRoadTripScreenFirstStep(props) {
   const [stepScreen, setStepScreen] = useState();
 
   //store inputs first step-------------
-  const [roadtripTitle, setRoadtripTitle] = useState("");
-  const [roadtripDate, setRoadtripDate] = useState("");
-  const [roadtriptimeDeparture, setRoadtriptimeDeparture] = useState("");
-  const [roadtriptimeArrival, setRoadtriptimeArrival] = useState("");
+  const [roadtripTitle, setRoadtripTitle] = useState(
+    props.data_new_roadtrip.roadtripTitle
+  );
+  const [roadtripDate, setRoadtripDate] = useState(
+    props.data_new_roadtrip.roadtripDate
+  );
+  const [roadtriptimeDeparture, setRoadtriptimeDeparture] = useState(
+    props.data_new_roadtrip.roadtriptimeDeparture
+  );
+  const [roadtriptimeArrival, setRoadtriptimeArrival] = useState(
+    props.data_new_roadtrip.roadtriptimeArrival
+  );
 
   //store inputs second step-------------
   const [roadtripType, setRoadtripType] = useState("Cool");
   const [roadtripMotoType, setRoadtripMotoType] = useState("Toutes catégories");
   const [roadtripSizeGroup, setRoadtripSizeGroup] = useState(0);
   const [itineraryexist, setItineraryexist] = useState(
-    ""
-    // props.route.params.itinerary_id
+    props.route.params.itinerary_id
   );
+  console.log(
+    "props.route.params.itinerary_id",
+    props.route.params.itinerary_id
+  );
+  const [userBikeCateg, setuserBikeCateg] = useState(""); //catégorie de moto de l'utilisateur
 
   const [currentScreen, setCurrentScreen] = useState();
   // console.log(roadtripType);
 
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [selectedHours, setSelectedHours] = useState(0);
+  const [selectedMinutes, setSelectedMinutes] = useState(0);
+
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+
+  //-------------------récupération des datas nouvel itinéraire-----------------
+  const [departure_city, setDeparture_city] = useState("");
+  const [arrival_city, setArrival_city] = useState("");
+  const [map_itinerary, setMap_itinerary] = useState("");
+
+  useEffect(() => {
+    const getDataitinerary = async () => {
+      const dataItinerary = await fetch(
+        `https://roadtripridersyann.herokuapp.com/itineraries/get-itinerary?itineraryIdFromFront=${props.route.params.itinerary_id}`
+      );
+      var dataItineraryParse = await dataItinerary.json();
+      // console.log(
+      //   "dataItineraryParse.itineraryData.start.city",
+      //   dataItineraryParse.itineraryData.start.city
+      // );
+      // console.log(
+      //   "dataItineraryParse.itineraryData.start.city",
+      //   dataItineraryParse.itineraryData.arrival.city
+      // );
+
+      // console.log(
+      //   "dataItineraryParse.itineraryData.snapshot",
+      //   dataItineraryParse.itineraryData.snapshot
+      // );
+
+      setDeparture_city(dataItineraryParse.itineraryData.start.city);
+      setArrival_city(dataItineraryParse.itineraryData.arrival.city);
+      setMap_itinerary(dataItineraryParse.itineraryData.snapshot);
+      console.log("map_itinerary", map_itinerary);
+    };
+    if (props.route.params.itinerary_id) {
+      getDataitinerary();
+    }
+  }, [props.route.params.itinerary_id]);
 
   var Bottom = <></>;
 
@@ -107,24 +184,25 @@ function CreateRoadTripScreenFirstStep(props) {
             <CustomButtonOrange
               title="NOUVEL ITINERAIRE"
               onPress={() => {
-                props.navigation.navigate("Itinerary", {
-                  screen: "ItineraryScreen",
-                });
+                setItineraryexist("ok"),
+                  setFormProgress(1),
+                  props.onSubmitData({
+                    roadtripTitle: roadtripTitle,
+                    roadtripDate: roadtripDate,
+                    roadtriptimeDeparture: roadtriptimeDeparture,
+                    roadtriptimeArrival: roadtriptimeArrival,
+                  }),
+                  props.navigation.navigate("Itinerary", {
+                    screen: "ItineraryScreen",
+                  });
                 // console.log(currentScreen);
               }}
             />
             <CustomButton
               title="ITINERAIRE PROPOSE"
-              onPress={() => (
-                setItineraryexist("ok"),
-                setFormProgress(1),
-                props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                })
-              )}
+              // onPress={() =>
+
+              // }
             />
           </View>
           <View style={{ marginTop: "15%" }}>
@@ -152,23 +230,34 @@ function CreateRoadTripScreenFirstStep(props) {
             marginTop: "5%",
           }}
         >
-          <Image source={require("../carte_trajet.jpg")} />
+          <Image
+            style={{
+              height: 200,
+              width: 350,
+            }}
+            // source={require({ map_itinerary })}
+            source={{
+              uri: "http://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646666797/eedgotjhuytg5bke5j5g.jpg",
+            }}
+          />
+          <View
+            style={{
+              width: "50%",
+              flexDirection: "row",
+              alignItems: "center",
+              height: "30%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text>{departure_city}</Text>
+            <Text>{arrival_city}</Text>
+          </View>
         </View>
 
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: "40%" }}></View>
           <View style={{ marginTop: "80%", marginBottom: "5%" }}>
-            <CustomButtonOrangeNext
-              onPress={() => (
-                setFormProgress(2),
-                props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                })
-              )}
-            />
+            <CustomButtonOrangeNext onPress={() => setFormProgress(2)} />
           </View>
         </View>
       </View>
@@ -208,23 +297,100 @@ function CreateRoadTripScreenFirstStep(props) {
           />
           <Text> Public </Text>
         </View>
-        <View style={{ paddingBottom: 10, paddingTop: 10 }}>
+        <View
+          style={{
+            paddingBottom: 10,
+            paddingTop: 10,
+          }}
+        >
           <CustomNewTripInput
-            placeholder="Titre de votre Roadtrip"
+            placeholder="votre titre de roadtrip"
             value={roadtripTitle}
             setValue={setRoadtripTitle}
             secureTextEntry={false}
+            style={{
+              justifyContent: "center",
+            }}
           />
-          <CustomNewTripInput
-            placeholder="Date de départ"
+          <View style={styles.horaires}>
+            <Text style={{ paddingTop: 5 }}>Date de sortie :</Text>
+            <DatePicker
+              style={styles.datePickerStyle}
+              date={date} // Initial date from state
+              mode="date" // The enum of date, datetime and time
+              placeholder="select date"
+              format="DD/MM/YYYY HH:mm:ss"
+              // minDate="01-01-2016"
+              // maxDate="01-01-2019"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  //display: 'none',
+                  position: "absolute",
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  borderRadius: 15,
+                  backgroundColor: "#FFEDAC",
+                },
+              }}
+              onDateChange={(date) => {
+                setDate(date);
+                setRoadtripDate(date);
+              }}
+            />
+            {/* <CustomNewTripInput
+            placeholder="Date de sortie"
             value={roadtripDate}
             setValue={setRoadtripDate}
-          />
+          /> */}
+          </View>
         </View>
+
         <Text style={{ paddingTop: 5 }}>Horaires :</Text>
-        <View style={styles.horaires}>
+        <View style={{ flexDirection: "row" }}>
+          {/* <View>
+            <Button onPress={showDatepicker} title="Show date picker!" />
+          </View> */}
+
+          {/* <Text>
+          Selected Time: {selectedHours}:{selectedMinutes}
+          </Text>
+          <TimePicker
+          selectedHours={selectedHours}
+          selectedMinutes={selectedMinutes}
+          onChange={(hours, minutes) => {
+            setSelectedHours(hours);
+            setSelectedMinutes(minutes);
+          }}
+          /> */}
+          {/* <View> */}
           <View style={{ alignItems: "center" }}>
-            <Text>Départ :</Text>
+            {/* <Text>Départ :</Text> */}
+            {/* <View> */}
+            <Button onPress={showTimepicker} title="Départ!" />
+            {/* </View> */}
+            {/* {show && ( */}
+            {/* -------------------------CI DESSOUS A REMETTRE------------- */}
+            {/* <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+              onPress={(date) => {
+                setDate(date);
+                setRoadtripDate(date);
+              }}
+            /> */}
+            {/* -------------------------A REMETTRE------------- */}
+            {/* )} */}
+            {/* </View> */}
             <CustomTimeNewTripInput
               placeholder="9:00"
               value={roadtriptimeDeparture}
@@ -233,7 +399,8 @@ function CreateRoadTripScreenFirstStep(props) {
           </View>
           <Text> </Text>
           <View style={{ alignItems: "center" }}>
-            <Text>Arrivée :</Text>
+            <Button onPress={showTimepicker} title="Arrivée!" />
+            {/* <Text>Arrivée :</Text> */}
             <CustomTimeNewTripInput
               placeholder="16:00"
               value={roadtriptimeArrival}
@@ -294,11 +461,26 @@ function CreateRoadTripScreenFirstStep(props) {
           }}
         >
           <Text> Pour quel type de moto ? </Text>
-          <CustomNewTripInput
+          {/* <CustomBikeCategPicker
+            selectedValue={userBikeCateg}
+            onValueChange={(value, index) => {
+              setRoadtripMotoType(value), (value = { roadtripMotoType });
+            }}
+            // style={{ flex: 1 }}
+          /> */}
+          <CustomBikeCategPicker2
+            selectedValue={roadtripMotoType}
+            onValueChange={(value, index) => {
+              // setuserBikeCateg(value),
+              setRoadtripMotoType(value), (value = { roadtripMotoType });
+            }}
+            style={{ flex: 1 }}
+          />
+          {/* <CustomNewTripInput
             placeholder="Toutes catégories"
             value={roadtripMotoType}
             setValue={setRoadtripMotoType}
-          />
+          /> */}
         </View>
 
         <View style={styles.tailleGroupe}>
@@ -308,7 +490,7 @@ function CreateRoadTripScreenFirstStep(props) {
           <Text> </Text>
           <View style={{ alignItems: "center" }}>
             <CustomTimeNewTripInput
-              placeholder="16:00"
+              placeholder="choisis un nombre"
               value={roadtripSizeGroup}
               setValue={setRoadtripSizeGroup}
             />
@@ -331,13 +513,13 @@ function CreateRoadTripScreenFirstStep(props) {
                   screen: "CreateRoadTripScreenRecap",
                 }),
                 props.onSubmitData({
-                  roadtripTitle,
-                  roadtripDate,
-                  roadtriptimeDeparture,
-                  roadtriptimeArrival,
-                  roadtripMotoType,
-                  roadtripSizeGroup,
-                  roadtripType,
+                  roadtripTitle: roadtripTitle,
+                  roadtripDate: roadtripDate,
+                  roadtriptimeDeparture: roadtriptimeDeparture,
+                  roadtriptimeArrival: roadtriptimeArrival,
+                  roadtripMotoType: roadtripMotoType,
+                  roadtripSizeGroup: roadtripSizeGroup,
+                  roadtripType: roadtripType,
                 })
               )}
             />
@@ -422,7 +604,17 @@ function mapDispatchToProps(dispatch) {
     onSubmitData: function (roadtripData) {
       dispatch({ type: "saveData", roadtripData: roadtripData });
     },
+    onsubmitTitle: function (title) {
+      dispatch({ type: "saveTitle", title: title });
+    },
   };
 }
 
-export default connect(null, mapDispatchToProps)(CreateRoadTripScreenFirstStep);
+function mapStateToProps(state) {
+  return { data_new_roadtrip: state.data_new_roadtrip, token: state.token };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateRoadTripScreenFirstStep);

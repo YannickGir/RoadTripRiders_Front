@@ -22,6 +22,7 @@ import { createStore, combineReducers } from "redux";
 import token from "./src/reducers/token";
 import urlImgList from "./src/reducers/url-list";
 import data_new_roadtrip from "./src/reducers/data_new_roadtrip";
+import data_new_itinerary from "./src/reducers/data_new_itinerary";
 
 // Bottom Menu
 import HomeScreen from "./src/screens/HomeScreen";
@@ -82,6 +83,7 @@ const store = createStore(
     token,
     urlImgList,
     data_new_roadtrip,
+    data_new_itinerary,
   })
 );
 
