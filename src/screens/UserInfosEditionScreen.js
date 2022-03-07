@@ -397,17 +397,30 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 2) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title='EDITE TON PROFIL'
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={2}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor='#FFD230'
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name='arrowleft' color='#363432' size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: 'EDITE TON PROFIL',
+              style: styles.heading,
+            }}
           />
-        </View>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={2}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
 
         <Text style={{ paddingBottom: '5%' }}>Et ta moto ?</Text>
 
@@ -454,17 +467,30 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 3) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title='EDITE TON PROFIL'
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={3}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor='#FFD230'
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name='arrowleft' color='#363432' size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: 'EDITE TON PROFIL',
+              style: styles.heading,
+            }}
           />
-        </View>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={3}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
 
         <Text
           style={{
