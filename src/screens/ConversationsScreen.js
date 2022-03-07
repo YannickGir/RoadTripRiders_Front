@@ -14,13 +14,83 @@ import { connect } from "react-redux";
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
+  const [conversationsListPrivate, setConversationsListPrivate] = useState([]);
+
   useEffect(() => {
+    async function loadConversationsPrivate() {
+      const data2 = await fetch(
+        `${MA_VARIABLE}/inbox/readconversationprivate?senderToken=${props.token}`
+      );
+      var body2 = await data2.json();
+      console.log("body", body2);
+
+      if (body2.conversationObjects == "") {
+        return setConversationsListPrivate(
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              alignSelf: "center",
+              textAlign: "center",
+              paddingTop: "50%",
+            }}
+          >
+            Mince ! Vous n'avez toujours pas de discution!
+          </Text>
+        );
+      } else {
+        setConversationsListPrivate(
+          body2.conversationObjects.map((convData, i) => {
+            var message = convData.last_private_message.content;
+            if (message.length > 25) {
+              message = message.substring(0, 24) + "...";
+            }
+
+            return (
+              <TouchableOpacity
+                key={i}
+                onPress={() =>
+                  props.navigation.navigate("ChatPrivate", {
+                    conversation_id: convData._id,
+                    conversation_firstname: convData.firstname,
+                  })
+                }
+              >
+                <View style={styles.user}>
+                  <View style={{ flexDirection: "row" }}>
+                    <View>
+                      <Image
+                        style={styles.avatar}
+                        size={64}
+                        rounded
+                        source={{
+                          uri: convData.user_photo,
+                        }}
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.titleText}>{convData.title}</Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {convData.firstname}:
+                        </Text>
+                        <Text> {message}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        );
+      }
+    }
     async function loadConversations() {
       const data = await fetch(
         `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
-      console.log("bodyCov", body);
+      // console.log("bodyCov", body);
       if (body.conversationObjects == "") {
         return setConversationsList(
           <Text
@@ -42,7 +112,7 @@ function ConversationsScreen(props) {
             if (message.length > 25) {
               message = message.substring(0, 24) + "...";
             }
-            console.log("convdata", convData);
+
             return (
               <TouchableOpacity
                 key={i}
@@ -101,11 +171,14 @@ function ConversationsScreen(props) {
     }
 
     loadConversations();
+    loadConversationsPrivate();
   }, []);
 
   return (
     <View style={styles.backgroundColor}>
       <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+      <ScrollView>{conversationsListPrivate}</ScrollView>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >

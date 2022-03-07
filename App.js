@@ -59,6 +59,7 @@ import OtherRiderProfil from "./src/screens/OtherRiderProfil";
 
 //Ecran des messages dans les conversations
 import ChatScreen from "./src/screens/ChatScreen";
+import ChatPrivateScreen from "./src/screens/ChatPrivateScreen";
 //Ecran du chat général
 import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 //Ecrans de création de roadtrips
@@ -161,6 +162,7 @@ export default function App() {
           <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="ChatPrivate" component={ChatPrivateScreen} />
           <Stack.Screen name="ChatGeneral" component={ChatGeneralScreen} />
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="MyContacts" component={MyContactsScreen} />
