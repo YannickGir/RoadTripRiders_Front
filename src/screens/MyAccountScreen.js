@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, View, Text, Platform } from 'react-native';
+import { StyleSheet, Button, View, Text, Platform, Image } from 'react-native';
 import CustomButton from '../../src/components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import pour le header
@@ -65,7 +65,12 @@ function MyAccountScreen(props) {
               marginTop: '10%',
             }}
           >
-            <View></View>
+            <View>
+              <Image
+                source={{ uri: props.urlAvatar }}
+                style={{ width: 100, height: 100 }}
+              />
+            </View>
             <View>
               <Text style={{ fontSize: 30 }}>Hello</Text>
               <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
@@ -208,4 +213,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(MyAccountScreen);
+function mapStateToProps(state) {
+  return { urlAvatar: state.urlAvatar };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountScreen);

@@ -118,6 +118,7 @@ function UserInfosEditionScreen(props) {
 
   var handleSubmitUserProfil = async () => {
     console.log('click détecté sur handleSubmitUserProfil');
+
     var passenger;
     if (hasPassenger) {
       passenger = true;
@@ -140,6 +141,9 @@ function UserInfosEditionScreen(props) {
       },
       body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
     });
+    var response = data.json();
+    console.log(response);
+    props.onSubmitUserData({ avatar: image, username: userFirstName });
   };
 
   //pour envoyer l'avatar vers le back et dans le store
@@ -221,7 +225,6 @@ function UserInfosEditionScreen(props) {
       //console.log(response);
       // NE PAS OUBLIER DE SET IMAGE2 AVEC L'URL NOUVELLEMENT GENEREE
       setImage2(response.urlToCloudImage);
-      props.onSubmitImage(response.urlToCloudImage);
     }
   };
 
@@ -258,7 +261,7 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingTop: '5%' }}>Quel rider es-tu ?</Text>
+        <Text style={{ paddingTop: '10%' }}>Quel rider es-tu ?</Text>
 
         <CustomInput
           placeholder='Prénom'
@@ -275,7 +278,12 @@ function UserInfosEditionScreen(props) {
         />
 
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: '10%',
+          }}
         >
           <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
           {image && (
@@ -285,7 +293,7 @@ function UserInfosEditionScreen(props) {
             />
           )}
         </View>
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+        <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
           Quelle est ta date de naissance ?
         </Text>
         <CustomDatePicker
@@ -294,7 +302,9 @@ function UserInfosEditionScreen(props) {
           title='DATE'
         />
 
-        <Text style={{ paddingTop: 0, paddingBottom: '2%' }}>Ton sexe ?</Text>
+        <Text style={{ paddingTop: '5%', paddingBottom: '2%' }}>
+          Ton sexe ?
+        </Text>
         <View style={styles.secondary}>
           <CheckBox
             title='Homme'
@@ -373,20 +383,10 @@ function UserInfosEditionScreen(props) {
           onValueChange={(value, index) => setuserRegion(value)}
         />
 
-        <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
-          Dans quelle ville vis-tu ?
-        </Text>
-        <CustomInput
-          placeholder='Ta ville'
-          value={userCity}
-          setValue={setuserCity}
-          secureTextEntry={false}
-        />
-
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginBottom: '5%' }}>
+          <View style={{ marginTop: '10%', marginBottom: '2%' }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -421,41 +421,54 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingBottom: '5%' }}>Et ta moto ?</Text>
-
-        <CustomInput
-          placeholder='Marque'
-          value={userBikeBrand}
-          setValue={setuserBikeBrand}
-          secureTextEntry={false}
-        />
-
-        <CustomInput
-          placeholder='Modèle'
-          value={userBikeModel}
-          setValue={setuserBikeModel}
-          secureTextEntry={false}
-        />
-
-        <Text
-          style={{
-            paddingTop: '5%',
-            paddingBottom: '5%',
-            alignContent: 'center',
-          }}
-        >
-          Sa catégorie?
+        <Text style={{ paddingTop: '0%', paddingBottom: '5%' }}>
+          Dans quelle ville vis-tu ?
         </Text>
-        <CustomBikeCategPicker
-          selectedValue={userBikeCateg}
-          onValueChange={(value, index) => setuserBikeCateg(value)}
-          style={{ flex: 1 }}
+        <CustomInput
+          placeholder='Ta ville'
+          value={userCity}
+          setValue={setuserCity}
+          secureTextEntry={false}
         />
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+            Et ta moto ?
+          </Text>
 
+          <CustomInput
+            placeholder='Marque'
+            value={userBikeBrand}
+            setValue={setuserBikeBrand}
+            secureTextEntry={false}
+          />
+
+          <CustomInput
+            placeholder='Modèle'
+            value={userBikeModel}
+            setValue={setuserBikeModel}
+            secureTextEntry={false}
+          />
+        </View>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text
+            style={{
+              paddingTop: '5%',
+              paddingBottom: '25%',
+              alignContent: 'center',
+            }}
+          >
+            Sa catégorie?
+          </Text>
+          <CustomBikeCategPicker
+            selectedValue={userBikeCateg}
+            onValueChange={(value, index) => setuserBikeCateg(value)}
+            style={{ flex: 1, paddingBottom: 20 }}
+          />
+        </View>
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: '40%' }}></View>
-          <View style={{ marginTop: '25%', marginBottom: '5%' }}>
+          <View style={{ marginTop: '10%', marginBottom: '2%' }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -493,7 +506,7 @@ function UserInfosEditionScreen(props) {
 
         <Text
           style={{
-            paddingTop: '5%',
+            paddingTop: 0,
             paddingBottom: '5%',
             alignContent: 'center',
           }}
@@ -558,7 +571,7 @@ function UserInfosEditionScreen(props) {
     );
   }
 
-  return <View style={{ marginTop: 25 }}>{pagecontent}</View>;
+  return <View>{pagecontent}</View>;
 }
 const styles = StyleSheet.create({
   container: {
@@ -618,8 +631,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmitImage: function (urldufetch) {
-      dispatch({ type: 'saveUrl', url: urldufetch });
+    onSubmitUserData: function (userDataObject) {
+      dispatch({ type: 'saveUserData', userData: userDataObject });
     },
   };
 }

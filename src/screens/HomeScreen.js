@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   Button,
@@ -9,28 +9,39 @@ import {
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
-} from "react-native";
-import { MA_VARIABLE } from "@env";
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-import CustomButton from "../../src/components/CustomButton";
-import { Card, Text, Overlay } from "react-native-elements";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import CustomHeader from "../components/CustomHeader";
-import CustomInput from "../../src/components/CustomInput";
-import LoadingOverlay from "../../src/components/LoadingOverlay";
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { connect } from 'react-redux';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import CustomButton from '../../src/components/CustomButton';
+import { Card, Text, Overlay } from 'react-native-elements';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+import CustomInput from '../../src/components/CustomInput';
+import LoadingOverlay from '../../src/components/LoadingOverlay';
 
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
-export default function HomepageScreen(props) {
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
+function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtriplist`
+    async function loadUserData() {
+      const dataUser = await fetch(
+        `${MA_VARIABLE}/users/user-data?token=${props.token}`
       );
+      var bodyUser = await dataUser.json();
+      console.log('bodyUser', bodyUser);
+      props.onSubmitUserData({
+        avatar: userData.user_photo,
+        username: userData.firstname,
+      });
+    }
+
+    async function loadRoadTrip() {
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
-      console.log("body", body);
+      console.log('body', body);
 
       setRoadTripList(
         body.map((tripData, i) => {
@@ -40,34 +51,34 @@ export default function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    width: "70%",
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    width: '70%',
                   }}
                 >
                   <Image
                     style={styles.avatar}
                     source={{ uri: tripData.user_photo }}
                   />
-                  <Text style={{ paddingLeft: "3%" }}>
+                  <Text style={{ paddingLeft: '3%' }}>
                     {tripData.firstname}
                   </Text>
                 </View>
                 <View
                   style={{
-                    alignSelf: "center",
-                    width: "70%",
-                    paddingBottom: "2%",
+                    alignSelf: 'center',
+                    width: '70%',
+                    paddingBottom: '2%',
                   }}
                 >
                   <Text style={styles.titleText}>{tripData.event_title}</Text>
                   <Text>
-                    <FontAwesome name="star" size={14} color="black" />
-                    <FontAwesome name="star" size={14} color="black" />
-                    <FontAwesome name="star" size={14} color="black" />
-                    <FontAwesome name="star" size={14} color="black" />
-                    <FontAwesome name="star-half" size={14} color="black" />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star' size={14} color='black' />
+                    <FontAwesome name='star-half' size={14} color='black' />
                   </Text>
                 </View>
                 <Image
@@ -78,16 +89,16 @@ export default function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "space-around",
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
                   }}
                 >
                   <View>
                     <Text>Distance :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -98,8 +109,8 @@ export default function HomepageScreen(props) {
                     <Text>Durée :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -110,8 +121,8 @@ export default function HomepageScreen(props) {
                     <Text>Niveau :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -127,48 +138,49 @@ export default function HomepageScreen(props) {
     }
 
     loadRoadTrip();
+    loadUserData();
   }, []);
 
   return (
     <View style={styles.container}>
       <CustomHeaderNoArrow
         containerStyle={{ paddingTop: 100 }}
-        title="Sorties"
+        title='Sorties'
       />
       <Overlay isVisible={visible} style={styles.image}>
-        <Image source={require("../Loading_overlay.gif")} />
+        <Image source={require('../Loading_overlay.gif')} />
       </Overlay>
-      <ScrollView style={{ flex: 1, width: "100%" }}>{roadTripList}</ScrollView>
+      <ScrollView style={{ flex: 1, width: '100%' }}>{roadTripList}</ScrollView>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <CustomButton title="CREER UN TRIP" />
+        <CustomButton title='CREER UN TRIP' />
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to itinerary !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate('Itinerary', {
+              screen: 'ItineraryScreen',
             })
           }
         />
         <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
+          icon={<Icon name='arrow-right' size={20} color='#eb4d4b' />}
+          title='go to roadtripList !'
+          type='solid'
           onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
+            props.navigation.navigate('RoadtripList', {
+              screen: 'RoadtripListScreen',
             })
           }
         />
         <Button
-          title="go to roadtripList !"
+          title='go to roadtripList !'
           onPress={async () => (
             setVisible(true),
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
+            props.navigation.navigate('RoadtripList', {
+              screen: 'RoadtripListScreen',
             })
           )}
         />
@@ -180,14 +192,14 @@ export default function HomepageScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: deviceWidth,
-    paddingTop: "10%",
+    paddingTop: '10%',
   },
   card: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -195,30 +207,44 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    backgroundColor: "#FFEDAC",
+    backgroundColor: '#FFEDAC',
     borderRadius: 15,
   },
 
   image: {
     width: null,
-    resizeMode: "contain",
+    resizeMode: 'contain',
     height: 220,
   },
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
     width: 50,
     height: 50,
-    position: "relative",
+    position: 'relative',
   },
   map: {
-    width: "100%",
+    width: '100%',
     height: 150,
-    paddingTop: "2%",
+    paddingTop: '2%',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
   },
 });
+
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitUserData: function (userDataObject) {
+      dispatch({ type: 'saveUserData', userData: userDataObject });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomepageScreen);
