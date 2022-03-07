@@ -10,6 +10,9 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
 import { Button, CheckBox } from 'react-native-elements';
@@ -27,6 +30,7 @@ import CustomHeaderRNE from '../components/CustomHeaderRNE';
 import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
 import CustomRegionPicker from '../components/CustomRegionPicker';
 import CustomLongInput from '../components/CustomLongInput';
+import { AntDesign } from '@expo/vector-icons';
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
 import { color } from 'react-native-elements/dist/helpers';
@@ -225,14 +229,27 @@ function UserInfosEditionScreen(props) {
   if (formProgress == 0) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() =>
-            props.navigation.navigate('BottomNavigator', {
-              screen: 'MyAccountScreen',
-            })
-          }
-          title='EDITE TON PROFIL'
-        />
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor='#FFD230'
+            leftComponent={
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate('BottomNavigator', {
+                    screen: 'MyAccountScreen',
+                  })
+                }
+              >
+                <AntDesign name='arrowleft' color='#363432' size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: 'EDITE TON PROFIL',
+              style: styles.heading,
+            }}
+          />
+        </SafeAreaProvider>
+
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -517,6 +534,25 @@ const styles = StyleSheet.create({
   },
   secondary: {
     flexDirection: 'row',
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
+    marginBottom: 20,
+    width: '100%',
+    paddingVertical: 15,
+  },
+  heading: {
+    color: '#363432',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  subheaderText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: '#FFD230',
   },
   bottomPage: {
     width: deviceWidth,
