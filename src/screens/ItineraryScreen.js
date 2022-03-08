@@ -18,7 +18,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 // fin import pour le header
-import { MaterialIcons } from '@expo/vector-icons'; // test icon Lili
 
 import { connect } from 'react-redux';
 

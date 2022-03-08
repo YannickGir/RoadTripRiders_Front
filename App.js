@@ -73,7 +73,7 @@ import RoadtripListScreen from './src/screens/RoadtripListScreen';
 import ItineraryScreen from './src/screens/ItineraryScreen';
 
 import { LogBox } from 'react-native';
-import SelectedRoadtripScreen from './src/screens/SelectedRoadtripScreen';
+
 LogBox.ignoreAllLogs();
 
 //--------------on indique à redux-persist d’ignorer le reducer de Redux Form en l’ajoutant à sa liste noire
@@ -170,10 +170,6 @@ export default function App() {
           <Stack.Screen name='Loading' component={LoadingScreen} />
           <Stack.Screen name='MyContacts' component={MyContactsScreen} />
           <Stack.Screen name='UserInfos' component={UserInfosScreen} />
-          <Stack.Screen
-            name='SelectedRoadtrip'
-            component={SelectedRoadtripScreen}
-          />
           <Stack.Screen
             name='RoadTripDetails'
             component={RoadTripDetailsScreen}
