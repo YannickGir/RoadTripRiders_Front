@@ -1,48 +1,55 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import MapView, { Polyline, Marker } from "react-native-maps";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { Input, Button, Overlay } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { captureRef } from "react-native-view-shot";
-import { MA_VARIABLE, APIGOOGLE } from "@env";
-import CustomButtonOrange from "../components/CustomButtonOrange";
-import CustomButton from "../components/CustomButton";
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-import { Dimensions } from "react-native"; //************  pour mettre du style sur les overlays */
-import CustomTextBackground from "../components/CustomTextBackground";
+import React, { useState, useEffect, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import MapView, { Polyline, Marker } from 'react-native-maps';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Input, Button, Overlay } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { captureRef } from 'react-native-view-shot';
+import { MA_VARIABLE, APIGOOGLE } from '@env';
+import CustomButtonOrange from '../components/CustomButtonOrange';
+import CustomButton from '../components/CustomButton';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import { Dimensions } from 'react-native'; //************  pour mettre du style sur les overlays */
+import CustomTextBackground from '../components/CustomTextBackground';
+// import pour le header
+import { Header as HeaderRNE } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
+// fin import pour le header
+import { MaterialIcons } from '@expo/vector-icons'; // test icon Lili
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-var polyline = require("@mapbox/polyline");
+var polyline = require('@mapbox/polyline');
 
 //**************************** Variable pour mettre du style sur les overlays */
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 
 function ItineraryScreen(props) {
-  const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
-  const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
+  const [departure_city, setDeparture_city] = useState(''); //Nom de la ville  de depart
+  const [departure_Region, setDeparture_Region] = useState(''); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
   const [departure_Lng, setDeparture_Lng] = useState(0); //longitude du point de départ
-  const [departure_place_id, setDeparture_place_id] = useState(""); //place ID du point de depart
-  const [departure_name, setDeparture_name] = useState(""); //nom du lieu de départ
-  const [arrival_city, setArrival_city] = useState(""); //nom de la ville d'arrivée
+  const [departure_place_id, setDeparture_place_id] = useState(''); //place ID du point de depart
+  const [departure_name, setDeparture_name] = useState(''); //nom du lieu de départ
+  const [arrival_city, setArrival_city] = useState(''); //nom de la ville d'arrivée
   const [arrival_Lat, setArrival_Lat] = useState(0); //latitude de l'arrivée
   const [arrival_Lng, setArrival_Lng] = useState(0); //longitude de l'arrivée
-  const [arrival_place_id, setArrival_place_id] = useState(""); //place ID de l'arrivée
-  const [arrival_name, setArrival_name] = useState(""); //nom du lieu d'arrivée
-  const [etape_city, setEtape_city] = useState(""); //non envoye en BDD
+  const [arrival_place_id, setArrival_place_id] = useState(''); //place ID de l'arrivée
+  const [arrival_name, setArrival_name] = useState(''); //nom du lieu d'arrivée
+  const [etape_city, setEtape_city] = useState(''); //non envoye en BDD
   const [etape_Lat, setEtape_Lat] = useState(0); //non envoye en BDD
   const [etape_Lng, setEtape_Lng] = useState(0); //non envoye en BDD
-  const [etape_place_id, setEtape_place_id] = useState(""); //non envoye en BDD
-  const [etape_name, setEtape_name] = useState(""); //non envoye en BDD
+  const [etape_place_id, setEtape_place_id] = useState(''); //non envoye en BDD
+  const [etape_name, setEtape_name] = useState(''); //non envoye en BDD
   const [itinerary_distance, setItinerary_distance] = useState(0); //distance totale en nombre arrondi en KM
   const [itinerary_duration, setItinerary_duration] = useState(0); //durée du trip en secondes
-  const [sectotime, setSectotime] = useState(""); //durée du trip en sting HH/MM/SS
+  const [sectotime, setSectotime] = useState(''); //durée du trip en sting HH/MM/SS
   const [coords_parcours, setCoords_parcours] = useState([]); //tous les points du parcours(Map de points)
-  const [points, setPoints] = useState(""); //Polyline décodee
+  const [points, setPoints] = useState(''); //Polyline décodee
   const [thisVisible, setThisVisible] = useState(false); // pour afficher  Overlay DEPART
   const [thisVisible1, setThisVisible1] = useState(false); // pour afficher  Overlay ARRIVEE
   const [thisVisible2, setThisVisible2] = useState(false); // pour Overlay des etapes
@@ -53,9 +60,9 @@ function ItineraryScreen(props) {
     longitudeDelta: 15,
   }); // coordonnées initiales de la map
   const [myWaypoints, setMyWaypoints] = useState([]); //liste de tous les points d'etapes
-  const [listWaypoints, setListWaypoints] = useState(""); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
+  const [listWaypoints, setListWaypoints] = useState(''); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
   const [etapesList, setEtapesList] = useState([]); //contient nom du lieu, nom de la ville,latitude, longitude, de chaque point d'etape
-  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState("");
+  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState('');
   const [nameEtapesList, setNameEtapesList] = useState([]);
   const captureViewRef = useRef();
 
@@ -81,11 +88,11 @@ function ItineraryScreen(props) {
     // this.GooglePlacesAutocompleteRef.clear();
     // console.log("Clic detecté");
     if (myWaypoints.length > 1) {
-      var waypointsList = myWaypoints.join("|");
+      var waypointsList = myWaypoints.join('|');
     } else {
       var waypointsList = `place_id:${etape_place_id}`;
     }
-    setEtape_place_id("");
+    setEtape_place_id('');
     // setTimeout(() => {
     //   this.setState({ ListWaypoints: waypointsList }, function () {
     //     console.log(this.state.listWaypoints, "listwaypoint a jour");
@@ -108,7 +115,7 @@ function ItineraryScreen(props) {
     return (
       <Marker
         key={j}
-        pinColor="red"
+        pinColor='red'
         coordinate={{
           latitude: etape.latitude,
           longitude: etape.longitude,
@@ -129,16 +136,16 @@ function ItineraryScreen(props) {
     //********************INSERTION VERSION MATHIEU ***************/
 
     var macapture = await captureRef(captureViewRef, {
-      format: "jpg",
+      format: 'jpg',
       quality: 0.7,
     });
     // console.log(macapture);
 
     var data = new FormData();
-    data.append("macarte", {
+    data.append('macarte', {
       uri: macapture,
-      type: "image/jpeg",
-      name: "macarte.jpg",
+      type: 'image/jpeg',
+      name: 'macarte.jpg',
     });
 
     // var mydata = {
@@ -195,19 +202,19 @@ function ItineraryScreen(props) {
     };
     // console.log("mydata2 :", mydata2);
 
-    data.append("mydata", JSON.stringify(mydata2));
+    data.append('mydata', JSON.stringify(mydata2));
     var rawResponse = await fetch(
       `https://roadtripridersyann.herokuapp.com/itineraries/add`,
       {
-        method: "POST",
+        method: 'POST',
         body: data,
       }
     );
     const response = await rawResponse.json();
-    console.log("console du fetch", response.newItinerary._id);
+    console.log('console du fetch', response.newItinerary._id);
 
-    props.navigation.navigate("newRoadTripFirstStep", {
-      screen: "CreateRoadTripScreenFirstStep",
+    props.navigation.navigate('newRoadTripFirstStep', {
+      screen: 'CreateRoadTripScreenFirstStep',
       itinerary_id: response.newItinerary._id,
     });
 
@@ -267,8 +274,8 @@ function ItineraryScreen(props) {
   const handleClick = async () => {
     // console.log("listWaypoints", listWaypoints);
     // console.log("myWaypoints", myWaypoints);
-    var finalWaypointStr = myWaypoints.join("|");
-    var theFINALFINALETAPESSTR = nameEtapesList.join(";");
+    var finalWaypointStr = myWaypoints.join('|');
+    var theFINALFINALETAPESSTR = nameEtapesList.join(';');
     setTheFinalEtapesStr(theFINALFINALETAPESSTR);
 
     var rawResponse = await fetch(
@@ -308,7 +315,7 @@ function ItineraryScreen(props) {
       totalsecondes %= 3600;
       minutes = Math.floor(totalsecondes / 60);
       seconds = Math.floor(totalsecondes % 60);
-      return hours + "h:" + minutes + "min:";
+      return hours + 'h:' + minutes + 'min:';
     };
     setSectotime(secToTime(totalDuration));
     //*********Fin calcul duree totale******
@@ -336,19 +343,30 @@ function ItineraryScreen(props) {
     //*************************************************************************PREPARATION ENVOI BDD***********$ */
   };
   return (
-    <View style={{ flex: 1, marginTop: 50 }}>
-      <View style={{ height: 150 }}>
-        <CustomHeaderNoArrow
-          onPress={(props) =>
-            props.navigation.navigate("BottomNavigator", {
-              screen: "HomeScreen",
-            })
+    <View style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <HeaderRNE
+          backgroundColor='#FFD230'
+          leftComponent={
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('BottomNavigator', {
+                  screen: 'HomeScreen',
+                })
+              }
+            >
+              <AntDesign name='arrowleft' color='#363432' size={30} />
+            </TouchableOpacity>
           }
-          size={40}
-          title="Création itineraire"
+          centerComponent={{
+            text: 'ITINERAIRE',
+            style: styles.heading,
+          }}
         />
+      </SafeAreaProvider>
+      <View style={{ height: 150 }}>
         <CustomButtonOrange
-          title="CREER ITINERAIRE"
+          title='CREER ITINERAIRE'
           onPress={() => itineraryClick()}
         />
         <Overlay
@@ -357,11 +375,30 @@ function ItineraryScreen(props) {
             setIsVisible(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor='#FFD230'
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('BottomNavigator', {
+                      screen: 'HomeScreen',
+                    })
+                  }
+                >
+                  <AntDesign name='arrowleft' color='#363432' size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: 'ITINERAIRE',
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
           <Text></Text>
           <Text></Text>
-
           <GooglePlacesAutocomplete
-            placeholder="Ville depart"
+            placeholder='Ville depart'
             fetchDetails={true}
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
@@ -409,7 +446,7 @@ function ItineraryScreen(props) {
               setDeparture_name(details.name);
               //****ajout fonction mathieu******
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   // console.log(
                   //   "la ville est : ",
                   //   details.address_components[i].long_name
@@ -422,7 +459,7 @@ function ItineraryScreen(props) {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  "administrative_area_level_1"
+                  'administrative_area_level_1'
                 ) {
                   // console.log(
                   //   "la Region est : ",
@@ -439,12 +476,12 @@ function ItineraryScreen(props) {
             }}
             query={{
               key: `AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             // styles={{
             //   height: 20,
@@ -462,34 +499,34 @@ function ItineraryScreen(props) {
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "80%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '80%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
                 marginTop: 30,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "80%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '80%',
+                alignSelf: 'center',
               },
             }}
           />
           <CustomButtonOrange
-            title="SAISIR VILLE ARRIVEE"
+            title='SAISIR VILLE ARRIVEE'
             onPress={() => {
               setThisVisible(false),
                 setThisVisible1(true),
@@ -504,8 +541,30 @@ function ItineraryScreen(props) {
             setThisVisible2(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor='#FFD230'
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('BottomNavigator', {
+                      screen: 'HomeScreen',
+                    })
+                  }
+                >
+                  <AntDesign name='arrowleft' color='#363432' size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: 'ITINERAIRE',
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
-            placeholder="Ville Arrivée"
+            placeholder='Ville Arrivée'
             fetchDetails={true}
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
@@ -550,7 +609,7 @@ function ItineraryScreen(props) {
               setArrival_name(details.name);
 
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   // console.log(
                   //   "la ville est : ",
                   //   details.address_components[i].long_name
@@ -563,7 +622,7 @@ function ItineraryScreen(props) {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  "administrative_area_level_1"
+                  'administrative_area_level_1'
                 ) {
                   // console.log(
                   //   "la Region est : ",
@@ -579,12 +638,12 @@ function ItineraryScreen(props) {
             }}
             query={{
               key: `AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             // styles={{
             //   height: 20,
@@ -602,41 +661,41 @@ function ItineraryScreen(props) {
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "80%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '80%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
                 marginTop: 30,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "80%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '80%',
+                alignSelf: 'center',
               },
             }}
           />
 
           <CustomButtonOrange
-            title="AJOUTER DES ETAPES"
+            title='AJOUTER DES ETAPES'
             onPress={() => {
               setThisVisible2(true), setThisVisible1(false);
               setThisVisible(false);
             }}
           />
-          <CustomButton title="VALIDER" onPress={() => setThisVisible(false)} />
+          <CustomButton title='VALIDER' onPress={() => setThisVisible(false)} />
         </Overlay>
 
         <Overlay
@@ -646,10 +705,30 @@ function ItineraryScreen(props) {
             setIsVisible1(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor='#FFD230'
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('BottomNavigator', {
+                      screen: 'HomeScreen',
+                    })
+                  }
+                >
+                  <AntDesign name='arrowleft' color='#363432' size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: 'ITINERAIRE',
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
           <Text></Text>
           <Text></Text>
           <GooglePlacesAutocomplete
-            placeholder=" Etape"
+            placeholder=' Etape'
             fetchDetails={true}
             // ref={(instance) => {
             //   this.GooglePlacesAutocompleteRef = instance;
@@ -700,7 +779,7 @@ function ItineraryScreen(props) {
               setEtape_name(details.name);
               //****ajout fonction mathieu******
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   // console.log(
                   //   "la ville est : ",
                   //   details.address_components[i].long_name
@@ -713,7 +792,7 @@ function ItineraryScreen(props) {
               for (var i = 0; i < details.address_components.length; i++) {
                 if (
                   details.address_components[i].types[0] ==
-                  "administrative_area_level_1"
+                  'administrative_area_level_1'
                 ) {
                   // console.log(
                   //   "la Region est : ",
@@ -729,12 +808,12 @@ function ItineraryScreen(props) {
             }}
             query={{
               key: `AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             // styles={{
             //   height: 20,
@@ -752,38 +831,38 @@ function ItineraryScreen(props) {
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "80%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '80%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
                 marginTop: 30,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "80%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '80%',
+                alignSelf: 'center',
               },
             }}
           />
           <CustomButtonOrange
-            title="AJOUTER UNE ETAPE"
+            title='AJOUTER UNE ETAPE'
             onPress={() => addEtap()}
           />
           <CustomButton
-            title="VALIDER"
+            title='VALIDER'
             onPress={() => {
               setThisVisible(false), setThisVisible1(false);
               setThisVisible2(false);
@@ -841,16 +920,16 @@ function ItineraryScreen(props) {
         Distance : {itinerary_distance} KMs
       </Text> */}
 
-      <View style={{ paddingBottom: 10, paddingTop: 10, paddingLeft: "13%" }}>
+      <View style={{ paddingBottom: 10, paddingTop: 10, paddingLeft: '13%' }}>
         <CustomTextBackground
-          text1=" Ville de départ :"
+          text1=' Ville de départ :'
           text2={departure_name}
         />
-        <CustomTextBackground text1="Etapes:" text2={theFinalEtapesStr} />
+        <CustomTextBackground text1='Etapes:' text2={theFinalEtapesStr} />
         <CustomTextBackground text1="Ville d'arrivée :" text2={arrival_city} />
-        <CustomTextBackground text1="Durée :" text2={sectotime} />
+        <CustomTextBackground text1='Durée :' text2={sectotime} />
         <CustomTextBackground
-          text1="Distance en KMs:"
+          text1='Distance en KMs:'
           text2={itinerary_distance}
         />
       </View>
@@ -866,22 +945,22 @@ function ItineraryScreen(props) {
       >
         <Marker
           size={10}
-          pinColor="black"
+          pinColor='black'
           coordinate={{
             latitude: departure_Lat,
             longitude: departure_Lng,
           }}
-          title="Départ"
+          title='Départ'
           description={departure_name}
         ></Marker>
         <Marker
-          icon={<Icon name="fa-motorcycle" size={20} color="#ffffff" />}
-          pinColor="black"
+          icon={<Icon name='fa-motorcycle' size={20} color='#ffffff' />}
+          pinColor='black'
           coordinate={{
             latitude: arrival_Lat,
             longitude: arrival_Lng,
           }}
-          title="Arrivee"
+          title='Arrivee'
           description={arrival_name}
         ></Marker>
         {/* <Marker
@@ -898,7 +977,7 @@ function ItineraryScreen(props) {
         <Polyline
           style={{}}
           coordinates={coords_parcours}
-          strokeColor={"#000"}
+          strokeColor={'#000'}
           strokeWidth={3}
           lineDashPattern={[1]}
         />
@@ -906,9 +985,9 @@ function ItineraryScreen(props) {
         {/* <Input onChangeText={(value) => setText(value)} value={text} />
       <Button title="valider" /> */}
       </MapView>
-      <CustomButton title="VALIDER ITINERAIRE" onPress={() => handleClick()} />
+      <CustomButton title='VALIDER ITINERAIRE' onPress={() => handleClick()} />
       <CustomButtonOrange
-        title="ENVOI EN BDD"
+        title='ENVOI EN BDD'
         onPress={() => {
           SubmitItinerary(),
             props.onSubmitItineraryData({
@@ -929,16 +1008,37 @@ function ItineraryScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  //style pour le header
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
+    marginBottom: 10,
+    width: '100%',
+    paddingVertical: 15,
+  },
+  heading: {
+    color: '#363432',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  subheaderText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: '#FFD230',
+  },
+  //fin du style pour le header
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitItineraryData: function (itineraryData) {
-      dispatch({ type: "saveItinerary", itineraryData: itineraryData });
+      dispatch({ type: 'saveItinerary', itineraryData: itineraryData });
     },
   };
 }

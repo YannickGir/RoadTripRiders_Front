@@ -48,7 +48,7 @@ function MyAccountScreen(props) {
         <HeaderRNE
           backgroundColor='#FFD230'
           centerComponent={{
-            text: 'MON PROFIL',
+            text: 'MON COMPTE',
             style: styles.heading,
           }}
         />
@@ -85,7 +85,6 @@ function MyAccountScreen(props) {
                 <Text style={{ fontSize: 30 }}>
                   Hello {props.userData.username}
                 </Text>
-                <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
                 <Text>
                   <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
                   Statut : Newbi(ker)
