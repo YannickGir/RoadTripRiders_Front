@@ -28,12 +28,9 @@ import CustomInput from "../../src/components/CustomInput";
 import LoadingOverlay from "../../src/components/LoadingOverlay";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-<<<<<<< HEAD
+import CustomButtonOrange from "../../src/components/CustomButtonOrange";
 import LottieView from "lottie-react-native";
 import animationMoto from "../lotties/motorcycle-loading.json";
-=======
-import CustomButtonOrange from "../../src/components/CustomButtonOrange";
->>>>>>> f13ceda7951edb11e7eb10e68bce2fd37fcbb780
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -195,7 +192,7 @@ function HomepageScreen(props) {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ backgroundColor: "#FEFAEA" }}>
       <HeaderRNE
         backgroundColor="#FFD230"
         centerComponent={{
