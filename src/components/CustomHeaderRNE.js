@@ -17,7 +17,7 @@ const CustomHeaderRNE = (props, { onPress, headerTitle }) => {
   return (
     <SafeAreaProvider>
       <HeaderRNE
-        containerStyle={{ backgroundColor: "#FFD230" }}
+        backgroundColor="#FFD230"
         leftComponent={
           <TouchableOpacity onPress={onPress}>
             <AntDesign name="arrowleft" color="#363432" size={30} />
