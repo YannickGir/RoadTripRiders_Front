@@ -68,6 +68,8 @@ import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFi
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ConfirmationNewRoadtripScreen from "./src/screens/ConfirmationNewRoadtripScreen";
+import ListItinerariesScreen from "./src/screens/ListItinerariesScreen";
+import DisplayItineraryScreen from "./src/screens/DisplayItineraryScreen";
 
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
@@ -104,15 +106,16 @@ const formStackNavigator = () => {
         component={CreateRoadTripScreenRecap}
       />
       <Stack.Screen
-        name="newRoadTripFirstStep2"
-        component={CreateRoadTripScreenFirstStep2}
-      />
-      <Stack.Screen
         name="ConfirmationNewRoadtrip"
         component={ConfirmationNewRoadtripScreen}
       />
 
       <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
+      <Stack.Screen name="ListItineraries" component={ListItinerariesScreen} />
+      <Stack.Screen
+        name="DisplayItinerary"
+        component={DisplayItineraryScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -207,8 +210,15 @@ export default function App() {
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}
           />
-
           <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
+          <Stack.Screen
+            name="ListItineraries"
+            component={ListItinerariesScreen}
+          />
+          <Stack.Screen
+            name="DisplayItinerary"
+            component={DisplayItineraryScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

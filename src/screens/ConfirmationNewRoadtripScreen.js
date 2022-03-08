@@ -27,7 +27,7 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 
-function MyAccountScreen(props) {
+function ConfirmationNewRoadtripScreen(props) {
   useEffect(() => {
     // On vérifie s'il y a un token dans l'async storage;
     var findToken = AsyncStorage.getItem("token", function () {
@@ -80,11 +80,13 @@ function MyAccountScreen(props) {
             <View>
               <Text style={{ fontSize: 70, paddingRight: "5%" }}>🎉</Text>
             </View>
-            <View>
-              <Text style={{ fontSize: 20 }}>Félicitations</Text>
-              <Text style={{ fontSize: 20 }}>à toi !</Text>
-              <Text style={{ fontSize: 25 }}>
-                {/* {props.data_new_roadtrip.username} */}
+            <View style={{ alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                Félicitations
+              </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>à toi !</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                {props.userData.username}
               </Text>
             </View>
           </View>
@@ -94,7 +96,7 @@ function MyAccountScreen(props) {
         <Card containerStyle={styles.card}>
           <View style={styles.titleText}>
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {props.data_new_roadtrip.roadtripTitle} prévue le{" "}
+              {props.data_new_roadtrip.roadtripTitle} prévu le{" "}
               {props.data_new_roadtrip.roadtripDate}
             </Text>
           </View>
@@ -110,6 +112,7 @@ function MyAccountScreen(props) {
             style={{
               flexDirection: "row",
               justifyContent: "space-around",
+              paddingTop: "5%",
             }}
           >
             <View>
@@ -145,7 +148,7 @@ function MyAccountScreen(props) {
                   fontSize: 15,
                 }}
               >
-                {props.data_new_roadtrip.roadtripSizeGroup}
+                {props.data_new_roadtrip.roadtripSizeGroup} motards
               </Text>
             </View>
           </View>
@@ -258,7 +261,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { data_new_roadtrip: state.data_new_roadtrip, token: state.token };
+  return {
+    data_new_roadtrip: state.data_new_roadtrip,
+    token: state.token,
+    userData: state.userData,
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConfirmationNewRoadtripScreen);

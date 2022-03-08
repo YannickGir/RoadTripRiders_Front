@@ -200,9 +200,11 @@ function CreateRoadTripScreenFirstStep(props) {
             />
             <CustomButton
               title="ITINERAIRE PROPOSE"
-              // onPress={() =>
-
-              // }
+              onPress={() =>
+                props.navigation.navigate("ListItineraries", {
+                  screen: "ListItinerariesScreen",
+                })
+              }
             />
           </View>
           <View style={{ marginTop: "15%" }}>
