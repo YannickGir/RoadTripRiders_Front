@@ -69,7 +69,6 @@ function UserInfosEditionScreen(props) {
   const [userFirstName, setuserFirstName] = useState(''); //prénom utilisateur
   const [userLastName, setuserLastName] = useState(''); //nom utilisateur
   const [userBirthDate, setuserBirthDate] = useState(''); //date de naissance de l'utilisateur
-  const [date, setDate] = useState('07-03-2022'); // date d'initialisation du date picker
   const [userRegion, setuserRegion] = useState(''); //région où sort l'utilisateur
   const [userCity, setuserCity] = useState(''); //ville où vit l'utilisateur
   const [userBio, setuserBio] = useState(''); //biographie de l'utilisateur
