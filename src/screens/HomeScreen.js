@@ -28,8 +28,12 @@ import CustomInput from "../../src/components/CustomInput";
 import LoadingOverlay from "../../src/components/LoadingOverlay";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+<<<<<<< HEAD
 import LottieView from "lottie-react-native";
 import animationMoto from "../lotties/motorcycle-loading.json";
+=======
+import CustomButtonOrange from "../../src/components/CustomButtonOrange";
+>>>>>>> f13ceda7951edb11e7eb10e68bce2fd37fcbb780
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -46,7 +50,7 @@ function HomepageScreen(props) {
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -67,7 +71,9 @@ function HomepageScreen(props) {
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      const data = await fetch(
+        `https://roadtripridersyann.herokuapp.com/roadtriplist`
+      );
       var body = await data.json();
       // console.log("body", body);
 
@@ -212,35 +218,13 @@ function HomepageScreen(props) {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <CustomButton title="CREER UN TRIP" />
-        <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+        <CustomButton
+          title="CREER UN TRIP"
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate("newRoadTripFirstStep", {
+              itinerary_id: "",
             })
           }
-        />
-        <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          }
-        />
-        <Button
-          title="go to roadtripList !"
-          onPress={async () => (
-            setVisible(true),
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          )}
         />
       </KeyboardAvoidingView>
     </SafeAreaProvider>

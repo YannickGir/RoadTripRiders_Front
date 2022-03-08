@@ -73,7 +73,7 @@ function CreateRoadTripScreenFirstStep(props) {
 
   //-------------------------Envoi des infos au store et en BDD-----------------
   const NewRoadtripData = async () => {
-    await fetch(`${MA_VARIABLE}/addroadtrip`, {
+    await fetch(`https://roadtripridersyann.herokuapp.com/addroadtrip`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&arrival_time=${props.data_new_roadtrip.roadtriptimeArrival}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
@@ -150,7 +150,18 @@ function CreateRoadTripScreenFirstStep(props) {
 
       <View style={styles.carte}>
         <CustomButtonModif />
-        <Image source={require("../carte_trajet.jpg")} />
+
+        <Image
+          style={{
+            height: 200,
+            width: 350,
+          }}
+          // source={require({ map_itinerary })}
+          source={{
+            uri: props.data_new_roadtrip.map_itinerary,
+          }}
+        />
+        {/* <Image source={require("../carte_trajet.jpg")} /> */}
       </View>
 
       {/* VALIDATION DU TRIP */}
@@ -160,8 +171,8 @@ function CreateRoadTripScreenFirstStep(props) {
           title="C'EST PARTI !"
           onPress={() => {
             NewRoadtripData(),
-              props.navigation.navigate("RoadtripList", {
-                screen: "RoadtripListScreen",
+              props.navigation.navigate("ConfirmationNewRoadtrip", {
+                screen: "ConfirmationNewRoadtripScreen",
               });
           }}
         />

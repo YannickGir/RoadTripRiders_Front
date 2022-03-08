@@ -72,7 +72,7 @@ function CreateRoadTripScreenFirstStep(props) {
 
   // Barre de progression
   const [formProgress, setFormProgress] = useState(0);
-  const [toggleButton, setToggleButton] = useState(false);
+  const [toggleButton, setToggleButton] = useState(true);
   const [stepScreen, setStepScreen] = useState();
 
   //store inputs first step-------------
@@ -200,9 +200,11 @@ function CreateRoadTripScreenFirstStep(props) {
             />
             <CustomButton
               title="ITINERAIRE PROPOSE"
-              // onPress={() =>
-
-              // }
+              onPress={() =>
+                props.navigation.navigate("ListItineraries", {
+                  screen: "ListItinerariesScreen",
+                })
+              }
             />
           </View>
           <View style={{ marginTop: "15%" }}>
@@ -237,7 +239,7 @@ function CreateRoadTripScreenFirstStep(props) {
             }}
             // source={require({ map_itinerary })}
             source={{
-              uri: "http://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646666797/eedgotjhuytg5bke5j5g.jpg",
+              uri: map_itinerary,
             }}
           />
           <View
@@ -319,7 +321,7 @@ function CreateRoadTripScreenFirstStep(props) {
               date={date} // Initial date from state
               mode="date" // The enum of date, datetime and time
               placeholder="select date"
-              format="DD/MM/YYYY HH:mm:ss"
+              format="YYYY-MM-DD"
               // minDate="01-01-2016"
               // maxDate="01-01-2019"
               confirmBtnText="Confirm"
@@ -520,6 +522,7 @@ function CreateRoadTripScreenFirstStep(props) {
                   roadtripMotoType: roadtripMotoType,
                   roadtripSizeGroup: roadtripSizeGroup,
                   roadtripType: roadtripType,
+                  map_itinerary: map_itinerary,
                 })
               )}
             />
@@ -603,9 +606,6 @@ function mapDispatchToProps(dispatch) {
   return {
     onSubmitData: function (roadtripData) {
       dispatch({ type: "saveData", roadtripData: roadtripData });
-    },
-    onsubmitTitle: function (title) {
-      dispatch({ type: "saveTitle", title: title });
     },
   };
 }
