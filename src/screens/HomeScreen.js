@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   Button,
@@ -10,41 +10,44 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-} from "react-native";
-import { MA_VARIABLE } from "@env";
-import { connect } from "react-redux";
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-import CustomButton from "../../src/components/CustomButton";
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { connect } from 'react-redux';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import CustomButton from '../../src/components/CustomButton';
 import {
   Card,
   Text,
   Overlay,
   Rating,
   RatingProps,
-} from "react-native-elements";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import CustomHeader from "../components/CustomHeader";
-import CustomInput from "../../src/components/CustomInput";
-import LoadingOverlay from "../../src/components/LoadingOverlay";
-import { Header as HeaderRNE } from "react-native-elements";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
+} from 'react-native-elements';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+import CustomInput from '../../src/components/CustomInput';
+import LoadingOverlay from '../../src/components/LoadingOverlay';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import CustomButtonOrange from '../../src/components/CustomButtonOrange';
+import LottieView from 'lottie-react-native';
+import animationMoto from '../lotties/motorcycle-loading.json';
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 
 type RatingsComponentProps = {};
 
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
+
   const ratingCompleted = (rating: number) => {
-    console.log("Rating is: " + rating);
+    console.log('Rating is: ' + rating);
   };
   const ratingProps = {};
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -55,34 +58,37 @@ function HomepageScreen(props) {
     loadUserData();
   }, [props.token]);
 
-  const [sectotime, setSectotime] = useState("");
+  const [sectotime, setSectotime] = useState('');
   const secToTime = (totalsecondes) => {
     hours = Math.floor(totalsecondes / 3600);
     totalsecondes %= 3600;
     minutes = Math.floor(totalsecondes / 60);
     seconds = Math.floor(totalsecondes % 60);
-    return hours + "h:" + minutes + "min:";
+    return hours + 'h:' + minutes + 'min:';
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      const data = await fetch(
+        `https://roadtripridersyann.herokuapp.com/roadtriplist`
+      );
       var body = await data.json();
       // console.log("body", body);
 
       setRoadTripList(
         body.map((tripData, i) => {
           var durationHour = secToTime(tripData.duration);
-          var durationHour2 = durationHour.slice(0, -1);
+          var durationHour2 = durationHour.slice(0, -4);
           var km = parseInt(tripData.distance);
           console.log(
-            "tripData.rating.$numberDecimal",
+            'tripData.rating.$numberDecimal',
             tripData.rating.$numberDecimal
           );
+          setVisible(false);
           return (
             <TouchableOpacity
               key={i}
               onPress={() =>
-                props.navigation.navigate("RoadTripDetails", {
+                props.navigation.navigate('RoadTripDetails', {
                   trip_id: tripData._id,
                   itinerary_id: tripData.itinerary_id,
                 })
@@ -92,38 +98,38 @@ function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    width: "70%",
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    width: '70%',
                   }}
                 >
                   <Image
                     style={styles.avatar}
                     source={{ uri: tripData.user_photo }}
                   />
-                  <Text style={{ paddingLeft: "3%" }}>
+                  <Text style={{ paddingLeft: '3%' }}>
                     {tripData.firstname}
                   </Text>
                 </View>
                 <View
                   style={{
-                    alignSelf: "center",
-                    width: "70%",
-                    paddingBottom: "2%",
+                    alignSelf: 'center',
+                    width: '70%',
+                    paddingBottom: '2%',
                   }}
                 >
                   <Text style={styles.titleText}>{tripData.event_title}</Text>
                   <Rating
-                    type="custom"
-                    ratingColor="#f1c40f"
-                    tintColor="#FFEDAC"
+                    type='custom'
+                    ratingColor='#f1c40f'
+                    tintColor='#FFEDAC'
                     readonly
                     ratingCount={5}
                     startingValue={tripData.rating.$numberDecimal}
                     imageSize={15}
                     onFinishRating={ratingCompleted}
-                    style={{ alignSelf: "flex-start" }}
+                    style={{ alignSelf: 'flex-start' }}
                   />
                 </View>
                 <Image
@@ -134,16 +140,16 @@ function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "space-around",
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
                   }}
                 >
                   <View>
                     <Text>Distance :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -154,8 +160,8 @@ function HomepageScreen(props) {
                     <Text>Durée :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -166,8 +172,8 @@ function HomepageScreen(props) {
                     <Text>Niveau :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -186,56 +192,36 @@ function HomepageScreen(props) {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ backgroundColor: '#FEFAEA' }}>
       <HeaderRNE
-        backgroundColor="#FFD230"
+        backgroundColor='#FFD230'
         centerComponent={{
-          text: "SORTIES À VENIR",
+          text: 'SORTIES À VENIR',
           style: styles.heading,
         }}
       />
 
-      <Overlay isVisible={visible} style={styles.image}>
-        <Image source={require("../Loading_overlay.gif")} />
-      </Overlay>
-      <ScrollView style={{ flex: 1, width: "100%" }}>
-        <Overlay isVisible={visible} style={styles.image}>
-          <Image source={require("../Loading_overlay.gif")} />
+      <ScrollView style={{ flex: 1, width: '100%' }}>
+        <Overlay isVisible={visible} overlayStyle={styles.image}>
+          <LottieView
+            source={require('../lotties/motorcycle-loading.json')}
+            autoPlay
+            loop
+            style={{ height: 300, width: 500 }}
+          />
         </Overlay>
         {roadTripList}
       </ScrollView>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <CustomButton title="CREER UN TRIP" />
-        <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+        <CustomButton
+          title='CREER UN TRIP'
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate('newRoadTripFirstStep', {
+              itinerary_id: '',
             })
           }
-        />
-        <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          }
-        />
-        <Button
-          title="go to roadtripList !"
-          onPress={async () => (
-            setVisible(true),
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          )}
         />
       </KeyboardAvoidingView>
     </SafeAreaProvider>
@@ -245,13 +231,13 @@ function HomepageScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: deviceWidth,
   },
   card: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -259,48 +245,48 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    backgroundColor: "#FFEDAC",
+    backgroundColor: '#FFEDAC',
     borderRadius: 15,
   },
 
   image: {
-    width: null,
-    resizeMode: "contain",
-    height: 220,
+    resizeMode: 'contain',
+    backgroundColor: 'transparent',
+    marginTop: -200,
   },
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
     width: 50,
     height: 50,
-    position: "relative",
+    position: 'relative',
   },
   map: {
-    width: "100%",
+    width: '100%',
     height: 150,
-    paddingTop: "2%",
+    paddingTop: '2%',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
   },
   heading: {
-    color: "#363432",
+    color: '#363432',
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
 function mapStateToProps(state) {
-  console.log("HOMESCREEN", state.token, state);
+  console.log('HOMESCREEN', state.token, state);
   return { token: state.token };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitUserData: function (userDataObject) {
-      dispatch({ type: "saveUserData", userData: userDataObject });
+      dispatch({ type: 'saveUserData', userData: userDataObject });
     },
   };
 }
