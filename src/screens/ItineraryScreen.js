@@ -12,6 +12,13 @@ import CustomButton from "../components/CustomButton";
 import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 import { Dimensions } from "react-native"; //************  pour mettre du style sur les overlays */
 import CustomTextBackground from "../components/CustomTextBackground";
+// import pour le header
+import { Header as HeaderRNE } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
+// fin import pour le header
+import { MaterialIcons } from "@expo/vector-icons"; // test icon Lili
 
 import { connect } from "react-redux";
 
@@ -336,17 +343,28 @@ function ItineraryScreen(props) {
     //*************************************************************************PREPARATION ENVOI BDD***********$ */
   };
   return (
-    <View style={{ flex: 1, marginTop: 50 }}>
-      <View style={{ height: 150 }}>
-        <CustomHeaderNoArrow
-          onPress={(props) =>
-            props.navigation.navigate("BottomNavigator", {
-              screen: "HomeScreen",
-            })
+    <View style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <HeaderRNE
+          backgroundColor="#FFD230"
+          leftComponent={
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("BottomNavigator", {
+                  screen: "HomeScreen",
+                })
+              }
+            >
+              <AntDesign name="arrowleft" color="#363432" size={30} />
+            </TouchableOpacity>
           }
-          size={40}
-          title="Création itineraire"
+          centerComponent={{
+            text: "ITINERAIRE",
+            style: styles.heading,
+          }}
         />
+      </SafeAreaProvider>
+      <View style={{ height: 150 }}>
         <CustomButtonOrange
           title="CREER ITINERAIRE"
           onPress={() => itineraryClick()}
@@ -357,9 +375,28 @@ function ItineraryScreen(props) {
             setIsVisible(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor="#FFD230"
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("BottomNavigator", {
+                      screen: "HomeScreen",
+                    })
+                  }
+                >
+                  <AntDesign name="arrowleft" color="#363432" size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: "ITINERAIRE",
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
           <Text></Text>
           <Text></Text>
-
           <GooglePlacesAutocomplete
             placeholder="Ville depart"
             fetchDetails={true}
@@ -504,6 +541,28 @@ function ItineraryScreen(props) {
             setThisVisible2(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor="#FFD230"
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("BottomNavigator", {
+                      screen: "HomeScreen",
+                    })
+                  }
+                >
+                  <AntDesign name="arrowleft" color="#363432" size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: "ITINERAIRE",
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
+          <Text></Text>
+          <Text></Text>
           <GooglePlacesAutocomplete
             placeholder="Ville Arrivée"
             fetchDetails={true}
@@ -646,6 +705,26 @@ function ItineraryScreen(props) {
             setIsVisible1(false);
           }}
         >
+          <SafeAreaProvider>
+            <HeaderRNE
+              backgroundColor="#FFD230"
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("BottomNavigator", {
+                      screen: "HomeScreen",
+                    })
+                  }
+                >
+                  <AntDesign name="arrowleft" color="#363432" size={30} />
+                </TouchableOpacity>
+              }
+              centerComponent={{
+                text: "ITINERAIRE",
+                style: styles.heading,
+              }}
+            />
+          </SafeAreaProvider>
           <Text></Text>
           <Text></Text>
           <GooglePlacesAutocomplete
@@ -932,6 +1011,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  //style pour le header
+  headerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
+    marginBottom: 10,
+    width: "100%",
+    paddingVertical: 15,
+  },
+  heading: {
+    color: "#363432",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  subheaderText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    backgroundColor: "#FFD230",
+  },
+  //fin du style pour le header
 });
 
 function mapDispatchToProps(dispatch) {

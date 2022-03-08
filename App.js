@@ -76,6 +76,7 @@ import RoadtripListScreen from "./src/screens/RoadtripListScreen";
 import ItineraryScreen from "./src/screens/ItineraryScreen";
 
 import { LogBox } from "react-native";
+import SelectedRoadtripScreen from "./src/screens/SelectedRoadtripScreen";
 LogBox.ignoreAllLogs();
 
 //--------------on indique à redux-persist d’ignorer le reducer de Redux Form en l’ajoutant à sa liste noire
@@ -138,7 +139,7 @@ const BottomNavigator = () => {
           } else if (route.name === "Conversations") {
             iconNameIonicons = "chatbox";
             return <Ionicons name={iconNameIonicons} size={25} color={color} />;
-          } else if (route.name === "MyAccount") {
+          } else if (route.name === "Mon Compte") {
             iconNameFontAwesome = "user";
             return (
               <FontAwesome name={iconNameFontAwesome} size={25} color={color} />
@@ -158,7 +159,7 @@ const BottomNavigator = () => {
       <Tab.Screen name="Homepage" component={formStackNavigator} />
       <Tab.Screen name="Riders" component={RidersAroundScreen} />
       <Tab.Screen name="Conversations" component={ConversationsScreen} />
-      <Tab.Screen name="MyAccount" component={MyAccountScreen} />
+      <Tab.Screen name="Mon Compte" component={MyAccountScreen} />
     </Tab.Navigator>
   );
 };
