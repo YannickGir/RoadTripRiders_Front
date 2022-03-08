@@ -22,6 +22,8 @@ import { createStore, combineReducers } from 'redux';
 import token from './src/reducers/token';
 import userData from './src/reducers/userData';
 import data_new_roadtrip from './src/reducers/data_new_roadtrip';
+import data_new_itinerary from './src/reducers/data_new_itinerary';
+import RoadTripDetailsScreen from './src/screens/RoadTripDetailsScreen';
 
 // Bottom Menu
 import HomeScreen from './src/screens/HomeScreen';
@@ -58,6 +60,7 @@ import OtherRiderProfil from './src/screens/OtherRiderProfil';
 
 //Ecran des messages dans les conversations
 import ChatScreen from './src/screens/ChatScreen';
+import ChatPrivateScreen from './src/screens/ChatPrivateScreen';
 //Ecran du chat général
 import ChatGeneralScreen from './src/screens/ChatGeneralScreen';
 //Ecrans de création de roadtrips
@@ -80,6 +83,7 @@ const store = createStore(
     token,
     userData,
     data_new_roadtrip,
+    data_new_itinerary,
   })
 );
 
@@ -160,10 +164,15 @@ export default function App() {
           <Stack.Screen name='BottomNavigator' component={BottomNavigator} />
           <Stack.Screen name='SignUp' component={SignUpScreen} />
           <Stack.Screen name='Chat' component={ChatScreen} />
+          <Stack.Screen name='ChatPrivate' component={ChatPrivateScreen} />
           <Stack.Screen name='ChatGeneral' component={ChatGeneralScreen} />
           <Stack.Screen name='Loading' component={LoadingScreen} />
           <Stack.Screen name='MyContacts' component={MyContactsScreen} />
           <Stack.Screen name='UserInfos' component={UserInfosScreen} />
+          <Stack.Screen
+            name='RoadTripDetails'
+            component={RoadTripDetailsScreen}
+          />
           <Stack.Screen
             name='UserInfosEdition'
             component={UserInfosEditionScreen}

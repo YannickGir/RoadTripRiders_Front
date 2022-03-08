@@ -11,9 +11,9 @@ const CustomTextBackground = ({ text1, text2 }) => {
       <SafeAreaView style={styles.text}>
         <Text>{text1}</Text>
         <Text style={{ color: "#ff8b00" }}>{text2}</Text>
-        <View>
+        {/* <View>
           <CustomButtonModif />
-        </View>
+        </View> */}
       </SafeAreaView>
     </View>
   );
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFEDAC",
     borderRadius: 30,
     paddingHorizontal: 5,
-    // paddingVertical: 5,
+    paddingVertical: 5,
     marginVertical: 5,
     width: 300,
     flexDirection: "row",

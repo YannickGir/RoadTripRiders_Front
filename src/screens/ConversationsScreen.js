@@ -14,13 +14,83 @@ import { connect } from "react-redux";
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
+  const [conversationsListPrivate, setConversationsListPrivate] = useState([]);
+
   useEffect(() => {
+    async function loadConversationsPrivate() {
+      const data2 = await fetch(
+        `${MA_VARIABLE}/inbox/readconversationprivate?senderToken=${props.token}`
+      );
+      var body2 = await data2.json();
+      console.log("body", body2);
+
+      if (body2.conversationObjects == "") {
+        return setConversationsListPrivate(
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              alignSelf: "center",
+              textAlign: "center",
+              paddingTop: "50%",
+            }}
+          >
+            Mince ! Vous n'avez toujours pas de discution!
+          </Text>
+        );
+      } else {
+        setConversationsListPrivate(
+          body2.conversationObjects.map((convData, i) => {
+            var message = convData.last_private_message.content;
+            if (message.length > 25) {
+              message = message.substring(0, 24) + "...";
+            }
+
+            return (
+              <TouchableOpacity
+                key={i}
+                onPress={() =>
+                  props.navigation.navigate("ChatPrivate", {
+                    conversation_id: convData._id,
+                    conversation_firstname: convData.firstname,
+                  })
+                }
+              >
+                <View style={styles.user}>
+                  <View style={{ flexDirection: "row" }}>
+                    <View>
+                      <Image
+                        style={styles.avatar}
+                        size={64}
+                        rounded
+                        source={{
+                          uri: convData.user_photo,
+                        }}
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.titleText}>{convData.title}</Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {convData.firstname}:
+                        </Text>
+                        <Text> {message}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        );
+      }
+    }
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
+        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
-      console.log("body", body);
+      // console.log("bodyCov", body);
       if (body.conversationObjects == "") {
         return setConversationsList(
           <Text
@@ -38,7 +108,11 @@ function ConversationsScreen(props) {
       } else {
         setConversationsList(
           body.conversationObjects.map((convData, i) => {
-            console.log("convData", convData);
+            var message = convData.last_message.content;
+            if (message.length > 25) {
+              message = message.substring(0, 24) + "...";
+            }
+
             return (
               <TouchableOpacity
                 key={i}
@@ -50,21 +124,44 @@ function ConversationsScreen(props) {
                 }
               >
                 <View style={styles.user}>
-                  <Image
-                    style={styles.avatar}
-                    size={64}
-                    rounded
-                    source={{
-                      uri: convData.user_photo,
-                    }}
-                  />
-                  <View style={{ justifyContent: "space-between" }}>
-                    <Text style={styles.titleText}>{convData.title}</Text>
-
-                    <Text style={{}}>
-                      {convData.firstname}: {convData.messagesEvent[i].content}
-                    </Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <View
+                      style={
+                        {
+                          // flexDirection: "row",
+                          // alignSelf: "center",
+                          // alignContent: "center",
+                        }
+                      }
+                    >
+                      <Image
+                        style={styles.avatar}
+                        size={64}
+                        rounded
+                        source={{
+                          uri: convData.user_photo,
+                        }}
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.titleText}>{convData.title}</Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {convData.firstname}:
+                        </Text>
+                        <Text> {message}</Text>
+                      </View>
+                    </View>
                   </View>
+                  {/* <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      paddingTop: "2%",
+                    }}
+                  >
+                    
+                  </View> */}
                 </View>
               </TouchableOpacity>
             );
@@ -74,11 +171,14 @@ function ConversationsScreen(props) {
     }
 
     loadConversations();
+    loadConversationsPrivate();
   }, []);
 
   return (
     <View style={styles.backgroundColor}>
       <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
+      <ScrollView>{conversationsListPrivate}</ScrollView>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
@@ -110,10 +210,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   user: {
-    flexDirection: "row",
+    flexDirection: "column",
     width: "80%",
     alignSelf: "center",
-    alignItems: "center",
+
     backgroundColor: "#FFEDAC",
     padding: 10,
     borderRadius: 15,
@@ -128,20 +228,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
 
     elevation: 7,
+    marginBottom: "2%",
   },
   titleText: {
-    paddingBottom: 20,
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 15,
   },
   avatar: {
     borderWidth: 1,
     borderColor: "black",
     borderRadius: 35,
-    width: 70,
-    height: 70,
-    position: "relative",
-    marginRight: "10%",
+    width: 50,
+    height: 50,
+
+    marginRight: "3%",
   },
 });
 

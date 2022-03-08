@@ -40,6 +40,14 @@ function HomepageScreen(props) {
     loadUserData();
   }, [props.token]);
 
+  const [sectotime, setSectotime] = useState("");
+  const secToTime = (totalsecondes) => {
+    hours = Math.floor(totalsecondes / 3600);
+    totalsecondes %= 3600;
+    minutes = Math.floor(totalsecondes / 60);
+    seconds = Math.floor(totalsecondes % 60);
+    return hours + "h:" + minutes + "min:";
+  };
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
@@ -48,8 +56,20 @@ function HomepageScreen(props) {
 
       setRoadTripList(
         body.map((tripData, i) => {
+          var durationHour = secToTime(tripData.duration);
+          var durationHour2 = durationHour.slice(0, -1);
+          var km = parseInt(tripData.distance);
+          console.log("tripdata", tripData);
           return (
-            <TouchableOpacity key={i}>
+            <TouchableOpacity
+              key={i}
+              onPress={() =>
+                props.navigation.navigate("RoadTripDetails", {
+                  trip_id: tripData._id,
+                  itinerary_id: tripData.itinerary_id,
+                })
+              }
+            >
               <Card containerStyle={styles.card}>
                 <View
                   style={{
@@ -105,7 +125,7 @@ function HomepageScreen(props) {
                         fontSize: 15,
                       }}
                     >
-                      {tripData.distance} km
+                      {km} km
                     </Text>
                   </View>
                   <View>
@@ -117,7 +137,7 @@ function HomepageScreen(props) {
                         fontSize: 15,
                       }}
                     >
-                      {tripData.duration}h
+                      {durationHour2}
                     </Text>
                   </View>
                   <View>

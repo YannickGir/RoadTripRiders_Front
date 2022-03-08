@@ -195,13 +195,10 @@ function UserInfosEditionScreen(props) {
         name: 'bike',
       });
 
-      var rawResponse = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/upload-moto-photo`,
-        {
-          method: 'post',
-          body: data,
-        }
-      );
+      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
+        method: 'post',
+        body: data,
+      });
 
       var response = await rawResponse.json();
       //console.log(response);

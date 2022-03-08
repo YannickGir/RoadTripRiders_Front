@@ -8,16 +8,15 @@ import {
   useWindowDimensions,
   KeyboardAvoidingView,
   ScrollView,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { MA_VARIABLE } from '@env';
-import Logo from '../../assets/images/motoLogo.png';
-import CustomInput from '../../src/components/CustomInput';
-import CustomButton from '../../src/components/CustomButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native";
+import { connect } from "react-redux";
+import { MA_VARIABLE } from "@env";
+import Logo from "../../assets/images/motoLogo.png";
+import CustomInput from "../../src/components/CustomInput";
+import CustomButton from "../../src/components/CustomButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CreateRoadTripScreenFirstStep from './CreateRoadTripScreenFirstStep';
-import RoadtripListScreen from './RoadtripListScreen';
+import RoadtripListScreen from "./RoadtripListScreen";
 RoadtripListScreen;
 
 function LogInScreen(props) {

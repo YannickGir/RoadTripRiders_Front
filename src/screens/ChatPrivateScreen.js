@@ -11,7 +11,7 @@ import {
 import { Card, Text, Avatar, Input, Button } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
-import CustomInputWhite from "../../src/components/CustomInputWhite";
+import CustomInputWhite from "../components/CustomInputWhite";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -29,11 +29,11 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
+        `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
       );
       var body = await data.json();
 
-      console.log("body", { MA_VARIABLE });
+      console.log("body", body);
 
       setConversationsList(
         body.conversationObjects.map((convData, i) => {
@@ -91,7 +91,9 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(`${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`);
+    const data = await fetch(
+      `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
+    );
     var body = await data.json();
 
     setConversationsList(
@@ -148,7 +150,7 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(`${MA_VARIABLE}/inbox/addmessage`, {
+      const data1 = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
