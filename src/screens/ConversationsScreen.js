@@ -11,6 +11,9 @@ import {
 import { MA_VARIABLE } from "@env";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
+import { Header as HeaderRNE } from "react-native-elements";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   const [conversationsListPrivate, setConversationsListPrivate] = useState([]);
@@ -175,6 +178,15 @@ function ConversationsScreen(props) {
 
   return (
     <View style={styles.backgroundColor}>
+      <SafeAreaProvider>
+        <HeaderRNE
+          backgroundColor="#FFD230"
+          centerComponent={{
+            text: "CONVERSATIONS",
+            style: styles.heading,
+          }}
+        />
+      </SafeAreaProvider>
       <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
       <ScrollView>{conversationsListPrivate}</ScrollView>
 
@@ -199,7 +211,7 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: "#FEFAEA",
-    paddingTop: 100,
+
     flex: 1,
   },
 
@@ -241,6 +253,11 @@ const styles = StyleSheet.create({
     height: 50,
 
     marginRight: "3%",
+  },
+  heading: {
+    color: "#363432",
+    fontSize: 22,
+    fontWeight: "bold",
   },
 });
 

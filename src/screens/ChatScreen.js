@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import { Card, Text, Avatar, Input, Button } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import CustomHeader from "../components/CustomHeader";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Header as HeaderRNE } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 import CustomInputWhite from "../../src/components/CustomInputWhite";
+
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -112,7 +115,7 @@ function ChatScreen(props) {
             key={i}
             containerStyle={{
               flexDirection: row,
-              width: "95%",
+              width: "66%",
               height: "auto",
               alignSelf: alignSelf,
               alignItems: "center",
@@ -165,15 +168,26 @@ function ChatScreen(props) {
   };
 
   return (
-    <View style={styles.backgroundColor}>
-      <CustomHeader
-        onPress={() =>
-          props.navigation.navigate("BottomNavigator", {
-            screen: "ConversationScreen",
-          })
+    <SafeAreaProvider style={styles.backgroundColor}>
+      <HeaderRNE
+        backgroundColor="#FFD230"
+        leftComponent={
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("BottomNavigator", {
+                screen: "ConversationScreen",
+              })
+            }
+          >
+            <AntDesign name="arrowleft" color="#363432" size={30} />
+          </TouchableOpacity>
         }
-        title="Chat"
+        centerComponent={{
+          text: "CHAT",
+          style: styles.heading,
+        }}
       />
+
       <ScrollView
         ref={scrollViewRef}
         onContentSizeChange={() =>
@@ -224,7 +238,7 @@ function ChatScreen(props) {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaProvider>
   );
 }
 
@@ -235,7 +249,7 @@ const styles = StyleSheet.create({
   },
   backgroundColor: {
     backgroundColor: "#FFFF",
-    paddingTop: "10%",
+
     flex: 1,
   },
 
@@ -277,6 +291,27 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  //style pour le header
+  headerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
+    marginBottom: 20,
+    width: "100%",
+    paddingVertical: 15,
+  },
+  heading: {
+    color: "#363432",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  subheaderText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    backgroundColor: "#FFD230",
+  },
+  //fin du style pour le header
 });
 
 function mapStateToProps(state) {
