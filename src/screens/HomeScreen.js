@@ -19,12 +19,28 @@ import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
 import LoadingOverlay from "../../src/components/LoadingOverlay";
 import CustomButtonOrange from "../../src/components/CustomButtonOrange";
+import { connect } from "react-redux";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
-export default function HomepageScreen(props) {
+function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    async function loadUserData() {
+      const dataUser = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
+      );
+      var bodyUser = await dataUser.json();
+      props.onSubmitUserData({
+        avatar: bodyUser.userData.user_photo,
+        username: bodyUser.userData.firstname,
+      });
+    }
+    loadUserData();
+  }, [props.token]);
+
   const [sectotime, setSectotime] = useState("");
   const secToTime = (totalsecondes) => {
     hours = Math.floor(totalsecondes / 3600);
@@ -156,33 +172,23 @@ export default function HomepageScreen(props) {
         containerStyle={{ paddingTop: 100 }}
         title="Sorties"
       />
-      <Overlay isVisible={visible} style={styles.image}>
-        <Image source={require("../Loading_overlay.gif")} />
-      </Overlay>
-      <ScrollView style={{ flex: 1, width: "100%" }}>{roadTripList}</ScrollView>
+
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        <Overlay isVisible={visible} style={styles.image}>
+          <Image source={require("../Loading_overlay.gif")} />
+        </Overlay>
+        {roadTripList}
+      </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <CustomButton title="CREER UN TRIP" />
-        <CustomButtonOrange
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to itinerary !"
-          type="solid"
+        <CustomButton
+          title="CREER UN TRIP"
           onPress={() =>
-            props.navigation.navigate("Itinerary", {
-              screen: "ItineraryScreen",
+            props.navigation.navigate("newRoadTripFirstStep", {
+              itinerary_id: "",
             })
           }
-        />
-
-        <CustomButtonOrange
-          title="go to roadtripList !"
-          onPress={async () => (
-            setVisible(true),
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          )}
         />
       </KeyboardAvoidingView>
     </View>
@@ -234,3 +240,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+function mapStateToProps(state) {
+  console.log("HOMESCREEN", state.token, state);
+  return { token: state.token };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitUserData: function (userDataObject) {
+      dispatch({ type: "saveUserData", userData: userDataObject });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomepageScreen);

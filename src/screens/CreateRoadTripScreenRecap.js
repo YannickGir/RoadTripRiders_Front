@@ -150,7 +150,18 @@ function CreateRoadTripScreenFirstStep(props) {
 
       <View style={styles.carte}>
         <CustomButtonModif />
-        <Image source={require("../carte_trajet.jpg")} />
+
+        <Image
+          style={{
+            height: 200,
+            width: 350,
+          }}
+          // source={require({ map_itinerary })}
+          source={{
+            uri: props.data_new_roadtrip.map_itinerary,
+          }}
+        />
+        {/* <Image source={require("../carte_trajet.jpg")} /> */}
       </View>
 
       {/* VALIDATION DU TRIP */}
@@ -160,8 +171,8 @@ function CreateRoadTripScreenFirstStep(props) {
           title="C'EST PARTI !"
           onPress={() => {
             NewRoadtripData(),
-              props.navigation.navigate("RoadtripList", {
-                screen: "RoadtripListScreen",
+              props.navigation.navigate("ConfirmationNewRoadtrip", {
+                screen: "ConfirmationNewRoadtripScreen",
               });
           }}
         />

@@ -20,16 +20,16 @@ import { provider, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
 import token from "./src/reducers/token";
-import urlImgList from "./src/reducers/url-list";
+import userData from "./src/reducers/userData";
 import data_new_roadtrip from "./src/reducers/data_new_roadtrip";
 import data_new_itinerary from "./src/reducers/data_new_itinerary";
+import RoadTripDetailsScreen from "./src/screens/RoadTripDetailsScreen";
 
 // Bottom Menu
 import HomeScreen from "./src/screens/HomeScreen";
 import RidersAroundScreen from "./src/screens/RidersAroundScreen";
 import ConversationsScreen from "./src/screens/ConversationsScreen";
 import MyAccountScreen from "./src/screens/MyAccountScreen";
-import RoadTripDetailsScreen from "./src/screens/RoadTripDetailsScreen";
 
 //Stack Navigation
 //Ecran d'accueil Logo
@@ -67,6 +67,7 @@ import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFirstStep2";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
+import ConfirmationNewRoadtripScreen from "./src/screens/ConfirmationNewRoadtripScreen";
 
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
@@ -81,7 +82,7 @@ LogBox.ignoreAllLogs();
 const store = createStore(
   combineReducers({
     token,
-    urlImgList,
+    userData,
     data_new_roadtrip,
     data_new_itinerary,
   })
@@ -105,6 +106,10 @@ const formStackNavigator = () => {
       <Stack.Screen
         name="newRoadTripFirstStep2"
         component={CreateRoadTripScreenFirstStep2}
+      />
+      <Stack.Screen
+        name="ConfirmationNewRoadtrip"
+        component={ConfirmationNewRoadtripScreen}
       />
 
       <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
@@ -169,6 +174,10 @@ export default function App() {
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="MyContacts" component={MyContactsScreen} />
           <Stack.Screen name="UserInfos" component={UserInfosScreen} />
+          <Stack.Screen
+            name="ConfirmationNewRoadtrip"
+            component={ConfirmationNewRoadtripScreen}
+          />
           <Stack.Screen
             name="RoadTripDetails"
             component={RoadTripDetailsScreen}

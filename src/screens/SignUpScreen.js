@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Image,
+  ImageBackground,
   useWindowDimensions,
   KeyboardAvoidingView,
 } from "react-native";
@@ -108,7 +109,11 @@ function SignUpScreen(props) {
   });
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require("../../assets/images/loginbg.png")}
+      style={styles.container}
+      resizeMode="cover"
+    >
       <Image
         source={Logo}
         style={(styles.logo, { height: height * 0.2 })}
@@ -137,7 +142,7 @@ function SignUpScreen(props) {
       >
         <CustomButton title="S'INSCRIRE" onPress={() => handleSubmitSignUp()} />
       </KeyboardAvoidingView>
-    </View>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({

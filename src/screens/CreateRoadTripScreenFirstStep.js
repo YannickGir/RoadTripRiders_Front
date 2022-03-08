@@ -72,7 +72,7 @@ function CreateRoadTripScreenFirstStep(props) {
 
   // Barre de progression
   const [formProgress, setFormProgress] = useState(0);
-  const [toggleButton, setToggleButton] = useState(false);
+  const [toggleButton, setToggleButton] = useState(true);
   const [stepScreen, setStepScreen] = useState();
 
   //store inputs first step-------------
@@ -520,6 +520,7 @@ function CreateRoadTripScreenFirstStep(props) {
                   roadtripMotoType: roadtripMotoType,
                   roadtripSizeGroup: roadtripSizeGroup,
                   roadtripType: roadtripType,
+                  map_itinerary: map_itinerary,
                 })
               )}
             />
@@ -603,9 +604,6 @@ function mapDispatchToProps(dispatch) {
   return {
     onSubmitData: function (roadtripData) {
       dispatch({ type: "saveData", roadtripData: roadtripData });
-    },
-    onsubmitTitle: function (title) {
-      dispatch({ type: "saveTitle", title: title });
     },
   };
 }

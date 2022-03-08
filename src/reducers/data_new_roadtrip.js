@@ -5,6 +5,9 @@ export default function (data_new_roadtrip = {}, action) {
   } else if (action.type == "saveTitle") {
     var newData = { ...data_new_roadtrip, title: action.title };
     return newData;
+  } else if (action.type == "clearData") {
+    var newData = {};
+    return newData;
   } else {
     return data_new_roadtrip;
   }

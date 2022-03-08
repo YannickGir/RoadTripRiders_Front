@@ -10,6 +10,11 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
+import DatePicker from "react-native-datepicker";
+import { Header as HeaderRNE } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
 import { MA_VARIABLE } from "@env";
 import { connect } from "react-redux";
 import { Button, CheckBox } from "react-native-elements";
@@ -27,6 +32,7 @@ import CustomHeaderRNE from "../components/CustomHeaderRNE";
 import CustomBikeCategPicker from "../components/CustomBikeCategPicker";
 import CustomRegionPicker from "../components/CustomRegionPicker";
 import CustomLongInput from "../components/CustomLongInput";
+
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
 import { color } from "react-native-elements/dist/helpers";
@@ -63,6 +69,7 @@ function UserInfosEditionScreen(props) {
   const [userFirstName, setuserFirstName] = useState(""); //prénom utilisateur
   const [userLastName, setuserLastName] = useState(""); //nom utilisateur
   const [userBirthDate, setuserBirthDate] = useState(""); //date de naissance de l'utilisateur
+  const [date, setDate] = useState("07-03-2022"); // date d'initialisation du date picker
   const [userRegion, setuserRegion] = useState(""); //région où sort l'utilisateur
   const [userCity, setuserCity] = useState(""); //ville où vit l'utilisateur
   const [userBio, setuserBio] = useState(""); //biographie de l'utilisateur
@@ -70,9 +77,6 @@ function UserInfosEditionScreen(props) {
   const [userConnexionStatus, setuserConnexionStatus] = useState(""); //statut de connexion l'utilisateur par rapport au chat
 
   //Variables d'Etats des checkboxes
-  const [isMale, setIsMale] = useState(false);
-  const [isFemale, setIsFemale] = useState(false);
-  const [isOther, setIsOther] = useState(false);
   const [userGender, setUserGender] = useState("");
   const [hasPassenger, setHasPassenger] = useState(false);
   const [hasNoPassenger, setHasNoPassenger] = useState(false);
@@ -80,26 +84,6 @@ function UserInfosEditionScreen(props) {
   const [userBikeCateg, setuserBikeCateg] = useState(""); //catégorie de moto de l'utilisateur
   const [userBikeBrand, setuserBikeBrand] = useState(""); //marque de la moto de l'utilisateur
   const [userBikeModel, setuserBikeModel] = useState(""); //modèle de la moto de l'utilisateur
-
-  // if (isMale == true) {
-  //   setIsFemale(false);
-  //   setIsOther(false);
-  //   setUserGender('male');
-  // } else if (isFemale == true) {
-  //   setIsMale(false);
-  //   setIsOther(false);
-  //   setUserGender('female');
-  // } else if (isOther == true) {
-  //   setIsMale(false);
-  //   setIsFemale(false);
-  //   setUserGender('other');
-  // }
-
-  // if (hasPassenger == true) {
-  //   setHasPassenger(false);
-  // } else if (hasNoPassenger == true) {
-  //   setHasNoPassenger(false);
-  // }
 
   //Pour image picker
   const [image, setImage] = useState(null); // image avatar user
@@ -113,19 +97,12 @@ function UserInfosEditionScreen(props) {
 
   var handleSubmitUserProfil = async () => {
     console.log("click détecté sur handleSubmitUserProfil");
+
     var passenger;
     if (hasPassenger) {
       passenger = true;
     } else if (hasNoPassenger) {
       passenger = false;
-    }
-    var gender;
-    if (isMale == true) {
-      gender = "male";
-    } else if (isFemale == true) {
-      gender = "female";
-    } else if (isOther == true) {
-      gender = "other";
     }
 
     const data = await fetch(
@@ -138,6 +115,24 @@ function UserInfosEditionScreen(props) {
         body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
       }
     );
+
+    const body = await data.json();
+
+    if (body.result) {
+      const dataUser = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
+      );
+      var bodyUser = await dataUser.json();
+      props.onSubmitUserData({
+        avatar: bodyUser.userData.user_photo,
+        username: bodyUser.userData.firstname,
+      });
+    } else {
+      console.log("POST users/edit-profil failed", body);
+    }
+
+    // var bodyUser = await data.json();
+    // console.log('usereditionscreen bodyUser', bodyUser);
   };
 
   //pour envoyer l'avatar vers le back et dans le store
@@ -178,7 +173,6 @@ function UserInfosEditionScreen(props) {
 
       // NE PAS OUBLIER DE SET IMAGE AVEC L'URL NOUVELLEMENT GENEREE PAR CLOUDINARY
       setImage(response.urlToCloudImage);
-      props.onSubmitImage(response.urlToCloudImage);
     }
   };
 
@@ -219,31 +213,48 @@ function UserInfosEditionScreen(props) {
       //console.log(response);
       // NE PAS OUBLIER DE SET IMAGE2 AVEC L'URL NOUVELLEMENT GENEREE
       setImage2(response.urlToCloudImage);
-      props.onSubmitImage(response.urlToCloudImage);
     }
   };
 
   var pagecontent = <></>;
 
   if (formProgress == 0) {
+    // gender == male | female | other
+    const setGenderCheckbox = (gender) => {
+      setUserGender(userGender != gender ? gender : "");
+    };
+
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() =>
-            props.navigation.navigate("BottomNavigator", {
-              screen: "MyAccountScreen",
-            })
-          }
-          title="EDITE TON PROFIL"
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={0}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor="#FFD230"
+            leftComponent={
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("BottomNavigator", {
+                    screen: "MyAccountScreen",
+                  })
+                }
+              >
+                <AntDesign name="arrowleft" color="#363432" size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: "EDITE TON PROFIL",
+              style: styles.heading,
+            }}
           />
-        </View>
-        <Text style={{ paddingTop: "5%" }}>Quel rider es-tu ?</Text>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={0}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
+        <Text style={{ paddingTop: "10%" }}>Quel rider es-tu ?</Text>
 
         <CustomInput
           placeholder="Prénom"
@@ -260,7 +271,12 @@ function UserInfosEditionScreen(props) {
         />
 
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: "10%",
+          }}
         >
           <CustomButton title="CHARGE TON AVATAR" onPress={pickImage} />
           {image && (
@@ -270,34 +286,38 @@ function UserInfosEditionScreen(props) {
             />
           )}
         </View>
-        <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+        <Text style={{ paddingTop: "20%", paddingBottom: 0 }}>
           Quelle est ta date de naissance ?
         </Text>
+
         <CustomDatePicker
           selectedValue={userBirthDate}
-          onValueChange={(value, index) => setuserBirthDate(value)}
+          onChange={(value, index) => setuserBirthDate(value)}
           title="DATE"
         />
+        <Text>{userBirthDate}</Text>
 
-        <Text style={{ paddingTop: 0, paddingBottom: "2%" }}>Ton sexe ?</Text>
+        <Text style={{ paddingTop: "5%", paddingBottom: "2%" }}>
+          Ton sexe ?
+        </Text>
         <View style={styles.secondary}>
           <CheckBox
             title="Homme"
             checkedColor="#ff8b00"
-            checked={isMale}
-            onPress={() => setIsMale(!isMale)}
+            checked={userGender === "male"}
+            onPress={() => setGenderCheckbox("male")}
           />
           <CheckBox
             title="Femme"
             checkedColor="#ff8b00"
-            checked={isFemale}
-            onPress={() => setIsFemale(!isFemale)}
+            checked={userGender === "female"}
+            onPress={() => setGenderCheckbox("female")}
           />
           <CheckBox
             title="Autre"
             checkedColor="#ff8b00"
-            checked={isOther}
-            onPress={() => setIsOther(!isOther)}
+            checked={userGender === "other"}
+            onPress={() => setGenderCheckbox("other")}
           />
         </View>
 
@@ -315,17 +335,30 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 1) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title="EDITE TON PROFIL"
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={1}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor="#FFD230"
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name="arrowleft" color="#363432" size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: "EDITE TON PROFIL",
+              style: styles.heading,
+            }}
           />
-        </View>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={1}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
 
         <Text style={{ paddingTop: "5%", paddingBottom: 0 }}>
           Parles nous de toi:
@@ -345,20 +378,10 @@ function UserInfosEditionScreen(props) {
           onValueChange={(value, index) => setuserRegion(value)}
         />
 
-        <Text style={{ paddingTop: "20%", paddingBottom: 0 }}>
-          Dans quelle ville vis-tu ?
-        </Text>
-        <CustomInput
-          placeholder="Ta ville"
-          value={userCity}
-          setValue={setuserCity}
-          secureTextEntry={false}
-        />
-
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginBottom: "5%" }}>
+          <View style={{ marginTop: "10%", marginBottom: "2%" }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -369,53 +392,78 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 2) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title="EDITE TON PROFIL"
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor="#FFD230"
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name="arrowleft" color="#363432" size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: "EDITE TON PROFIL",
+              style: styles.heading,
+            }}
+          />
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={2}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
+        <Text style={{ paddingTop: "0%", paddingBottom: "5%" }}>
+          Dans quelle ville vis-tu ?
+        </Text>
+        <CustomInput
+          placeholder="Ta ville"
+          value={userCity}
+          setValue={setuserCity}
+          secureTextEntry={false}
         />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={2}
-            stepCount={4}
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+            Et ta moto ?
+          </Text>
+
+          <CustomInput
+            placeholder="Marque"
+            value={userBikeBrand}
+            setValue={setuserBikeBrand}
+            secureTextEntry={false}
+          />
+
+          <CustomInput
+            placeholder="Modèle"
+            value={userBikeModel}
+            setValue={setuserBikeModel}
+            secureTextEntry={false}
           />
         </View>
-
-        <Text style={{ paddingBottom: "5%" }}>Et ta moto ?</Text>
-
-        <CustomInput
-          placeholder="Marque"
-          value={userBikeBrand}
-          setValue={setuserBikeBrand}
-          secureTextEntry={false}
-        />
-
-        <CustomInput
-          placeholder="Modèle"
-          value={userBikeModel}
-          setValue={setuserBikeModel}
-          secureTextEntry={false}
-        />
-
-        <Text
-          style={{
-            paddingTop: "5%",
-            paddingBottom: "5%",
-            alignContent: "center",
-          }}
-        >
-          Sa catégorie?
-        </Text>
-        <CustomBikeCategPicker
-          selectedValue={userBikeCateg}
-          onValueChange={(value, index) => setuserBikeCateg(value)}
-          style={{ flex: 1 }}
-        />
-
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Text
+            style={{
+              paddingTop: "5%",
+              paddingBottom: "25%",
+              alignContent: "center",
+            }}
+          >
+            Sa catégorie?
+          </Text>
+          <CustomBikeCategPicker
+            selectedValue={userBikeCateg}
+            onValueChange={(value, index) => setuserBikeCateg(value)}
+            style={{ flex: 1, paddingBottom: 20 }}
+          />
+        </View>
         {/* FLECHE PAGE SUIVANTE */}
         <View style={styles.bottomPage}>
           <View style={{ marginHorizontal: "40%" }}></View>
-          <View style={{ marginTop: "10%", marginBottom: "5%" }}>
+          <View style={{ marginTop: "10%", marginBottom: "2%" }}>
             <CustomButtonOrangeNext
               onPress={() => setFormProgress(formProgress + 1)}
             />
@@ -426,21 +474,34 @@ function UserInfosEditionScreen(props) {
   } else if (formProgress == 3) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() => setFormProgress(formProgress - 1)}
-          title="EDITE TON PROFIL"
-        />
-        <View style={styles.barprogress}>
-          <StepIndicator
-            customStyles={customStyles}
-            currentPosition={3}
-            stepCount={4}
+        <SafeAreaProvider>
+          <HeaderRNE
+            backgroundColor="#FFD230"
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setFormProgress(formProgress - 1)}
+              >
+                <AntDesign name="arrowleft" color="#363432" size={30} />
+              </TouchableOpacity>
+            }
+            centerComponent={{
+              text: "EDITE TON PROFIL",
+              style: styles.heading,
+            }}
           />
-        </View>
+
+          <View style={styles.barprogress}>
+            <StepIndicator
+              customStyles={customStyles}
+              currentPosition={3}
+              stepCount={4}
+            />
+          </View>
+        </SafeAreaProvider>
 
         <Text
           style={{
-            paddingTop: "5%",
+            paddingTop: 0,
             paddingBottom: "5%",
             alignContent: "center",
           }}
@@ -505,11 +566,10 @@ function UserInfosEditionScreen(props) {
     );
   }
 
-  return <View style={{ marginTop: 25 }}>{pagecontent}</View>;
+  return <View>{pagecontent}</View>;
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: "10%",
     width: deviceWidth,
     height: deviceHeight,
     backgroundColor: "#FEFAEA",
@@ -521,6 +581,27 @@ const styles = StyleSheet.create({
   secondary: {
     flexDirection: "row",
   },
+  //style pour le header
+  headerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
+    marginBottom: 10,
+    width: "100%",
+    paddingVertical: 15,
+  },
+  heading: {
+    color: "#363432",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  subheaderText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    backgroundColor: "#FFD230",
+  },
+  //fin du style pour le header
   bottomPage: {
     width: deviceWidth,
     alignItems: "center",
@@ -533,8 +614,8 @@ const styles = StyleSheet.create({
   barprogress: {
     width: deviceWidth,
     backgroundColor: "#FEFAEA",
-    paddingTop: "3%",
     marginBottom: "3%",
+    marginTop: "3%",
   },
   text: {},
 });
@@ -545,8 +626,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmitImage: function (urldufetch) {
-      dispatch({ type: "saveUrl", url: urldufetch });
+    onSubmitUserData: function (userDataObject) {
+      dispatch({ type: "saveUserData", userData: userDataObject });
     },
   };
 }

@@ -875,7 +875,6 @@ function ItineraryScreen(props) {
           description={departure_name}
         ></Marker>
         <Marker
-          icon={<Icon name="fa-motorcycle" size={20} color="#ffffff" />}
           pinColor="black"
           coordinate={{
             latitude: arrival_Lat,
