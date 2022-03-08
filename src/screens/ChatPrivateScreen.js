@@ -40,9 +40,11 @@ function ChatScreen(props) {
           if (props.token != convData.senderToken) {
             var color = "#FFEDAC";
             var row = "row";
+            var alignSelf = "flex-start";
           } else {
             color = "#FFD178";
             row = "row-reverse";
+            alignSelf = "flex-end";
           }
           console.log("body", convData.senderToken);
           return (
@@ -50,14 +52,14 @@ function ChatScreen(props) {
               key={i}
               containerStyle={{
                 flexDirection: row,
-                width: "95%",
+                width: "66%",
                 height: "auto",
-                alignSelf: "center",
+                alignSelf: alignSelf,
                 alignItems: "center",
                 backgroundColor: "#FEFAEA",
                 padding: 10,
-                marginTop: 30,
-                border: 0,
+                marginTop: 10,
+                borderRadius: 15,
               }}
             >
               <View style={{ flexDirection: row }}>
@@ -101,23 +103,25 @@ function ChatScreen(props) {
         if (props.token != convData.senderToken) {
           var color = "#FFEDAC";
           var row = "row";
+          var alignSelf = "flex-start";
         } else {
           color = "#FFD178";
           row = "row-reverse";
+          alignSelf = "flex-end";
         }
         return (
           <Card
             key={i}
             containerStyle={{
               flexDirection: row,
-              width: "95%",
+              width: "66%",
               height: "auto",
-              alignSelf: "center",
+              alignSelf: alignSelf,
               alignItems: "center",
               backgroundColor: "#FEFAEA",
               padding: 10,
-
               marginTop: 10,
+              borderRadius: 15,
             }}
           >
             <View style={{ flexDirection: row }}>

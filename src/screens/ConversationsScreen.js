@@ -11,7 +11,6 @@ import {
 import { MA_VARIABLE } from "@env";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
-
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   const [conversationsListPrivate, setConversationsListPrivate] = useState([]);
