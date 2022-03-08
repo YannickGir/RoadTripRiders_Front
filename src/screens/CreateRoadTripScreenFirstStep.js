@@ -237,7 +237,7 @@ function CreateRoadTripScreenFirstStep(props) {
             }}
             // source={require({ map_itinerary })}
             source={{
-              uri: "http://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646666797/eedgotjhuytg5bke5j5g.jpg",
+              uri: map_itinerary,
             }}
           />
           <View
@@ -319,7 +319,7 @@ function CreateRoadTripScreenFirstStep(props) {
               date={date} // Initial date from state
               mode="date" // The enum of date, datetime and time
               placeholder="select date"
-              format="DD/MM/YYYY HH:mm:ss"
+              format="YYYY-MM-DD"
               // minDate="01-01-2016"
               // maxDate="01-01-2019"
               confirmBtnText="Confirm"

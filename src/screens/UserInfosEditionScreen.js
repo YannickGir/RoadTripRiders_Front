@@ -128,13 +128,16 @@ function UserInfosEditionScreen(props) {
       gender = "other";
     }
 
-    const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
-    });
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/users/edit-profil`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
+      }
+    );
   };
 
   //pour envoyer l'avatar vers le back et dans le store
@@ -162,10 +165,13 @@ function UserInfosEditionScreen(props) {
         name: "avatar",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
-        method: "post",
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-avatar`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       console.log(response);
@@ -201,10 +207,13 @@ function UserInfosEditionScreen(props) {
         name: "bike",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
-        method: "post",
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-moto-photo`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       //console.log(response);

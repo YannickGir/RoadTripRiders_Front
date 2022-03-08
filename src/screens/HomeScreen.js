@@ -18,6 +18,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
 import LoadingOverlay from "../../src/components/LoadingOverlay";
+import CustomButtonOrange from "../../src/components/CustomButtonOrange";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -34,7 +35,9 @@ export default function HomepageScreen(props) {
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      const data = await fetch(
+        `https://roadtripridersyann.herokuapp.com/roadtriplist`
+      );
       var body = await data.json();
       console.log("body", body);
 
@@ -161,7 +164,7 @@ export default function HomepageScreen(props) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <CustomButton title="CREER UN TRIP" />
-        <Button
+        <CustomButtonOrange
           icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
           title="go to itinerary !"
           type="solid"
@@ -171,17 +174,8 @@ export default function HomepageScreen(props) {
             })
           }
         />
-        <Button
-          icon={<Icon name="arrow-right" size={20} color="#eb4d4b" />}
-          title="go to roadtripList !"
-          type="solid"
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
-          }
-        />
-        <Button
+
+        <CustomButtonOrange
           title="go to roadtripList !"
           onPress={async () => (
             setVisible(true),
