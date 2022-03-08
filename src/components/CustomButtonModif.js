@@ -4,10 +4,10 @@ import { Input, Button } from "react-native-elements";
 
 // On crée un composant qui pourra être injecté partout dans l'application car nous avons de nombreux inputs
 // on passe en argument toutes les valeurs que l'on va changer d'un input à l'autre
-const CustomButtonModif = ({ onPress }) => {
+const CustomButtonModif = ({ onPress, title }) => {
   return (
     <Button
-      title="Modifier"
+      title={title}
       containerStyle={{
         width: 90,
       }}

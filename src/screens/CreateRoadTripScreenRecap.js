@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
   Dimensions,
   Switch,
+  ImageBackground,
 } from "react-native";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
@@ -88,96 +89,111 @@ function CreateRoadTripScreenFirstStep(props) {
   // console.log("props.token", props.token);
 
   return (
-    <View style={styles.container}>
-      <CustomHeaderNoArrow
-        onPress={() =>
-          props.navigation.navigate("RoadtripList", {
-            screen: "RoadtripListScreen",
-          })
-        }
-        title="RECAP DE TON TRIP"
-      />
-      <View style={styles.barprogress}>
-        <StepIndicator
-          customStyles={customStyles}
-          currentPosition={3}
-          stepCount={3}
+    <ImageBackground
+      source={require("../../assets/images/loginbg.png")}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <CustomHeaderNoArrow
+          onPress={() =>
+            props.navigation.navigate("RoadtripList", {
+              screen: "RoadtripListScreen",
+            })
+          }
+          title="RECAP DE TON TRIP"
         />
+        <View style={styles.barprogress}>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={3}
+            stepCount={3}
+          />
+        </View>
+
+        <View style={styles.switch}>
+          <Text> Privé </Text>
+          <Switch
+            trackColor={{ false: "#363432", true: "teal" }}
+            thumbColor="#FF8B00"
+            ios_backgroundColor="#FEFAEA"
+            onValueChange={(value) => setToggleButton(value)}
+            value={toggleButton}
+          />
+          <Text> Public </Text>
+        </View>
+
+        <View style={{ paddingBottom: 10, paddingTop: 10 }}>
+          <CustomTextBackground
+            text1="Titre:"
+            text2={props.data_new_roadtrip.roadtripTitle}
+          />
+          <CustomTextBackground
+            text1="Date de départ:"
+            text2={props.data_new_roadtrip.roadtripDate}
+          />
+          <CustomTextBackground
+            text1="Heure de départ:"
+            text2={props.data_new_roadtrip.roadtriptimeDeparture}
+          />
+          <CustomTextBackground
+            text1="Heure d'arrivée:"
+            text2={props.data_new_roadtrip.roadtriptimeArrival}
+          />
+          <CustomTextBackground
+            text1="Type de ballade:"
+            text2={props.data_new_roadtrip.roadtripType}
+          />
+          <CustomTextBackground
+            text1="Type de moto:"
+            text2={props.data_new_roadtrip.roadtripMotoType}
+          />
+          <CustomTextBackground
+            text1="Taille du groupe:"
+            text2={props.data_new_roadtrip.roadtripSizeGroup}
+          />
+        </View>
+
+        <View style={styles.carte}>
+          <View style={{ marginBottom: "5%" }}>
+            <CustomButtonModif
+              title="Annuler"
+              onPress={() => {
+                NewRoadtripData(),
+                  props.navigation.navigate("HomeScreen", {
+                    screen: "HomeScreen",
+                  });
+              }}
+            />
+          </View>
+          <Image
+            style={{
+              height: 200,
+              width: 350,
+            }}
+            // source={require({ map_itinerary })}
+            source={{
+              uri: props.data_new_roadtrip.map_itinerary,
+            }}
+          />
+          {/* <Image source={require("../carte_trajet.jpg")} /> */}
+        </View>
+
+        {/* VALIDATION DU TRIP */}
+
+        <View style={{ marginBottom: "1%" }}>
+          <CustomButtonValidation
+            title="C'EST PARTI !"
+            onPress={() => {
+              NewRoadtripData(),
+                props.navigation.navigate("ConfirmationNewRoadtrip", {
+                  screen: "ConfirmationNewRoadtripScreen",
+                });
+            }}
+          />
+        </View>
       </View>
-
-      <View style={styles.switch}>
-        <Text> Privé </Text>
-        <Switch
-          trackColor={{ false: "#363432", true: "teal" }}
-          thumbColor="#FF8B00"
-          ios_backgroundColor="#FEFAEA"
-          onValueChange={(value) => setToggleButton(value)}
-          value={toggleButton}
-        />
-        <Text> Public </Text>
-      </View>
-
-      <View style={{ paddingBottom: 10, paddingTop: 10 }}>
-        <CustomTextBackground
-          text1="Titre:"
-          text2={props.data_new_roadtrip.roadtripTitle}
-        />
-        <CustomTextBackground
-          text1="Date de départ:"
-          text2={props.data_new_roadtrip.roadtripDate}
-        />
-        <CustomTextBackground
-          text1="Heure de départ:"
-          text2={props.data_new_roadtrip.roadtriptimeDeparture}
-        />
-        <CustomTextBackground
-          text1="Heure d'arrivée:"
-          text2={props.data_new_roadtrip.roadtriptimeArrival}
-        />
-        <CustomTextBackground
-          text1="Type de ballade:"
-          text2={props.data_new_roadtrip.roadtripType}
-        />
-        <CustomTextBackground
-          text1="Type de moto:"
-          text2={props.data_new_roadtrip.roadtripMotoType}
-        />
-        <CustomTextBackground
-          text1="Taille du groupe:"
-          text2={props.data_new_roadtrip.roadtripSizeGroup}
-        />
-      </View>
-
-      <View style={styles.carte}>
-        <CustomButtonModif />
-
-        <Image
-          style={{
-            height: 200,
-            width: 350,
-          }}
-          // source={require({ map_itinerary })}
-          source={{
-            uri: props.data_new_roadtrip.map_itinerary,
-          }}
-        />
-        {/* <Image source={require("../carte_trajet.jpg")} /> */}
-      </View>
-
-      {/* VALIDATION DU TRIP */}
-
-      <View style={{ marginBottom: "1%" }}>
-        <CustomButtonValidation
-          title="C'EST PARTI !"
-          onPress={() => {
-            NewRoadtripData(),
-              props.navigation.navigate("ConfirmationNewRoadtrip", {
-                screen: "ConfirmationNewRoadtripScreen",
-              });
-          }}
-        />
-      </View>
-    </View>
+    </ImageBackground>
   );
 }
 

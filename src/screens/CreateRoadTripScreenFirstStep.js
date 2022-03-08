@@ -8,7 +8,13 @@ import {
   useWindowDimensions,
   Dimensions,
   Switch,
+  TouchableOpacity,
+  ImageBackground,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { Card, Overlay, Rating, RatingProps } from "react-native-elements";
+import { Header as HeaderRNE } from "react-native-elements";
+import { RadioButton } from "react-native-paper";
 import { connect } from "react-redux";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
@@ -30,6 +36,7 @@ import TimePicker from "react-native-simple-time-picker";
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
 import { color } from "react-native-elements/dist/helpers";
+import CustomButtonModif from "../components/CustomButtonModif";
 const labels = [
   "Cart",
   "Delivery Address",
@@ -111,32 +118,38 @@ function CreateRoadTripScreenFirstStep(props) {
   const [selectedHours, setSelectedHours] = useState(0);
   const [selectedMinutes, setSelectedMinutes] = useState(0);
 
+  //------------------------DATETIMEPICKER-----------------------------
+
+  const [From, setFrom] = useState(new Date());
+  const [To, setTo] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [currentSetting, setcurrentSetting] = useState("from");
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+    if (currentSetting === "from") {
+      const currentDate = selectedDate || From;
+      setShow(Platform.OS === "ios");
+      setFrom(currentDate);
+    } else {
+      const currentDate = selectedDate || To;
+      setShow(Platform.OS === "ios");
+      setTo(currentDate);
+    }
   };
 
-  const showMode = (currentMode) => {
+  const showTimepicker = (current) => {
     setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
+    setcurrentSetting(current);
   };
 
   //-------------------récupération des datas nouvel itinéraire-----------------
   const [departure_city, setDeparture_city] = useState("");
   const [arrival_city, setArrival_city] = useState("");
   const [map_itinerary, setMap_itinerary] = useState("");
+
+  //-------------------pour effet radio couleur des boutons------------------------
+  const [checked, setChecked] = useState("cool");
 
   useEffect(() => {
     const getDataitinerary = async () => {
@@ -251,8 +264,12 @@ function CreateRoadTripScreenFirstStep(props) {
               justifyContent: "space-between",
             }}
           >
-            <Text>{departure_city}</Text>
-            <Text>{arrival_city}</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {departure_city}
+            </Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {arrival_city}
+            </Text>
           </View>
         </View>
 
@@ -273,14 +290,25 @@ function CreateRoadTripScreenFirstStep(props) {
   if (formProgress == 0 || formProgress == 1) {
     pagecontent = (
       <View style={styles.container}>
-        <CustomHeader
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
+        <HeaderRNE
+          backgroundColor="#FFD230"
+          leftComponent={
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("RoadtripList", {
+                  screen: "RoadtripListScreen",
+                })
+              }
+            >
+              <AntDesign name="arrowleft" color="#363432" size={30} />
+            </TouchableOpacity>
           }
-          title="CREE TON TRIP"
+          centerComponent={{
+            text: "CREE TON TRIP",
+            style: styles.heading,
+          }}
         />
+
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -289,7 +317,7 @@ function CreateRoadTripScreenFirstStep(props) {
           />
         </View>
         <View style={styles.switch}>
-          <Text> Privé </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}> Privé </Text>
           <Switch
             trackColor={{ false: "#363432", true: "teal" }}
             thumbColor="#FF8B00"
@@ -297,7 +325,7 @@ function CreateRoadTripScreenFirstStep(props) {
             onValueChange={(value) => setToggleButton(value)}
             value={toggleButton}
           />
-          <Text> Public </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}> Public </Text>
         </View>
         <View
           style={{
@@ -315,11 +343,15 @@ function CreateRoadTripScreenFirstStep(props) {
             }}
           />
           <View style={styles.horaires}>
-            <Text style={{ paddingTop: 5 }}>Date de sortie :</Text>
+            <Text style={{ paddingTop: 5, fontWeight: "bold", fontSize: 20 }}>
+              Date de sortie :
+            </Text>
             <DatePicker
               style={styles.datePickerStyle}
               date={date} // Initial date from state
               mode="date" // The enum of date, datetime and time
+              androidMode={"spinner"}
+              display={"spinner"}
               placeholder="select date"
               format="YYYY-MM-DD"
               // minDate="01-01-2016"
@@ -353,7 +385,7 @@ function CreateRoadTripScreenFirstStep(props) {
           </View>
         </View>
 
-        <Text style={{ paddingTop: 5 }}>Horaires :</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 20 }}>Horaires :</Text>
         <View style={{ flexDirection: "row" }}>
           {/* <View>
             <Button onPress={showDatepicker} title="Show date picker!" />
@@ -372,41 +404,49 @@ function CreateRoadTripScreenFirstStep(props) {
           /> */}
           {/* <View> */}
           <View style={{ alignItems: "center" }}>
-            {/* <Text>Départ :</Text> */}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Départ :</Text>
             {/* <View> */}
-            <Button onPress={showTimepicker} title="Départ!" />
-            {/* </View> */}
-            {/* {show && ( */}
-            {/* -------------------------CI DESSOUS A REMETTRE------------- */}
-            {/* <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
+            {/* <CustomButtonModif
+              onPress={showTimepicker}
+              title="Départ !"
+              value={roadtriptimeDeparture}
               onChange={onChange}
-              onPress={(date) => {
-                setDate(date);
-                setRoadtripDate(date);
-              }}
             /> */}
+            {/* </View>  */}
+            {/* -------------------------CI DESSOUS A REMETTRE------------- */}
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={"time"}
+                is24Hour={true}
+                display="spinner"
+                onChange={onChange}
+                onPress={(date) => {
+                  setRoadtriptimeDeparture(From.toLocaleTimeString());
+                  setRoadtriptimeDeparture(To.toLocaleTimeString());
+                }}
+              />
+            )}
             {/* -------------------------A REMETTRE------------- */}
             {/* )} */}
             {/* </View> */}
             <CustomTimeNewTripInput
-              placeholder="9:00"
-              value={roadtriptimeDeparture}
-              setValue={setRoadtriptimeDeparture}
+              placeholder="00:00"
+              keyboardType="numeric"
+              onFocus={() => showTimepicker("from")}
+              value={From.toLocaleTimeString()}
             />
           </View>
           <Text> </Text>
           <View style={{ alignItems: "center" }}>
-            <Button onPress={showTimepicker} title="Arrivée!" />
-            {/* <Text>Arrivée :</Text> */}
+            {/* <CustomButtonModif onPress={showTimepicker} title="Arrivée !" /> */}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Arrivée :</Text>
             <CustomTimeNewTripInput
-              placeholder="16:00"
-              value={roadtriptimeArrival}
-              setValue={setRoadtriptimeArrival}
+              placeholder="00:00"
+              keyboardType="numeric"
+              onFocus={() => showTimepicker("to")}
+              value={To.toLocaleTimeString()}
             />
           </View>
         </View>
@@ -431,63 +471,138 @@ function CreateRoadTripScreenFirstStep(props) {
             stepCount={3}
           />
         </View>
-        <View style={{ marginTop: "8%" }}>
-          <Text> Type de Roadtrip </Text>
-        </View>
-        <View style={styles.choice}>
-          <CustomButtonChoiceValidate
-            title={"Cool"}
-            value={roadtripType}
-            onPress={() => setRoadtripType("Cool")}
-            secureTextEntry={false}
-          />
-          <CustomButtonChoice
-            title={"Sportif"}
-            value={roadtripType}
-            onPress={() => setRoadtripType("Sportif")}
-            secureTextEntry={false}
-          />
-          <CustomButtonChoice
-            title={"Tourisme"}
-            value={roadtripType}
-            onPress={() => setRoadtripType("Tourisme")}
-            secureTextEntry={false}
-          />
-        </View>
+        <Card containerStyle={styles.card}>
+          <View
+            style={{
+              marginBottom: "5%",
+              marginTop: "5%",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              Type de Roadtrip
+            </Text>
+          </View>
+          <View style={styles.choice2}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <RadioButton
+                value="cool"
+                status={checked === "cool" ? "checked" : "unchecked"}
+                onPress={() => {
+                  setRoadtripType("cool"), setChecked("cool");
+                }}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 15 }}>Cool</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <RadioButton
+                value="Sportif"
+                status={checked === "Sportif" ? "checked" : "unchecked"}
+                onPress={() => {
+                  setRoadtripType("Sportif"), setChecked("Sportif");
+                }}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 15 }}>Sportif</Text>
+            </View>
+            <View
+              style={{ flex: 1, flexDirection: "column", alignItems: "center" }}
+            >
+              <RadioButton
+                value="Tourisme"
+                status={checked === "Tourisme" ? "checked" : "unchecked"}
+                onPress={() => {
+                  setRoadtripType("Tourisme"), setChecked("Tourisme");
+                }}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 15 }}>Tourisme</Text>
+            </View>
 
-        <View
-          style={{
-            marginBottom: "5%",
-            marginTop: "10%",
-            alignItems: "center",
-          }}
-        >
-          <Text> Pour quel type de moto ? </Text>
-          {/* <CustomBikeCategPicker
+            {/* <Button
+                title={"Cool"}
+                value={roadtripType}
+                status={checked === "cool" ? "checked" : "unchecked"}
+                onPress={() => setRoadtripType("Cool")}
+                secureTextEntry={false}
+                containerStyle={{
+                  width: 80,
+                }}
+                buttonStyle={{
+                  backgroundColor: { colorButton },
+                  borderRadius: 15,
+                  height: "100%",
+                }}
+                titleStyle={{
+                  color: "#FEFAEA",
+                  marginHorizontal: 10,
+                  fontWeight: "bold",
+                  fontSize: 10,
+                }}
+              />
+              <CustomButtonChoice
+                title={"Sportif"}
+                value={roadtripType}
+                onPress={() => setRoadtripType("Sportif")}
+                secureTextEntry={false}
+              />
+              <CustomButtonChoice
+                title={"Tourisme"}
+                value={roadtripType}
+                onPress={() => setRoadtripType("Tourisme")}
+                secureTextEntry={false}
+              /> */}
+          </View>
+        </Card>
+        <Card containerStyle={styles.card}>
+          <View
+            style={{
+              marginBottom: "5%",
+              marginTop: "10%",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              Pour quel type de moto ?
+            </Text>
+            {/* <CustomBikeCategPicker
             selectedValue={userBikeCateg}
             onValueChange={(value, index) => {
               setRoadtripMotoType(value), (value = { roadtripMotoType });
             }}
             // style={{ flex: 1 }}
           /> */}
-          <CustomBikeCategPicker2
-            selectedValue={roadtripMotoType}
-            onValueChange={(value, index) => {
-              // setuserBikeCateg(value),
-              setRoadtripMotoType(value), (value = { roadtripMotoType });
-            }}
-            style={{ flex: 1 }}
-          />
-          {/* <CustomNewTripInput
+            <CustomBikeCategPicker2
+              selectedValue={roadtripMotoType}
+              onValueChange={(value, index) => {
+                // setuserBikeCateg(value),
+                setRoadtripMotoType(value), (value = { roadtripMotoType });
+              }}
+              style={{ flex: 1 }}
+            />
+            {/* <CustomNewTripInput
             placeholder="Toutes catégories"
             value={roadtripMotoType}
             setValue={setRoadtripMotoType}
           /> */}
-        </View>
-
-        <View style={styles.tailleGroupe}>
+          </View>
+        </Card>
+        <Card containerStyle={styles.card}>
+          {/* <View style={styles.tailleGroupe}> */}
           <View style={{ alignItems: "center" }}>
-            <Text>Taille du groupe :</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              Taille du groupe
+            </Text>
           </View>
           <Text> </Text>
           <View style={{ alignItems: "center" }}>
@@ -497,17 +612,18 @@ function CreateRoadTripScreenFirstStep(props) {
               setValue={setRoadtripSizeGroup}
             />
           </View>
-        </View>
+          {/* </View> */}
+        </Card>
 
         {/* CHOIX ITINERAIRE */}
         <View
           style={{
             alignItems: "center",
-            height: "30%",
+            height: "15%",
             marginTop: "5%",
           }}
         >
-          <View style={styles.bottomPage3}>
+          <View>
             <CustomButtonValidation
               title="VALIDER !"
               onPress={() => (
@@ -532,12 +648,39 @@ function CreateRoadTripScreenFirstStep(props) {
     );
   }
 
-  return <View>{pagecontent}</View>;
+  return (
+    <ImageBackground
+      source={require("../../assets/images/loginbg.png")}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <View>{pagecontent}</View>
+    </ImageBackground>
+  );
 }
 // onPageChange(position);
 // this.setState({ currentPosition: position });
 
 const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+    // alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    height: deviceHeight * 0.2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    backgroundColor: "#FFEDAC",
+    borderRadius: 15,
+    alignItems: "center",
+    width: "90%",
+  },
   switch: {
     width: deviceWidth,
     alignItems: "center",
@@ -545,13 +688,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   choice: {
-    width: "70%",
+    width: "80%",
+    // alignItems: "center",
+    flexDirection: "row",
+    // justifyContent: "center",
+    height: "50%",
+    // marginBottom: "5%",
+    // marginTop: "5%",
+    justifyContent: "space-between",
+  },
+  choice2: {
+    width: "80%",
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center",
-    height: "4%",
-    marginBottom: "5%",
-    marginTop: "2%",
+    // justifyContent: "center",
+    height: "50%",
+    // marginBottom: "5%",
+    // marginTop: "5%",
     justifyContent: "space-between",
   },
 
@@ -567,7 +720,7 @@ const styles = StyleSheet.create({
   barprogress: {
     width: deviceWidth,
     backgroundColor: "#FEFAEA",
-    paddingTop: "3%",
+    paddingTop: "5%",
     marginBottom: "3%",
   },
   container: {
