@@ -8,13 +8,13 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { Card, Text, Avatar, Input, Button } from "react-native-elements";
+import { Card, Text, Overlay } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Header as HeaderRNE } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 import CustomInputWhite from "../../src/components/CustomInputWhite";
-
+import LottieView from "lottie-react-native";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -28,16 +28,15 @@ function ChatScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   const [contentMessage, setContentMessage] = useState("");
   const [tokenMessage, setTokenMessage] = useState("");
+  const [visible, setVisible] = useState(true);
   const scrollViewRef = useRef(ScrollView);
   useEffect(() => {
     async function loadConversations() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
-      );
+      const data = await fetch(`/inbox/tripchat?idConv=${idConv}`);
       var body = await data.json();
 
       console.log("body", { MA_VARIABLE });
-
+      setVisible(false);
       setConversationsList(
         body.conversationObjects.map((convData, i) => {
           if (props.token != convData.senderToken) {
@@ -96,9 +95,7 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(
-      `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
-    );
+    const data = await fetch(`/inbox/tripchat?idConv=${idConv}`);
     var body = await data.json();
 
     setConversationsList(
@@ -157,16 +154,13 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/addmessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
-        }
-      );
+      const data1 = await fetch(`/inbox/addmessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
+      });
       var response = await data1.json();
       reLoadConversations();
     }
@@ -200,6 +194,14 @@ function ChatScreen(props) {
         }
         style={{ flex: 1 }}
       >
+        <Overlay isVisible={visible} overlayStyle={styles.image}>
+          <LottieView
+            source={require("../lotties/loading-dots-in-yellow.json")}
+            autoPlay
+            loop
+            style={{ height: 300, width: 500 }}
+          />
+        </Overlay>
         {conversationsList}
       </ScrollView>
       <KeyboardAvoidingView
@@ -295,6 +297,16 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     width: 50,
     height: 50,
+  },
+  image: {
+    resizeMode: "contain",
+    backgroundColor: "transparent",
+    paddingTop: "50%",
+    paddingLeft: "15%",
+    shadowOpacity: 0,
+    shadowRadius: 4.65,
+    width: "100%",
+    height: "100%",
   },
   //style pour le header
   headerContainer: {

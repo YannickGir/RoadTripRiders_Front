@@ -30,7 +30,6 @@ import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import CustomButtonOrange from "../../src/components/CustomButtonOrange";
 import LottieView from "lottie-react-native";
-import animationMoto from "../lotties/motorcycle-loading.json";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -47,7 +46,7 @@ function HomepageScreen(props) {
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
+        `${MA_VARIABLE}/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -68,9 +67,7 @@ function HomepageScreen(props) {
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
       // console.log("body", body);
 
@@ -252,7 +249,9 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: "contain",
     backgroundColor: "transparent",
+
     marginTop: -200,
+    borderColor: "transparent",
   },
   avatar: {
     borderWidth: 1,
