@@ -28,7 +28,8 @@ import CustomInput from "../../src/components/CustomInput";
 import LoadingOverlay from "../../src/components/LoadingOverlay";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
+import LottieView from "lottie-react-native";
+import animationMoto from "../lotties/motorcycle-loading.json";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -36,7 +37,8 @@ type RatingsComponentProps = {};
 
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
+
   const ratingCompleted = (rating: number) => {
     console.log("Rating is: " + rating);
   };
@@ -72,12 +74,13 @@ function HomepageScreen(props) {
       setRoadTripList(
         body.map((tripData, i) => {
           var durationHour = secToTime(tripData.duration);
-          var durationHour2 = durationHour.slice(0, -1);
+          var durationHour2 = durationHour.slice(0, -4);
           var km = parseInt(tripData.distance);
           console.log(
             "tripData.rating.$numberDecimal",
             tripData.rating.$numberDecimal
           );
+          setVisible(false);
           return (
             <TouchableOpacity
               key={i}
@@ -195,12 +198,14 @@ function HomepageScreen(props) {
         }}
       />
 
-      <Overlay isVisible={visible} style={styles.image}>
-        <Image source={require("../Loading_overlay.gif")} />
-      </Overlay>
       <ScrollView style={{ flex: 1, width: "100%" }}>
-        <Overlay isVisible={visible} style={styles.image}>
-          <Image source={require("../Loading_overlay.gif")} />
+        <Overlay isVisible={visible} overlayStyle={styles.image}>
+          <LottieView
+            source={require("../lotties/motorcycle-loading.json")}
+            autoPlay
+            loop
+            style={{ height: 300, width: 500 }}
+          />
         </Overlay>
         {roadTripList}
       </ScrollView>
@@ -264,9 +269,9 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: null,
     resizeMode: "contain",
-    height: 220,
+    backgroundColor: "transparent",
+    marginTop: -200,
   },
   avatar: {
     borderWidth: 1,
