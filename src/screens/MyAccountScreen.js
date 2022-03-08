@@ -85,7 +85,6 @@ function MyAccountScreen(props) {
                 <Text style={{ fontSize: 30 }}>
                   Hello {props.userData.username}
                 </Text>
-                <Text style={{ fontSize: 30 }}>Voilà ton espace</Text>
                 <Text>
                   <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
                   Statut : Newbi(ker)
