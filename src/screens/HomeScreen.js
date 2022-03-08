@@ -198,7 +198,12 @@ function HomepageScreen(props) {
       <Overlay isVisible={visible} style={styles.image}>
         <Image source={require("../Loading_overlay.gif")} />
       </Overlay>
-      <ScrollView style={{ flex: 1, width: "100%" }}>{roadTripList}</ScrollView>
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        <Overlay isVisible={visible} style={styles.image}>
+          <Image source={require("../Loading_overlay.gif")} />
+        </Overlay>
+        {roadTripList}
+      </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
