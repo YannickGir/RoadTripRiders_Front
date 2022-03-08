@@ -53,13 +53,13 @@ function MyAccountScreen(props) {
           }}
         />
         <View style={styles.secondary}>
-          <TouchableOpacity
+          <View
             style={{
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FFD230',
               padding: 10,
-              height: 160,
+              height: 120,
               width: 340,
               borderRadius: 15,
               margin: 10,
@@ -91,7 +91,7 @@ function MyAccountScreen(props) {
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.secondary}>
           <TouchableOpacity
