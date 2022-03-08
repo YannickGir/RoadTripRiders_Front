@@ -48,7 +48,7 @@ function MyAccountScreen(props) {
         <HeaderRNE
           backgroundColor='#FFD230'
           centerComponent={{
-            text: 'MON PROFIL',
+            text: 'MON COMPTE',
             style: styles.heading,
           }}
         />
