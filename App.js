@@ -131,7 +131,7 @@ const BottomNavigator = () => {
           } else if (route.name === 'Conversations') {
             iconNameIonicons = 'chatbox';
             return <Ionicons name={iconNameIonicons} size={25} color={color} />;
-          } else if (route.name === 'MyAccount') {
+          } else if (route.name === 'Mon Compte') {
             iconNameFontAwesome = 'user';
             return (
               <FontAwesome name={iconNameFontAwesome} size={25} color={color} />
