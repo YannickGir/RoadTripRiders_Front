@@ -24,6 +24,8 @@ import CustomInputWithoutPlaceholder from "../components/CustomInputWithoutPlace
 import CustomLongInputWithoutPlaceholder from "../components/CustomLongInputWithoutPlaceholder";
 import CustomInputTimeWithoutPlaceholder from "../components/CustomInputTimeWithoutPlaceholder";
 import CustomButton from "../components/CustomButton";
+import { connect } from "react-redux";
+
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -42,6 +44,7 @@ const RoadTripDetailsScreen = (props) => {
       description: "",
       driving_type: "",
       departure_time: "",
+      arrival_time: "",
       max_users: "",
       roadtrip_users_ids: [],
       roadtrip_admin_id: [],
@@ -65,7 +68,7 @@ const RoadTripDetailsScreen = (props) => {
         `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
       var body = await data.json();
-      console.log("body", body.userData);
+      console.log("body", body.roadtripData);
       setTrip(body);
       // console.log("tripId:", trip);
     }
@@ -89,6 +92,23 @@ const RoadTripDetailsScreen = (props) => {
   var placesRestante =
     trip.roadtripData.max_users - users.length - admin.length;
   // console.log("placesRestante1", placesRestante);
+
+  var joinTrip = async () => {
+    console.log("click détecté");
+    const data1 = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `token=${props.token}&tripId=${tripId}`,
+    });
+    var response = await data1.json();
+    console.log("response", response);
+    props.navigation.navigate("ConfirmationJoinTrip", {
+      tripId: response.roadtrip_id,
+    });
+  };
+
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
@@ -203,7 +223,7 @@ const RoadTripDetailsScreen = (props) => {
                   fontSize: 15,
                 }}
               >
-                {trip.itineraryData.distance.slice(0, -4)} km
+                {trip.itineraryData.distance} km
               </Text>
             </View>
             <View>
@@ -248,7 +268,7 @@ const RoadTripDetailsScreen = (props) => {
               {trip.itineraryData.arrival.city}
             </Text>
           </View>
-          <Text style={{ paddingTop: "2%" }}>
+          <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             <FontAwesome5 name="clock" size={24} color="#363432" /> Horaires
           </Text>
         </View>
@@ -261,6 +281,15 @@ const RoadTripDetailsScreen = (props) => {
           />
           <View style={styles.text2}>
             <Text>{trip.roadtripData.departure_time}</Text>
+          </View>
+          <FontAwesome5
+            name="flag-checkered"
+            size={24}
+            color="#363432"
+            style={{ paddingRight: "5%", paddingLeft: "5%" }}
+          />
+          <View style={styles.text2}>
+            <Text>{trip.roadtripData.arrival_time}</Text>
           </View>
         </View>
         <View style={styles.secondary}>
@@ -302,7 +331,12 @@ const RoadTripDetailsScreen = (props) => {
             <Text>{trip.roadtripData.moto_type}</Text>
           </View>
         </View>
-        <CustomButton title="S'INSCRIRE" />
+        <CustomButton
+          title="S'INSCRIRE"
+          onPress={() => {
+            joinTrip();
+          }}
+        />
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -381,5 +415,9 @@ const styles = StyleSheet.create({
   },
   //fin du style pour le header
 });
-
-export default RoadTripDetailsScreen;
+function mapStateToProps(state) {
+  return {
+    token: state.token,
+  };
+}
+export default connect(mapStateToProps, null)(RoadTripDetailsScreen);
