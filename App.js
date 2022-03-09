@@ -56,11 +56,7 @@ import UserPastRoadtripsScreen from "./src/screens/UserPastRoadtripsScreen";
 import UserRoadtripsToComeScreen from "./src/screens/UserRoadtripsToComeScreen";
 
 // Profil d'un autre utilisateur
-<<<<<<< HEAD
-import OtherRiderProfilScreen from "./src/screens/OtherRiderProfil";
-=======
-import OtherRiderProfilScreen from './src/screens/OtherRiderProfilScreen';
->>>>>>> c438aed6992268f95ea3eddbdcd7b22c35a46826
+import OtherRiderProfilScreen from "./src/screens/OtherRiderProfilScreen";
 
 //Ecran des messages dans les conversations
 import ChatScreen from "./src/screens/ChatScreen";
@@ -68,8 +64,8 @@ import ChatPrivateScreen from "./src/screens/ChatPrivateScreen";
 //Ecran du chat général
 import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 //Ecrans de création de roadtrips
-<<<<<<< HEAD
 import CreateRoadTripScreenFirstStep2 from "./src/screens/CreateRoadTripScreenFirstStep2";
+
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ConfirmationNewRoadtripScreen from "./src/screens/ConfirmationNewRoadtripScreen";
@@ -77,14 +73,6 @@ import ConfirmationJoinTripScreen from "./src/screens/ConfirmationJoinTripScreen
 
 import ListItinerariesScreen from "./src/screens/ListItinerariesScreen";
 import DisplayItineraryScreen from "./src/screens/DisplayItineraryScreen";
-=======
-import TestTimerScreen from './src/screens/TestTimerScreen';
-import CreateRoadTripScreenFirstStep from './src/screens/CreateRoadTripScreenFirstStep';
-import CreateRoadTripScreenRecap from './src/screens/CreateRoadTripScreenRecap';
-import ConfirmationNewRoadtripScreen from './src/screens/ConfirmationNewRoadtripScreen';
-import ListItinerariesScreen from './src/screens/ListItinerariesScreen';
-import DisplayItineraryScreen from './src/screens/DisplayItineraryScreen';
->>>>>>> c438aed6992268f95ea3eddbdcd7b22c35a46826
 
 //Ecran de liste des sorties
 import RoadtripListScreen from "./src/screens/RoadtripListScreen";
@@ -225,16 +213,11 @@ export default function App() {
             name="newRoadTripFirstStep"
             component={CreateRoadTripScreenFirstStep}
           />
-<<<<<<< HEAD
           <Stack.Screen name="Itinerary" component={ItineraryScreen} />
           <Stack.Screen
             name="newRoadTripFirstStep2"
             component={CreateRoadTripScreenFirstStep2}
           />
-=======
-          <Stack.Screen name='Itinerary' component={ItineraryScreen} />
-          <Stack.Screen name='TestTimerScreen' component={TestTimerScreen} />
->>>>>>> c438aed6992268f95ea3eddbdcd7b22c35a46826
           <Stack.Screen
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}
