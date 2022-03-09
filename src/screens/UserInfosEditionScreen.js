@@ -32,6 +32,7 @@ import CustomHeaderRNE from '../components/CustomHeaderRNE';
 import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
 import CustomRegionPicker from '../components/CustomRegionPicker';
 import CustomLongInput from '../components/CustomLongInput';
+var moment = require('moment'); // pour présentation date
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
