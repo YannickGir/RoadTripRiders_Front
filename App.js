@@ -56,7 +56,7 @@ import UserPastRoadtripsScreen from './src/screens/UserPastRoadtripsScreen';
 import UserRoadtripsToComeScreen from './src/screens/UserRoadtripsToComeScreen';
 
 // Profil d'un autre utilisateur
-import OtherRiderProfil from './src/screens/OtherRiderProfil';
+import OtherRiderProfilScreen from './src/screens/OtherRiderProfil';
 
 //Ecran des messages dans les conversations
 import ChatScreen from './src/screens/ChatScreen';
@@ -195,8 +195,8 @@ export default function App() {
             component={UserRoadtripsToComeScreen}
           />
           <Stack.Screen
-            name='UserPastRoadtrips'
-            component={UserPastRoadtripsScreen}
+            name='OtherRiderProfil'
+            component={OtherRiderProfilScreen}
           />
           <Stack.Screen
             name='newRoadTripFirstStep'

@@ -10,11 +10,18 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
-import DatePicker from 'react-native-datepicker';
+//import header
 import { Header as HeaderRNE } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
+import {
+  AntDesign,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  Ionicons,
+} from '@expo/vector-icons';
+// fin import header
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
 import { Button, CheckBox } from 'react-native-elements';
@@ -35,9 +42,9 @@ import CustomRegionPicker from '../components/CustomRegionPicker';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
-function OtherRiderProfilScreen(props) {
+export default function OtherRiderProfilScreen(props) {
   //Variables d'Etats des inputs
-  const [otheUserFirstName, setOtherUserFirstName] = useState(''); //prénom utilisateur
+  const [otherUserFirstName, setOtherUserFirstName] = useState(''); //prénom utilisateur
   const [otherUserLastName, setOtherUserLastName] = useState(''); //nom utilisateur
   const [otherUserBirthDate, setOtherUserBirthDate] = useState(''); //date de naissance de l'utilisateur
   const [otherUserRegion, setotherUserRegion] = useState(''); //région où sort l'utilisateur
@@ -102,131 +109,90 @@ function OtherRiderProfilScreen(props) {
     // console.log('usereditionscreen bodyUser', bodyUser);
   };
 
-  //pour envoyer l'avatar vers le back et dans le store
-  const pickImage2 = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log('result', result);
-    console.log('result.uri ', result.uri);
-
-    if (!result.cancelled) {
-      setImage2(result.uri);
-      var myMotoPicture = result.uri;
-
-      data = new FormData();
-
-      data.append('bike', {
-        uri: myMotoPicture,
-        type: 'image/jpeg',
-        name: 'bike',
-      });
-
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
-        method: 'post',
-        body: data,
-      });
-
-      var response = await rawResponse.json();
-      //console.log(response);
-      // NE PAS OUBLIER DE SET IMAGE2 AVEC L'URL NOUVELLEMENT GENEREE
-      setImage2(response.urlToCloudImage);
-    }
-  };
-
   // gender == male | female | other
   const setGenderCheckbox = (gender) => {
     setUserGender(userGender != gender ? gender : '');
   };
 
   return (
-    <View style={styles.container}>
-      <SafeAreaProvider>
-        <HeaderRNE
-          backgroundColor='#FFD230'
-          leftComponent={
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('BottomNavigator', {
-                  screen: 'RidersAroundScreen',
-                })
-              }
-            >
-              <AntDesign name='arrowleft' color='#363432' size={30} />
-            </TouchableOpacity>
-          }
-          centerComponent={{
-            text: 'MOTARDS',
-            style: styles.heading,
+    <SafeAreaProvider style={styles.container}>
+      <HeaderRNE
+        backgroundColor='#FFD230'
+        leftComponent={
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate('BottomNavigator', {
+                screen: 'RidersAroundScreen',
+              })
+            }
+          >
+            <AntDesign name='arrowleft' color='#363432' size={30} />
+          </TouchableOpacity>
+        }
+        centerComponent={{
+          text: 'MOTARDS',
+          style: styles.heading,
+        }}
+      />
+
+      <View style={styles.secondary}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#FFD230',
+            padding: 10,
+            height: 120,
+            width: 340,
+            borderRadius: 15,
+            margin: 10,
+            marginTop: '5%',
           }}
-        />
-      </SafeAreaProvider>
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <View>
+              <Image
+                source={{
+                  uri: 'https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png',
+                }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  marginRight: '5%',
+                  alignContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  borderRadius: 50,
+                }}
+              />
+            </View>
+            <View>
+              <Text style={{ fontSize: 20 }}>{otherUserFirstName}</Text>
+              <Text>{otherUserLastName}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
       <Text style={{ paddingTop: '10%' }}>Quel rider est-il/elle ?</Text>
 
       <View style={styles.inputshort}>
-        <Text>{otherUserFirstName}</Text>
+        <Text>{otherUserBirthDate}</Text>
       </View>
 
-      <CustomInput
-        placeholder='Nom'
-        value={userLastName}
-        setValue={setuserLastName}
-        secureTextEntry={false}
-      />
-
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingTop: '10%',
-        }}
-      >
-        <CustomButton title='CHARGE TON AVATAR' onPress={pickImage} />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />
-        )}
+      <View style={styles.inputshort}>
+        <Text>{otherUserGender}</Text>
       </View>
+
+      <View style={styles.inputshort}>
+        <Text>{otherUserGender}</Text>
+      </View>
+
       <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
         Quelle est ta date de naissance ?
       </Text>
 
-      <CustomDatePicker
-        selectedValue={userBirthDate}
-        onChange={(value, index) => setuserBirthDate(value)}
-        title='DATE'
-      />
-      <Text>{userBirthDate}</Text>
-
-      <Text style={{ paddingTop: '5%', paddingBottom: '2%' }}>Ton sexe ?</Text>
-      <View style={styles.secondary}>
-        <CheckBox
-          title='Homme'
-          checkedColor='#ff8b00'
-          checked={userGender === 'male'}
-          onPress={() => setGenderCheckbox('male')}
-        />
-        <CheckBox
-          title='Femme'
-          checkedColor='#ff8b00'
-          checked={userGender === 'female'}
-          onPress={() => setGenderCheckbox('female')}
-        />
-        <CheckBox
-          title='Autre'
-          checkedColor='#ff8b00'
-          checked={userGender === 'other'}
-          onPress={() => setGenderCheckbox('other')}
-        />
-      </View>
-
       <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
-        Parles nous de toi:
+        Un peu plus sur lui/elle:
       </Text>
       <CustomLongInput
         placeholder='Partage ta bio'
@@ -243,160 +209,151 @@ function OtherRiderProfilScreen(props) {
         onValueChange={(value, index) => setuserRegion(value)}
       />
 
-      <View style={styles.container}>
-        <SafeAreaProvider>
-          <HeaderRNE
-            backgroundColor='#FFD230'
-            leftComponent={
-              <TouchableOpacity
-                onPress={() => setFormProgress(formProgress - 1)}
-              >
-                <AntDesign name='arrowleft' color='#363432' size={30} />
-              </TouchableOpacity>
-            }
-            centerComponent={{
-              text: 'EDITE TON PROFIL',
-              style: styles.heading,
-            }}
-          />
-
-          <View style={styles.barprogress}>
-            <StepIndicator
-              customStyles={customStyles}
-              currentPosition={2}
-              stepCount={4}
-            />
-          </View>
-        </SafeAreaProvider>
-        <Text style={{ paddingTop: '0%', paddingBottom: '5%' }}>
-          Dans quelle ville vis-tu ?
+      <Text style={{ paddingTop: '0%', paddingBottom: '5%' }}>
+        Dans quelle ville vis-tu ?
+      </Text>
+      <CustomInput
+        placeholder='Ta ville'
+        value={userCity}
+        setValue={setuserCity}
+        secureTextEntry={false}
+      />
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          <FontAwesome name='motorcycle' size={30} color='#363432' /> Et sa moto
+          ?
         </Text>
-        <CustomInput
-          placeholder='Ta ville'
-          value={userCity}
-          setValue={setuserCity}
-          secureTextEntry={false}
-        />
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
-            Et ta moto ?
-          </Text>
 
-          <CustomInput
-            placeholder='Marque'
-            value={userBikeBrand}
-            setValue={setuserBikeBrand}
-            secureTextEntry={false}
-          />
-
-          <CustomInput
-            placeholder='Modèle'
-            value={userBikeModel}
-            setValue={setuserBikeModel}
-            secureTextEntry={false}
-          />
-        </View>
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text
+        <View style={styles.secondary}>
+          <View
             style={{
-              paddingTop: '5%',
-              paddingBottom: '25%',
-              alignContent: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FFD230',
+              padding: 10,
+              height: 120,
+              width: 340,
+              borderRadius: 15,
+              margin: 10,
+              marginTop: '5%',
             }}
           >
-            Sa catégorie?
-          </Text>
-          <CustomBikeCategPicker
-            selectedValue={userBikeCateg}
-            onValueChange={(value, index) => setuserBikeCateg(value)}
-            style={{ flex: 1, paddingBottom: 20 }}
-          />
-        </View>
-
-        <Text
-          style={{
-            paddingTop: 0,
-            paddingBottom: '5%',
-            alignContent: 'center',
-          }}
-        >
-          Partage une photo
-        </Text>
-
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
-          {image2 && (
-            <Image
-              source={{ uri: image2 }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
+            <View style={{ flexDirection: 'row' }}>
+              <View>
+                <Image
+                  source={{
+                    uri: 'https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png',
+                  }}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    marginRight: '5%',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderRadius: 50,
+                  }}
+                />
+              </View>
+              <View>
+                <Text style={{ fontSize: 20 }}>{otherUserBikeModel}</Text>
+                <Text>{otherUserBikeBrand}</Text>
+                <Text>{otherUserBikeCateg}</Text>
+              </View>
+            </View>
+          </View>
         </View>
 
         <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
-          As-tu un passager ?
+          Sa catégorie?
         </Text>
-        <View style={styles.secondary}>
-          <CheckBox
-            title='Oui'
-            checkedColor='#ff8b00'
-            checked={hasPassenger}
-            onPress={() => {
-              setHasPassenger(!hasPassenger), setHasNoPassenger(false);
-            }}
-          />
-          <CheckBox
-            title='Non'
-            checkedColor='#ff8b00'
-            checked={hasNoPassenger}
-            onPress={() => {
-              setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            width: deviceWidth,
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            backgroundColor: '#FEFAEA',
-          }}
-        >
-          <Button
-            title='CALCULER ITINÉRAIRE'
-            containerStyle={{
-              height: 40,
-              color: '#FFD230',
-            }}
-            titleStyle={{
-              color: '#FEFAEA',
-              fontWeight: 'bold',
-            }}
-            buttonStyle={{ backgroundColor: '#363432' }}
-            onPress={() => handleClick()}
-          ></Button>
-          <Button
-            title='SUIVANT'
-            onPress={() => SubmitItinerary()}
-            buttonStyle={{ backgroundColor: '#ff8b00' }}
-            icon={{
-              name: 'arrow-circle-right',
-              type: 'font-awesome',
-              size: 19,
-              color: 'white',
-            }}
-          ></Button>
-        </View>
+        <CustomBikeCategPicker
+          selectedValue={userBikeCateg}
+          onValueChange={(value, index) => setuserBikeCateg(value)}
+          style={{ flex: 1, paddingBottom: 20 }}
+        />
       </View>
-    </View>
+
+      <Text
+        style={{
+          paddingTop: 0,
+          paddingBottom: '5%',
+          alignContent: 'center',
+        }}
+      >
+        Partage une photo
+      </Text>
+
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+        {image2 && (
+          <Image source={{ uri: image2 }} style={{ width: 200, height: 200 }} />
+        )}
+      </View>
+
+      <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+        As-tu un passager ?
+      </Text>
+      <View style={styles.secondary}>
+        <CheckBox
+          title='Oui'
+          checkedColor='#ff8b00'
+          checked={hasPassenger}
+          onPress={() => {
+            setHasPassenger(!hasPassenger), setHasNoPassenger(false);
+          }}
+        />
+        <CheckBox
+          title='Non'
+          checkedColor='#ff8b00'
+          checked={hasNoPassenger}
+          onPress={() => {
+            setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
+          }}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          width: deviceWidth,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          backgroundColor: '#FEFAEA',
+        }}
+      >
+        <Button
+          title='CALCULER ITINÉRAIRE'
+          containerStyle={{
+            height: 40,
+            color: '#FFD230',
+          }}
+          titleStyle={{
+            color: '#FEFAEA',
+            fontWeight: 'bold',
+          }}
+          buttonStyle={{ backgroundColor: '#363432' }}
+          onPress={() => handleClick()}
+        ></Button>
+        <Button
+          title='SUIVANT'
+          onPress={() => SubmitItinerary()}
+          buttonStyle={{ backgroundColor: '#ff8b00' }}
+          icon={{
+            name: 'arrow-circle-right',
+            type: 'font-awesome',
+            size: 19,
+            color: 'white',
+          }}
+        ></Button>
+      </View>
+    </SafeAreaProvider>
   );
 }
 const styles = StyleSheet.create({
