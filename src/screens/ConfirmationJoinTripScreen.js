@@ -103,7 +103,7 @@ function ConfirmationJoinTripScreen(props) {
             <View style={{ width: "90%", alignItems: "center" }}>
               <Text>Vous aves rejoins le roadtrip !</Text>
               <Text>
-                Allez voir dans vos discusSions et discuter avec les autres
+                Allez voir dans vos discussions et discuter avec les autres
                 participants!
               </Text>
             </View>
