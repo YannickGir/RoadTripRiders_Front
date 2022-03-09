@@ -199,23 +199,20 @@ function HomepageScreen(props) {
           source={require("../lotties/motorcycle-loading.json")}
           overlayColor="rgba(255,255,255,0.75)"
           speed={1}
-          animationStyle={{ height: 500, width: 500 }}
+          animationStyle={{ height: 300, width: 300 }}
         ></AnimatedLoader>
 
         {roadTripList}
       </ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <CustomButton
-          title="CREER UN TRIP"
-          onPress={() =>
-            props.navigation.navigate("newRoadTripFirstStep", {
-              itinerary_id: "",
-            })
-          }
-        />
-      </KeyboardAvoidingView>
+
+      <CustomButton
+        title="CREER UN TRIP"
+        onPress={() =>
+          props.navigation.navigate("newRoadTripFirstStep", {
+            itinerary_id: "",
+          })
+        }
+      />
     </SafeAreaProvider>
   );
 }

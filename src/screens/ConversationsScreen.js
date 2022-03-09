@@ -177,31 +177,20 @@ function ConversationsScreen(props) {
   }, []);
 
   return (
-    <View style={styles.backgroundColor}>
-      <SafeAreaProvider>
-        <HeaderRNE
-          backgroundColor="#FFD230"
-          centerComponent={{
-            text: "CONVERSATIONS",
-            style: styles.heading,
-          }}
-        />
-      </SafeAreaProvider>
-      <ScrollView style={{ flex: 1 }}>{conversationsList}</ScrollView>
-      <ScrollView>{conversationsListPrivate}</ScrollView>
+    <SafeAreaProvider style={styles.backgroundColor}>
+      <HeaderRNE
+        backgroundColor="#FFD230"
+        centerComponent={{
+          text: "CONVERSATIONS",
+          style: styles.heading,
+        }}
+      />
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <Button
-          // icon={<Icon name="envelope-o" size={20} color="#ffffff" />}
-          title="Chat général"
-          buttonStyle={{ backgroundColor: "#FF8B00" }}
-          type="solid"
-          onPress={() => props.navigation.navigate("ChatGeneral")}
-        />
-      </KeyboardAvoidingView>
-    </View>
+      <ScrollView style={{ flex: 1 }}>
+        {conversationsList}
+        {conversationsListPrivate}
+      </ScrollView>
+    </SafeAreaProvider>
   );
 }
 const styles = StyleSheet.create({
