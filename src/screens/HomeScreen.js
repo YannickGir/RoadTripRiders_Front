@@ -117,7 +117,7 @@ function HomepageScreen(props) {
                     tintColor="#FFEDAC"
                     readonly
                     ratingCount={5}
-                    startingValue={tripData.rating.$numberDecimal}
+                    startingValue={tripData.rating}
                     imageSize={15}
                     style={{ alignSelf: "flex-start" }}
                   />

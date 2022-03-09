@@ -36,20 +36,48 @@ const RoadTripDetailsScreen = (props) => {
   const [selectBikeCateg, setSelectBikeCateg] = useState("");
   const [selectGroupSize, setSelectGroupSize] = useState("");
   const [remainingTickets, setRemainingTickets] = useState("");
-
+  const [trip, setTrip] = useState({
+    roadtripData: {
+      event_title: "",
+      description: "",
+      driving_type: "",
+      departure_time: "",
+      max_users: "",
+    },
+    itineraryData: {
+      distance: "",
+      snapshot: "",
+      start: "",
+      arrival: "",
+      duration: "",
+    },
+  });
   var tripId = props.route.params.tripId;
-  console.log("tripId", tripId);
+  //console.log("tripId", tripId);
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
-        `${MA_VARIABLE}/roadtripdetails?tripId:${tripId}`
+        `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
       var body = await data.json();
-      // console.log("body", body);
+      console.log("body", body.roadtripData);
+      setTrip(body);
+      //console.log("tripId:", trip);
     }
+
     loadRoadTrip();
   }, []);
+  const [sectotime, setSectotime] = useState("");
+  const secToTime = (totalsecondes) => {
+    hours = Math.floor(totalsecondes / 3600);
+    totalsecondes %= 3600;
+    minutes = Math.floor(totalsecondes / 60);
+    seconds = Math.floor(totalsecondes % 60);
+    return hours + "h:" + minutes + "min:";
+  };
 
+  var durationHour = secToTime(trip.itineraryData.duration);
+  var durationHour2 = durationHour.slice(0, -4);
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
@@ -107,7 +135,7 @@ const RoadTripDetailsScreen = (props) => {
                 <Text style={{ fontSize: 20 }}>
                   La sortie de Prénom à ajouter
                 </Text>
-                <Text>Titre de la sortie</Text>
+                <Text>{trip.roadtripData.event_title}</Text>
               </View>
             </View>
           </View>
@@ -116,13 +144,17 @@ const RoadTripDetailsScreen = (props) => {
           <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             Un peu plus de détail sur ce Roadtrip
           </Text>
-          <CustomLongInputWithoutPlaceholder />
+
+          <ScrollView style={styles.text}>
+            <Text>{trip.roadtripData.description}</Text>
+          </ScrollView>
+
           <Text style={{ paddingTop: "2%", paddingBottom: "4%" }}>
             L'itinéraire
           </Text>
           <Image
             source={{
-              uri: "https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646669835/m4fhqwiqunvjcidxvfg2.jpg",
+              uri: trip.itineraryData.snapshot,
             }}
             style={{
               width: 340,
@@ -156,7 +188,7 @@ const RoadTripDetailsScreen = (props) => {
                   fontSize: 15,
                 }}
               >
-                XX km
+                {trip.itineraryData.distance.slice(0, -4)} km
               </Text>
             </View>
             <View>
@@ -168,7 +200,7 @@ const RoadTripDetailsScreen = (props) => {
                   fontSize: 15,
                 }}
               >
-                XX h
+                {durationHour2}
               </Text>
             </View>
             <View>
@@ -180,28 +212,37 @@ const RoadTripDetailsScreen = (props) => {
                   fontSize: 15,
                 }}
               >
-                Cool
+                {trip.roadtripData.driving_type}
               </Text>
             </View>
           </View>
           <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             <FontAwesome5 name="flag" size={24} color="#363432" /> Départ
           </Text>
-          <CustomInputWithoutPlaceholder />
+          <View style={styles.text}>
+            <Text>{trip.itineraryData.start.city}</Text>
+          </View>
           <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             <FontAwesome5 name="flag-checkered" size={24} color="#363432" />{" "}
             Arrivée
           </Text>
-          <CustomInputWithoutPlaceholder />
+          <View style={styles.text}>
+            <Text>{trip.itineraryData.arrival.city}</Text>
+          </View>
           <Text style={{ paddingTop: "2%" }}>
             <FontAwesome5 name="clock" size={24} color="#363432" /> Horaires
           </Text>
         </View>
         <View style={styles.secondaryTime}>
-          <FontAwesome5 name="flag" size={24} color="#363432" />
-          <CustomInputTimeWithoutPlaceholder />
-          <FontAwesome5 name="flag-checkered" size={24} color="#363432" />
-          <CustomInputTimeWithoutPlaceholder />
+          <FontAwesome5
+            name="flag"
+            size={24}
+            color="#363432"
+            style={{ paddingRight: "5%" }}
+          />
+          <View style={styles.text2}>
+            <Text>{trip.roadtripData.departure_time}</Text>
+          </View>
         </View>
         <View style={styles.secondary}>
           <View style={styles.button}>
@@ -212,7 +253,7 @@ const RoadTripDetailsScreen = (props) => {
               style={{ paddingTop: 20, paddingBottom: 10 }}
             />
             <Text>Taille du Groupe</Text>
-            <Text>XX</Text>
+            <Text>{trip.roadtripData.max_users}</Text>
           </View>
           <View
             style={styles.button}
@@ -270,13 +311,32 @@ const styles = StyleSheet.create({
   secondaryTime: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "center",
     paddingLeft: "15%",
     paddingRight: "15%",
   },
   centered: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  text: {
+    backgroundColor: "#FFEDAC",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginVertical: 5,
+    width: 250,
+  },
+  text2: {
+    backgroundColor: "#FFEDAC",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginVertical: 5,
   },
   //style pour le header
   headerContainer: {
