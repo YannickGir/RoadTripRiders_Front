@@ -56,7 +56,7 @@ import UserPastRoadtripsScreen from './src/screens/UserPastRoadtripsScreen';
 import UserRoadtripsToComeScreen from './src/screens/UserRoadtripsToComeScreen';
 
 // Profil d'un autre utilisateur
-import OtherRiderProfilScreen from './src/screens/OtherRiderProfil';
+import OtherRiderProfilScreen from './src/screens/OtherRiderProfilScreen';
 
 //Ecran des messages dans les conversations
 import ChatScreen from './src/screens/ChatScreen';
