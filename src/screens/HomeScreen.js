@@ -34,20 +34,15 @@ import animationMoto from '../lotties/motorcycle-loading.json';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
-type RatingsComponentProps = {};
-
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(true);
 
-  const ratingCompleted = (rating: number) => {
-    console.log('Rating is: ' + rating);
-  };
   const ratingProps = {};
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
+        `${MA_VARIABLE}/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -68,9 +63,7 @@ function HomepageScreen(props) {
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
       // console.log("body", body);
 

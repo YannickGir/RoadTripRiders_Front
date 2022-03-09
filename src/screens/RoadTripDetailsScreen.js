@@ -36,6 +36,7 @@ const RoadTripDetailsScreen = (props) => {
   const [selectBikeCateg, setSelectBikeCateg] = useState('');
   const [selectGroupSize, setSelectGroupSize] = useState('');
   const [remainingTickets, setRemainingTickets] = useState('');
+
   return (
     <View style={styles.container}>
       <ScrollView>
