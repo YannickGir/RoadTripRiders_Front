@@ -14,7 +14,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Header as HeaderRNE } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 import CustomInputWhite from "../../src/components/CustomInputWhite";
-import LottieView from "lottie-react-native";
+import AnimatedLoader from "react-native-animated-loader";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -32,7 +32,9 @@ function ChatScreen(props) {
   const scrollViewRef = useRef(ScrollView);
   useEffect(() => {
     async function loadConversations() {
-      const data = await fetch(`/inbox/tripchat?idConv=${idConv}`);
+      const data = await fetch(
+        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
+      );
       var body = await data.json();
 
       console.log("body", { MA_VARIABLE });
@@ -194,14 +196,13 @@ function ChatScreen(props) {
         }
         style={{ flex: 1 }}
       >
-        <Overlay isVisible={visible} overlayStyle={styles.image}>
-          <LottieView
-            source={require("../lotties/loading-dots-in-yellow.json")}
-            autoPlay
-            loop
-            style={{ height: 300, width: 500 }}
-          />
-        </Overlay>
+        <AnimatedLoader
+          visible={visible}
+          source={require("../lotties/loading-dots-in-yellow.json")}
+          overlayColor="rgba(255,255,255,0.75)"
+          speed={1}
+          animationStyle={{ height: 500, width: 500 }}
+        ></AnimatedLoader>
         {conversationsList}
       </ScrollView>
       <KeyboardAvoidingView

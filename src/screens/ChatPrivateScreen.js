@@ -16,6 +16,8 @@ import { AntDesign } from "@expo/vector-icons";
 import CustomInputWhite from "../components/CustomInputWhite";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
+import AnimatedLoader from "react-native-animated-loader";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 let deviceWidth = Dimensions.get("window").width;
 function ChatScreen(props) {
@@ -27,12 +29,15 @@ function ChatScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   const [contentMessage, setContentMessage] = useState("");
   const [tokenMessage, setTokenMessage] = useState("");
+  const [visible, setVisible] = useState(true);
   const scrollViewRef = useRef(ScrollView);
   useEffect(() => {
     async function loadConversations() {
-      const data = await fetch(`/inbox/tripchatprivate?idConv=${idConv}`);
+      const data = await fetch(
+        `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
+      );
       var body = await data.json();
-
+      setVisible(false);
       console.log("body", body);
 
       setConversationsList(
@@ -93,7 +98,9 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(`/inbox/tripchatprivate?idConv=${idConv}`);
+    const data = await fetch(
+      `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
+    );
     var body = await data.json();
 
     setConversationsList(
@@ -192,6 +199,13 @@ function ChatScreen(props) {
         }
         style={{ flex: 1 }}
       >
+        <AnimatedLoader
+          visible={visible}
+          source={require("../lotties/loading-dots-in-yellow.json")}
+          overlayColor="rgba(255,255,255,0.75)"
+          speed={1}
+          animationStyle={{ height: 500, width: 500 }}
+        ></AnimatedLoader>
         {conversationsList}
       </ScrollView>
       <KeyboardAvoidingView
