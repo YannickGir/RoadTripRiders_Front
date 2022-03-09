@@ -91,7 +91,7 @@ export default function OtherRiderProfilScreen(props) {
   useEffect(() => {
     async function loadUserProfil() {
       const otherUserData = await fetch(
-        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=621e5cddca28e5db8a0c56b8`
+        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=6228e09915231a3acb3cd77c`
         //`${MA_VARIABLE}/other-user-profil?otherUserIdfromFront=${otherUserId}`
       );
       var body = await otherUserData.json();

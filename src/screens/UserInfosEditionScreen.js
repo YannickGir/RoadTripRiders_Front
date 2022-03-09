@@ -163,6 +163,9 @@ function UserInfosEditionScreen(props) {
     // console.log('usereditionscreen bodyUser', bodyUser);
   };
 
+  //-----------------DATEPICKER-------------------------------
+  const [date, setDate] = useState(new Date(1598051730000));
+
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -312,12 +315,43 @@ function UserInfosEditionScreen(props) {
           Quelle est ta date de naissance ?
         </Text>
 
-        <CustomDatePicker
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={date} // Initial date from state
+          mode='date' // The enum of date, datetime and time
+          androidMode={'spinner'}
+          display={'spinner'}
+          placeholder='select date'
+          format='YYYY-MM-DD'
+          // minDate="01-01-2016"
+          // maxDate="01-01-2019"
+          confirmBtnText='Confirm'
+          cancelBtnText='Cancel'
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+              borderRadius: 15,
+              backgroundColor: '#FFEDAC',
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+            setuserBirthDate(date);
+          }}
+        />
+        {/* <CustomDatePicker
           selectedValue={userBirthDate}
           onChange={(value, index) => setuserBirthDate(value)}
           title='DATE'
         />
-        <Text>{userBirthDate}</Text>
+        <Text>{userBirthDate}</Text> */}
 
         <Text style={{ paddingTop: '5%', paddingBottom: '2%' }}>
           Ton sexe ?

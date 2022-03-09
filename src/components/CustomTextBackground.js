@@ -9,8 +9,10 @@ const CustomTextBackground = ({ text1, text2 }) => {
   return (
     <View>
       <SafeAreaView style={styles.text}>
-        <Text>{text1}</Text>
-        <Text style={{ color: "#ff8b00" }}>{text2}</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 15 }}>{text1}</Text>
+        <Text style={{ color: "#ff8b00", fontWeight: "bold", fontSize: 15 }}>
+          {text2}
+        </Text>
         {/* <View>
           <CustomButtonModif />
         </View> */}

@@ -43,26 +43,31 @@ const RoadTripDetailsScreen = (props) => {
       driving_type: "",
       departure_time: "",
       max_users: "",
+      roadtrip_users_ids: [],
+      roadtrip_admin_id: [],
+      moto_type: "",
     },
     itineraryData: {
       distance: "",
-      snapshot: "",
       start: "",
       arrival: "",
       duration: "",
     },
+    userData: {
+      firstname: "",
+    },
   });
   var tripId = props.route.params.tripId;
-  //console.log("tripId", tripId);
+  // console.log("tripId", tripId);
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
         `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
       var body = await data.json();
-      console.log("body", body.roadtripData);
+      console.log("body", body.userData);
       setTrip(body);
-      //console.log("tripId:", trip);
+      // console.log("tripId:", trip);
     }
 
     loadRoadTrip();
@@ -78,6 +83,12 @@ const RoadTripDetailsScreen = (props) => {
 
   var durationHour = secToTime(trip.itineraryData.duration);
   var durationHour2 = durationHour.slice(0, -4);
+
+  var users = trip.roadtripData.roadtrip_users_ids;
+  var admin = [trip.roadtripData.roadtrip_admin_id];
+  var placesRestante =
+    trip.roadtripData.max_users - users.length - admin.length;
+  // console.log("placesRestante1", placesRestante);
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
@@ -115,27 +126,29 @@ const RoadTripDetailsScreen = (props) => {
             }}
           >
             <View style={{ flexDirection: "row" }}>
-              <View>
+              <View style={{ paddingRight: "5%" }}>
                 <Image
                   source={{
-                    uri: "https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png",
+                    uri: trip.userData.user_photo,
                   }}
                   style={{
                     width: 50,
                     height: 50,
-                    marginRight: "5%",
                     alignContent: "center",
                     alignItems: "center",
                     borderWidth: 1,
                     borderRadius: 50,
+                    borderColor: "black",
                   }}
                 />
               </View>
               <View>
-                <Text style={{ fontSize: 20 }}>
-                  La sortie de Prénom à ajouter
+                <Text style={{ fontSize: 15 }}>
+                  La sortie de: {trip.userData.firstname}
                 </Text>
-                <Text>{trip.roadtripData.event_title}</Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  {trip.roadtripData.event_title}
+                </Text>
               </View>
             </View>
           </View>
@@ -146,7 +159,9 @@ const RoadTripDetailsScreen = (props) => {
           </Text>
 
           <ScrollView style={styles.text}>
-            <Text>{trip.roadtripData.description}</Text>
+            <Text style={{ alignSelf: "center" }}>
+              {trip.roadtripData.description}
+            </Text>
           </ScrollView>
 
           <Text style={{ paddingTop: "2%", paddingBottom: "4%" }}>
@@ -220,14 +235,18 @@ const RoadTripDetailsScreen = (props) => {
             <FontAwesome5 name="flag" size={24} color="#363432" /> Départ
           </Text>
           <View style={styles.text}>
-            <Text>{trip.itineraryData.start.city}</Text>
+            <Text style={{ alignSelf: "center" }}>
+              {trip.itineraryData.start.city}
+            </Text>
           </View>
           <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             <FontAwesome5 name="flag-checkered" size={24} color="#363432" />{" "}
             Arrivée
           </Text>
           <View style={styles.text}>
-            <Text>{trip.itineraryData.arrival.city}</Text>
+            <Text style={{ alignSelf: "center" }}>
+              {trip.itineraryData.arrival.city}
+            </Text>
           </View>
           <Text style={{ paddingTop: "2%" }}>
             <FontAwesome5 name="clock" size={24} color="#363432" /> Horaires
@@ -271,7 +290,7 @@ const RoadTripDetailsScreen = (props) => {
             />
 
             <Text>Places restantes</Text>
-            <Text>XX</Text>
+            <Text>{placesRestante}</Text>
           </View>
         </View>
         <View style={styles.centered}>
@@ -279,7 +298,9 @@ const RoadTripDetailsScreen = (props) => {
             <FontAwesome name="motorcycle" size={24} color="#363432" />{" "}
             Catégorie de Motos
           </Text>
-          <CustomInputWithoutPlaceholder />
+          <View style={styles.text2}>
+            <Text>{trip.roadtripData.moto_type}</Text>
+          </View>
         </View>
         <CustomButton title="S'INSCRIRE" />
       </ScrollView>

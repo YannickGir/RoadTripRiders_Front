@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { View, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import CustomDateButton from './CustomDateButton';
+import React, { useState } from "react";
+import { View, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import CustomDateButton from "./CustomDateButton";
 
-const CustomTimePicker = ({ title }) => {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState('date');
+const CustomTimePicker = ({ title, onChange, selectedValue }) => {
+  const [date, setDate] = useState(selectedValue || new Date());
+  const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onValueChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
+    setShow(Platform.OS === "ios");
     setDate(currentDate);
+    onChange(selectedDate.toString());
   };
 
   const showMode = (currentMode) => {
@@ -20,7 +21,7 @@ const CustomTimePicker = ({ title }) => {
   };
 
   const showTimepicker = () => {
-    showMode('time');
+    showMode("time");
   };
 
   return (
@@ -30,12 +31,12 @@ const CustomTimePicker = ({ title }) => {
       </View>
       {show && (
         <DateTimePicker
-          testID='dateTimePicker'
+          testID="dateTimePicker"
           value={date}
           mode={mode}
           is24Hour={true}
-          display='default'
-          onChange={onChange}
+          display="default"
+          onChange={onValueChange}
         />
       )}
     </View>
