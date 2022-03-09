@@ -5,10 +5,17 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 // On crée un composant qui pourra être injecté partout dans l'application car nous avons de nombreux inputs
 // on passe en argument toutes les valeurs que l'on va changer d'un input à l'autre
-const CustomTimeNewTripInput = ({ onFocus, value, setValue, placeholder }) => {
+const CustomTimeNewTripInput = ({
+  onFocus,
+  value,
+  setValue,
+  placeholder,
+  selectedValue,
+}) => {
   return (
     <SafeAreaView>
       <TextInput
+        selectedValue={selectedValue}
         onFocus={onFocus}
         value={value}
         onChangeText={setValue}

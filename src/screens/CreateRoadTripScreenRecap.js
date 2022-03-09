@@ -77,7 +77,7 @@ function CreateRoadTripScreenFirstStep(props) {
     await fetch(`https://roadtripridersyann.herokuapp.com/addroadtrip`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&arrival_time=${props.data_new_roadtrip.roadtriptimeArrival}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
+      body: `itineraryId=${props.data_new_roadtrip.itineraryId}&event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&arrival_time=${props.data_new_roadtrip.roadtriptimeArrival}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
       //   body: "event_data=props.data_new_roadtrip&token=props.token",
     });
     console.log("dans fetch", props.data_new_roadtrip);
@@ -159,10 +159,9 @@ function CreateRoadTripScreenFirstStep(props) {
             <CustomButtonModif
               title="Annuler"
               onPress={() => {
-                NewRoadtripData(),
-                  props.navigation.navigate("HomeScreen", {
-                    screen: "HomeScreen",
-                  });
+                props.navigation.navigate("HomeScreen", {
+                  screen: "HomeScreen",
+                });
               }}
             />
           </View>

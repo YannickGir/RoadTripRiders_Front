@@ -28,6 +28,7 @@ import CustomButtonChoice from "../components/CustomButtonChoice";
 import CustomButtonChoiceValidate from "../components/CustomButtonChoiceValidate";
 import { MA_VARIABLE } from "@env";
 import CustomBikeCategPicker2 from "../components/CustomBikeCategPicker2";
+import CustomTimer from "../components/CustomTimer";
 import CustomDatePicker from "../components/CustomDatePicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
@@ -115,6 +116,7 @@ function CreateRoadTripScreenFirstStep(props) {
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
   const [date, setDate] = useState(new Date(1598051730000));
+
   const [selectedHours, setSelectedHours] = useState(0);
   const [selectedMinutes, setSelectedMinutes] = useState(0);
 
@@ -131,10 +133,12 @@ function CreateRoadTripScreenFirstStep(props) {
       const currentDate = selectedDate || From;
       setShow(Platform.OS === "ios");
       setFrom(currentDate);
+      setRoadtriptimeDeparture(From.toLocaleTimeString());
     } else {
       const currentDate = selectedDate || To;
       setShow(Platform.OS === "ios");
       setTo(currentDate);
+      setRoadtriptimeArrival(To.toLocaleTimeString());
     }
   };
 
@@ -377,77 +381,58 @@ function CreateRoadTripScreenFirstStep(props) {
                 setRoadtripDate(date);
               }}
             />
-            {/* <CustomNewTripInput
-            placeholder="Date de sortie"
-            value={roadtripDate}
-            setValue={setRoadtripDate}
-          /> */}
           </View>
         </View>
 
         <Text style={{ fontWeight: "bold", fontSize: 20 }}>Horaires :</Text>
         <View style={{ flexDirection: "row" }}>
-          {/* <View>
-            <Button onPress={showDatepicker} title="Show date picker!" />
-          </View> */}
-
-          {/* <Text>
-          Selected Time: {selectedHours}:{selectedMinutes}
-          </Text>
-          <TimePicker
-          selectedHours={selectedHours}
-          selectedMinutes={selectedMinutes}
-          onChange={(hours, minutes) => {
-            setSelectedHours(hours);
-            setSelectedMinutes(minutes);
-          }}
-          /> */}
-          {/* <View> */}
           <View style={{ alignItems: "center" }}>
             <Text style={{ fontWeight: "bold", fontSize: 15 }}>Départ :</Text>
-            {/* <View> */}
-            {/* <CustomButtonModif
-              onPress={showTimepicker}
-              title="Départ !"
-              value={roadtriptimeDeparture}
-              onChange={onChange}
-            /> */}
-            {/* </View>  */}
-            {/* -------------------------CI DESSOUS A REMETTRE------------- */}
-            {show && (
+            <CustomTimer
+              selectedValue={roadtriptimeDeparture}
+              onValueChange={(value, index) => {
+                // setuserBikeCateg(value),
+                setRoadtriptimeDeparture(value),
+                  (value = { roadtriptimeDeparture });
+              }}
+              style={{ flex: 1 }}
+            />
+            {/* {show && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={From}
                 mode={"time"}
                 is24Hour={true}
                 display="spinner"
                 onChange={onChange}
-                onPress={(date) => {
-                  setRoadtriptimeDeparture(From.toLocaleTimeString());
-                  setRoadtriptimeDeparture(To.toLocaleTimeString());
-                }}
               />
             )}
-            {/* -------------------------A REMETTRE------------- */}
-            {/* )} */}
-            {/* </View> */}
+
             <CustomTimeNewTripInput
               placeholder="00:00"
               keyboardType="numeric"
               onFocus={() => showTimepicker("from")}
               value={From.toLocaleTimeString()}
-            />
+            /> */}
           </View>
           <Text> </Text>
           <View style={{ alignItems: "center" }}>
-            {/* <CustomButtonModif onPress={showTimepicker} title="Arrivée !" /> */}
             <Text style={{ fontWeight: "bold", fontSize: 15 }}>Arrivée :</Text>
-            <CustomTimeNewTripInput
+            <CustomTimer
+              selectedValue={roadtriptimeArrival}
+              onValueChange={(value, index) => {
+                // setuserBikeCateg(value),
+                setRoadtriptimeArrival(value),
+                  (value = { roadtriptimeArrival });
+              }}
+              style={{ flex: 1 }}
+            />
+            {/* <CustomTimeNewTripInput
               placeholder="00:00"
               keyboardType="numeric"
               onFocus={() => showTimepicker("to")}
               value={To.toLocaleTimeString()}
-            />
+            /> */}
           </View>
         </View>
         {Bottom}
@@ -639,6 +624,7 @@ function CreateRoadTripScreenFirstStep(props) {
                   roadtripSizeGroup: roadtripSizeGroup,
                   roadtripType: roadtripType,
                   map_itinerary: map_itinerary,
+                  itineraryId: itineraryexist,
                 })
               )}
             />
