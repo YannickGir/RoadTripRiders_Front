@@ -325,7 +325,7 @@ export default function ItineraryScreen(props) {
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
     );
     var rawResponse = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
+      `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=AIzaSyBLtrYmBkkQCJN95Ui6OHC0Ym3OMt98ohk`
     );
 
     var response = await rawResponse.json();

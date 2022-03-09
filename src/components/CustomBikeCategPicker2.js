@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
   picker: {
     // marginVertical: 30,
-    width: 300,
+    width: 150,
     padding: 10,
     borderWidth: 1,
     borderRadius: 15,
