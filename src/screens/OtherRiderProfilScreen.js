@@ -292,7 +292,7 @@ export default function OtherRiderProfilScreen(props) {
                     {otherUser.otherUserData.bike_type}
                   </Text>
                   <Text>{otherUser.otherUserData.bike_brand}</Text>
-                  <Text>{otherUser.otherUserData.bike_categ}</Text>
+                  <Text>{otherUser.otherUserData.bike_model}</Text>
                 </View>
               </View>
             </View>

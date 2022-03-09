@@ -125,10 +125,10 @@ function UserInfosEditionScreen(props) {
     /// on sait que 0.001° = 111 m
     var hundredMetersMultiplier = 0.001;
     var finalLatitude =
-      cityDataResponse.features[0].geometry.coordinates[0] +
+      cityDataResponse.features[0].geometry.coordinates[1] +
       hundredMetersMultiplier * entier;
     var finalLongitude =
-      cityDataResponse.features[0].geometry.coordinates[1] +
+      cityDataResponse.features[0].geometry.coordinates[0] +
       hundredMetersMultiplier * entier;
     console.log('finalLatitude', finalLatitude);
     console.log('finalLongitude', finalLongitude);
@@ -244,7 +244,7 @@ function UserInfosEditionScreen(props) {
   var pagecontent = <></>;
 
   if (formProgress == 0) {
-    // gender == male | female | other
+    // gender == homme | femme | autre
     const setGenderCheckbox = (gender) => {
       setUserGender(userGender != gender ? gender : '');
     };
@@ -360,20 +360,20 @@ function UserInfosEditionScreen(props) {
           <CheckBox
             title='Homme'
             checkedColor='#ff8b00'
-            checked={userGender === 'male'}
-            onPress={() => setGenderCheckbox('male')}
+            checked={userGender === 'homme'}
+            onPress={() => setGenderCheckbox('homme')}
           />
           <CheckBox
             title='Femme'
             checkedColor='#ff8b00'
-            checked={userGender === 'female'}
-            onPress={() => setGenderCheckbox('female')}
+            checked={userGender === 'femme'}
+            onPress={() => setGenderCheckbox('femme')}
           />
           <CheckBox
             title='Autre'
             checkedColor='#ff8b00'
-            checked={userGender === 'other'}
-            onPress={() => setGenderCheckbox('other')}
+            checked={userGender === 'autre'}
+            onPress={() => setGenderCheckbox('autre')}
           />
         </View>
 
