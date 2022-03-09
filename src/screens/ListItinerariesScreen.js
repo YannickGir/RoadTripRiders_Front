@@ -77,10 +77,33 @@ export default function ListItinerariesScreen(props) {
               alignSelf: "center",
               width: "70%",
               paddingBottom: "2%",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            <Text>Ville de départ :{itinerary.start.city}</Text>
-            <Text>Ville d'arrivée :{itinerary.arrival.city}</Text>
+            <View>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                }}
+              >
+                {itinerary.start.city}
+              </Text>
+            </View>
+
+            <View>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                }}
+              >
+                {itinerary.arrival.city}
+              </Text>
+            </View>
           </View>
           <Image
             size={64}

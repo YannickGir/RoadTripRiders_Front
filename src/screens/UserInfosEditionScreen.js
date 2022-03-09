@@ -21,6 +21,7 @@ import { Button, CheckBox } from "react-native-elements";
 import CustomCheckBox from "../components/CustomCheckBox";
 import CustomInput from "../components/CustomInput";
 import CustomDatePicker from "../components/CustomDatePicker";
+
 import CustomTimePicker from "../components/CustomTimePicker";
 import CustomButton from "../components/CustomButton";
 import ImageUploadComponent from "../components/ImageUploadComponent";
@@ -104,19 +105,22 @@ function UserInfosEditionScreen(props) {
       passenger = false;
     }
 
-    const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
-    });
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/users/edit-profil`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
+      }
+    );
 
     const body = await data.json();
 
     if (body.result) {
       const dataUser = await fetch(
-        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -130,6 +134,9 @@ function UserInfosEditionScreen(props) {
     // var bodyUser = await data.json();
     // console.log('usereditionscreen bodyUser', bodyUser);
   };
+
+  //-----------------DATEPICKER-------------------------------
+  const [date, setDate] = useState(new Date(1598051730000));
 
   //pour envoyer l'avatar vers le back et dans le store
   const pickImage = async () => {
@@ -156,10 +163,13 @@ function UserInfosEditionScreen(props) {
         name: "avatar",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-avatar`, {
-        method: "post",
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-avatar`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       console.log(response);
@@ -194,10 +204,13 @@ function UserInfosEditionScreen(props) {
         name: "bike",
       });
 
-      var rawResponse = await fetch(`${MA_VARIABLE}/users/upload-moto-photo`, {
-        method: "post",
-        body: data,
-      });
+      var rawResponse = await fetch(
+        `https://roadtripridersyann.herokuapp.com/users/upload-moto-photo`,
+        {
+          method: "post",
+          body: data,
+        }
+      );
 
       var response = await rawResponse.json();
       //console.log(response);
@@ -280,12 +293,43 @@ function UserInfosEditionScreen(props) {
           Quelle est ta date de naissance ?
         </Text>
 
-        <CustomDatePicker
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={date} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          androidMode={"spinner"}
+          display={"spinner"}
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          // minDate="01-01-2016"
+          // maxDate="01-01-2019"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: "absolute",
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+              borderRadius: 15,
+              backgroundColor: "#FFEDAC",
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+            setuserBirthDate(date);
+          }}
+        />
+        {/* <CustomDatePicker
           selectedValue={userBirthDate}
           onChange={(value, index) => setuserBirthDate(value)}
           title="DATE"
         />
-        <Text>{userBirthDate}</Text>
+        <Text>{userBirthDate}</Text> */}
 
         <Text style={{ paddingTop: "5%", paddingBottom: "2%" }}>
           Ton sexe ?

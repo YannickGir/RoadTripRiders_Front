@@ -115,12 +115,13 @@ function CreateRoadTripScreenFirstStep(props) {
 
   //gestion des étapes---------
   //initialisation de la première étape au démarrage de la page------------------------
+
+  //-----------------DATEPICKER-------------------------------
   const [date, setDate] = useState(new Date(1598051730000));
 
+  //------------------------DATETIMEPICKER-----------------------------
   const [selectedHours, setSelectedHours] = useState(0);
   const [selectedMinutes, setSelectedMinutes] = useState(0);
-
-  //------------------------DATETIMEPICKER-----------------------------
 
   const [From, setFrom] = useState(new Date());
   const [To, setTo] = useState(new Date());
@@ -158,22 +159,10 @@ function CreateRoadTripScreenFirstStep(props) {
   useEffect(() => {
     const getDataitinerary = async () => {
       const dataItinerary = await fetch(
-        `${MA_VARIABLE}/itineraries/get-itinerary?itineraryIdFromFront=${props.route.params.itinerary_id}`
+        `https://roadtripridersyann.herokuapp.com/itineraries/get-itinerary?itineraryIdFromFront=${props.route.params.itinerary_id}`
       );
       var dataItineraryParse = await dataItinerary.json();
-      // console.log(
-      //   "dataItineraryParse.itineraryData.start.city",
-      //   dataItineraryParse.itineraryData.start.city
-      // );
-      // console.log(
-      //   "dataItineraryParse.itineraryData.start.city",
-      //   dataItineraryParse.itineraryData.arrival.city
-      // );
-
-      // console.log(
-      //   "dataItineraryParse.itineraryData.snapshot",
-      //   dataItineraryParse.itineraryData.snapshot
-      // );
+      console.log("dataItineraryParse", dataItineraryParse);
 
       setDeparture_city(dataItineraryParse.itineraryData.start.city);
       setArrival_city(dataItineraryParse.itineraryData.arrival.city);

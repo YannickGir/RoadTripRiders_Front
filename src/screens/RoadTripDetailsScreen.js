@@ -59,7 +59,7 @@ const RoadTripDetailsScreen = (props) => {
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
-        `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
+        `https://roadtripridersyann.herokuapp.com/roadtripdetails?tripId=${tripId}`
       );
       var body = await data.json();
       console.log("body", body.roadtripData);

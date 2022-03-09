@@ -33,7 +33,7 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
+        `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
       );
       var body = await data.json();
 
