@@ -96,7 +96,7 @@ function ConfirmationNewRoadtripScreen(props) {
         <Card containerStyle={styles.card}>
           <View style={styles.titleText}>
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {props.data_new_roadtrip.roadtripTitle} prévu le{" "}
+              {props.data_new_roadtrip.roadtripTitle} Le{" "}
               {props.data_new_roadtrip.roadtripDate}
             </Text>
           </View>
@@ -182,8 +182,9 @@ const styles = StyleSheet.create({
     height: 300,
   },
   titleText: {
-    height: "10%",
+    height: "15%",
     alignItems: "center",
+    textAlign: "center",
   },
   card: {
     shadowColor: "#000",

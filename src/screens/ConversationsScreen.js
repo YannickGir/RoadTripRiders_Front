@@ -190,18 +190,6 @@ function ConversationsScreen(props) {
         {conversationsList}
         {conversationsListPrivate}
       </ScrollView>
-
-      {/* <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <Button
-          // icon={<Icon name="envelope-o" size={20} color="#ffffff" />}
-          title='Chat général'
-          buttonStyle={{ backgroundColor: '#FF8B00' }}
-          type='solid'
-          onPress={() => props.navigation.navigate('ChatGeneral')}
-        />
-      </KeyboardAvoidingView> */}
     </SafeAreaProvider>
   );
 }

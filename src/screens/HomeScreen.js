@@ -180,7 +180,7 @@ function HomepageScreen(props) {
 
     loadRoadTrip();
   }, []);
-
+  console.log("test");
   return (
     <SafeAreaProvider style={{ backgroundColor: "#FEFAEA" }}>
       <HeaderRNE
