@@ -42,7 +42,7 @@ import CustomRegionPicker from '../components/CustomRegionPicker';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
-function OtherRiderProfilScreen(props) {
+export default function OtherRiderProfilScreen(props) {
   //Variables d'Etats des inputs
   const [otherUserFirstName, setOtherUserFirstName] = useState(''); //prénom utilisateur
   const [otherUserLastName, setOtherUserLastName] = useState(''); //nom utilisateur
@@ -176,23 +176,20 @@ function OtherRiderProfilScreen(props) {
       <Text style={{ paddingTop: '10%' }}>Quel rider est-il/elle ?</Text>
 
       <View style={styles.inputshort}>
-        <Text>{otherUserFirstName}</Text>
+        <Text>{otherUserBirthDate}</Text>
       </View>
 
       <View style={styles.inputshort}>
-        <Text>{otherUserLastName}</Text>
+        <Text>{otherUserGender}</Text>
+      </View>
+
+      <View style={styles.inputshort}>
+        <Text>{otherUserGender}</Text>
       </View>
 
       <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
         Quelle est ta date de naissance ?
       </Text>
-
-      <CustomDatePicker
-        selectedValue={userBirthDate}
-        onChange={(value, index) => setuserBirthDate(value)}
-        title='DATE'
-      />
-      <Text>{userBirthDate}</Text>
 
       <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
         Un peu plus sur lui/elle:
