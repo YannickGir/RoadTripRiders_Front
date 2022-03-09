@@ -53,16 +53,13 @@ function LogInScreen(props) {
 
   var handleSubmitLogin = async () => {
     console.log("click détecté sur login");
-    const data = await fetch(
-      `https://roadtripridersyann.herokuapp.com/users/log-in`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
-      }
-    );
+    const data = await fetch(`${MA_VARIABLE}/users/log-in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
+    });
 
     var response = await data.json();
     console.log("response", response);
