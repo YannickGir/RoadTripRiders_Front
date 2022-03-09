@@ -43,17 +43,19 @@ const RoadTripDetailsScreen = (props) => {
       driving_type: "",
       departure_time: "",
       max_users: "",
+      roadtrip_users_ids: [],
+      roadtrip_admin_id: [],
+      moto_type: "",
     },
     itineraryData: {
       distance: "",
-      snapshot: "",
       start: "",
       arrival: "",
       duration: "",
     },
   });
   var tripId = props.route.params.tripId;
-  //console.log("tripId", tripId);
+  // console.log("tripId", tripId);
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
@@ -62,7 +64,7 @@ const RoadTripDetailsScreen = (props) => {
       var body = await data.json();
       console.log("body", body.roadtripData);
       setTrip(body);
-      //console.log("tripId:", trip);
+      // console.log("tripId:", trip);
     }
 
     loadRoadTrip();
@@ -78,6 +80,12 @@ const RoadTripDetailsScreen = (props) => {
 
   var durationHour = secToTime(trip.itineraryData.duration);
   var durationHour2 = durationHour.slice(0, -4);
+
+  var users = trip.roadtripData.roadtrip_users_ids;
+  var admin = [trip.roadtripData.roadtrip_admin_id];
+  var placesRestante =
+    trip.roadtripData.max_users - users.length - admin.length;
+  // console.log("placesRestante1", placesRestante);
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
@@ -271,7 +279,7 @@ const RoadTripDetailsScreen = (props) => {
             />
 
             <Text>Places restantes</Text>
-            <Text>XX</Text>
+            <Text>{placesRestante}</Text>
           </View>
         </View>
         <View style={styles.centered}>
@@ -279,7 +287,9 @@ const RoadTripDetailsScreen = (props) => {
             <FontAwesome name="motorcycle" size={24} color="#363432" />{" "}
             Catégorie de Motos
           </Text>
-          <CustomInputWithoutPlaceholder />
+          <View style={styles.text2}>
+            <Text>{trip.roadtripData.moto_type}</Text>
+          </View>
         </View>
         <CustomButton title="S'INSCRIRE" />
       </ScrollView>
