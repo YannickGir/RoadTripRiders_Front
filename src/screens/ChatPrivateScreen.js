@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+<<<<<<< HEAD
 } from "react-native";
 import { Card, Text, Avatar, Input, Button } from "react-native-elements";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -20,16 +21,34 @@ import AnimatedLoader from "react-native-animated-loader";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 let deviceWidth = Dimensions.get("window").width;
+=======
+} from 'react-native';
+import { Card, Text, Avatar, Input, Button } from 'react-native-elements';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { AntDesign } from '@expo/vector-icons';
+import CustomInputWhite from '../components/CustomInputWhite';
+import { connect } from 'react-redux';
+import { MA_VARIABLE } from '@env';
+import Icon from 'react-native-vector-icons/FontAwesome';
+let deviceWidth = Dimensions.get('window').width;
+>>>>>>> 1cb07bbc677389b9c3c8e3095dd8ed73dedf62a6
 function ChatScreen(props) {
   // const [dimensions, setDimensions] = useState({ window, screen });
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState('');
 
   var idConv = props.route.params.conversation_id;
-  console.log("name", props.route.params.conversation_firstname);
+  console.log('name', props.route.params.conversation_firstname);
   const [conversationsList, setConversationsList] = useState([]);
+<<<<<<< HEAD
   const [contentMessage, setContentMessage] = useState("");
   const [tokenMessage, setTokenMessage] = useState("");
   const [visible, setVisible] = useState(true);
+=======
+  const [contentMessage, setContentMessage] = useState('');
+  const [tokenMessage, setTokenMessage] = useState('');
+>>>>>>> 1cb07bbc677389b9c3c8e3095dd8ed73dedf62a6
   const scrollViewRef = useRef(ScrollView);
   useEffect(() => {
     async function loadConversations() {
@@ -37,31 +56,36 @@ function ChatScreen(props) {
         `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
       );
       var body = await data.json();
+<<<<<<< HEAD
       setVisible(false);
       console.log("body", body);
+=======
+
+      console.log('body', body);
+>>>>>>> 1cb07bbc677389b9c3c8e3095dd8ed73dedf62a6
 
       setConversationsList(
         body.conversationObjects.map((convData, i) => {
           if (props.token != convData.senderToken) {
-            var color = "#FFEDAC";
-            var row = "row";
-            var alignSelf = "flex-start";
+            var color = '#FFEDAC';
+            var row = 'row';
+            var alignSelf = 'flex-start';
           } else {
-            color = "#FFD178";
-            row = "row-reverse";
-            alignSelf = "flex-end";
+            color = '#FFD178';
+            row = 'row-reverse';
+            alignSelf = 'flex-end';
           }
-          console.log("body", convData.senderToken);
+          console.log('body', convData.senderToken);
           return (
             <Card
               key={i}
               containerStyle={{
                 flexDirection: row,
-                width: "66%",
-                height: "auto",
+                width: '66%',
+                height: 'auto',
                 alignSelf: alignSelf,
-                alignItems: "center",
-                backgroundColor: "#FEFAEA",
+                alignItems: 'center',
+                backgroundColor: '#FEFAEA',
                 padding: 10,
                 marginTop: 10,
                 borderRadius: 15,
@@ -80,10 +104,10 @@ function ChatScreen(props) {
               <Text
                 style={{
                   backgroundColor: color,
-                  borderColor: "black",
+                  borderColor: 'black',
                   borderRadius: 15,
-                  padding: "3%",
-                  alignSelf: "center",
+                  padding: '3%',
+                  alignSelf: 'center',
                 }}
               >
                 {convData.content}
@@ -106,24 +130,24 @@ function ChatScreen(props) {
     setConversationsList(
       body.conversationObjects.map((convData, i) => {
         if (props.token != convData.senderToken) {
-          var color = "#FFEDAC";
-          var row = "row";
-          var alignSelf = "flex-start";
+          var color = '#FFEDAC';
+          var row = 'row';
+          var alignSelf = 'flex-start';
         } else {
-          color = "#FFD178";
-          row = "row-reverse";
-          alignSelf = "flex-end";
+          color = '#FFD178';
+          row = 'row-reverse';
+          alignSelf = 'flex-end';
         }
         return (
           <Card
             key={i}
             containerStyle={{
               flexDirection: row,
-              width: "66%",
-              height: "auto",
+              width: '66%',
+              height: 'auto',
               alignSelf: alignSelf,
-              alignItems: "center",
-              backgroundColor: "#FEFAEA",
+              alignItems: 'center',
+              backgroundColor: '#FEFAEA',
               padding: 10,
               marginTop: 10,
               borderRadius: 15,
@@ -142,10 +166,10 @@ function ChatScreen(props) {
             <Text
               style={{
                 backgroundColor: color,
-                borderColor: "black",
+                borderColor: 'black',
                 borderRadius: 15,
-                padding: "3%",
-                alignSelf: "center",
+                padding: '3%',
+                alignSelf: 'center',
               }}
             >
               {convData.content}
@@ -157,12 +181,21 @@ function ChatScreen(props) {
   }
 
   var handleSandMessage = async () => {
+<<<<<<< HEAD
     console.log("click détecté");
     if (contentMessage != "") {
       const data1 = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+=======
+    console.log('click détecté');
+    if (contentMessage != '') {
+      const data1 = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+>>>>>>> 1cb07bbc677389b9c3c8e3095dd8ed73dedf62a6
         },
         body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
       });
@@ -174,20 +207,20 @@ function ChatScreen(props) {
   return (
     <SafeAreaProvider style={styles.backgroundColor}>
       <HeaderRNE
-        backgroundColor="#FFD230"
+        backgroundColor='#FFD230'
         leftComponent={
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate("BottomNavigator", {
-                screen: "ConversationScreen",
+              props.navigation.navigate('BottomNavigator', {
+                screen: 'ConversationScreen',
               })
             }
           >
-            <AntDesign name="arrowleft" color="#363432" size={30} />
+            <AntDesign name='arrowleft' color='#363432' size={30} />
           </TouchableOpacity>
         }
         centerComponent={{
-          text: "CHAT",
+          text: 'CHAT',
           style: styles.heading,
         }}
       />
@@ -209,40 +242,40 @@ function ChatScreen(props) {
         {conversationsList}
       </ScrollView>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ backgroundColor: "#FFD230" }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ backgroundColor: '#FFD230' }}
       >
         <View
           style={{
-            flexDirection: "row",
-            alignSelf: "center",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
           }}
         >
-          <TouchableOpacity style={{ paddingRight: "2%" }}>
+          <TouchableOpacity style={{ paddingRight: '2%' }}>
             <FontAwesome
-              name="refresh"
+              name='refresh'
               size={24}
-              color="black"
+              color='black'
               onPress={() => {
                 reLoadConversations();
               }}
             />
           </TouchableOpacity>
           <CustomInputWhite
-            placeholder="Your message"
+            placeholder='Your message'
             setValue={setContentMessage}
             value={contentMessage}
-            style={{ backgroundColor: "#FFFF" }}
+            style={{ backgroundColor: '#FFFF' }}
           />
-          <TouchableOpacity style={{ paddingLeft: "2%" }}>
+          <TouchableOpacity style={{ paddingLeft: '2%' }}>
             <Ionicons
-              name="send"
+              name='send'
               size={24}
-              color="black"
+              color='black'
               onPress={() => {
                 handleSandMessage(),
-                  setContentMessage(""),
+                  setContentMessage(''),
                   reLoadConversations();
               }}
             />
@@ -255,30 +288,30 @@ function ChatScreen(props) {
 
 const styles = StyleSheet.create({
   cards: {
-    backgroundColor: "#FFEDAC",
-    width: "100%",
+    backgroundColor: '#FFEDAC',
+    width: '100%',
   },
   backgroundColor: {
-    backgroundColor: "#FFFF",
+    backgroundColor: '#FFFF',
     flex: 1,
   },
 
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   user: {
-    flexDirection: "row",
-    width: "100%",
-    alignSelf: "center",
-    alignItems: "center",
-    backgroundColor: "#FFEDAC",
+    flexDirection: 'row',
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFEDAC',
     padding: 10,
     borderRadius: 35,
     marginTop: 10,
-    borderColor: "black",
-    shadowColor: "#000",
+    borderColor: 'black',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -289,37 +322,37 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 15,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   text: {},
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
     width: 50,
     height: 50,
   },
   //style pour le header
   headerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "yellow",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
     marginBottom: 20,
-    width: "100%",
+    width: '100%',
     paddingVertical: 15,
   },
   heading: {
-    color: "#363432",
+    color: '#363432',
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   subheaderText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "bold",
-    backgroundColor: "#FFD230",
+    fontWeight: 'bold',
+    backgroundColor: '#FFD230',
   },
   //fin du style pour le header
 });

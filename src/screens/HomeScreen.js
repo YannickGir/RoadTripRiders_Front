@@ -39,6 +39,7 @@ function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(true);
 
+  const ratingProps = {};
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
