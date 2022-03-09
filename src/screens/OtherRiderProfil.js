@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,58 +9,58 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   SafeAreaView,
-} from 'react-native';
+} from "react-native";
 //import header
-import { Header as HeaderRNE } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header as HeaderRNE } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   AntDesign,
   FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
   Ionicons,
-} from '@expo/vector-icons';
+} from "@expo/vector-icons";
 // fin import header
-import { MA_VARIABLE } from '@env';
-import { connect } from 'react-redux';
-import { Button, CheckBox } from 'react-native-elements';
-import CustomCheckBox from '../components/CustomCheckBox';
-import CustomInput from '../components/CustomInput';
-import CustomDatePicker from '../components/CustomDatePicker';
-import CustomTimePicker from '../components/CustomTimePicker';
-import CustomButton from '../components/CustomButton';
-import ImageUploadComponent from '../components/ImageUploadComponent';
-import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
-import CustomButtonOrange from '../components/CustomButtonOrange';
-import * as ImagePicker from 'expo-image-picker';
-import CustomHeader from '../components/CustomHeader';
-import CustomHeaderRNE from '../components/CustomHeaderRNE';
-import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
-import CustomRegionPicker from '../components/CustomRegionPicker';
+import { MA_VARIABLE } from "@env";
+import { connect } from "react-redux";
+import { Button, CheckBox } from "react-native-elements";
+import CustomCheckBox from "../components/CustomCheckBox";
+import CustomInput from "../components/CustomInput";
+import CustomDatePicker from "../components/CustomDatePicker";
+import CustomTimePicker from "../components/CustomTimePicker";
+import CustomButton from "../components/CustomButton";
+import ImageUploadComponent from "../components/ImageUploadComponent";
+import CustomButtonOrangeNext from "../components/CustomButtonOrangeNext";
+import CustomButtonOrange from "../components/CustomButtonOrange";
+import * as ImagePicker from "expo-image-picker";
+import CustomHeader from "../components/CustomHeader";
+import CustomHeaderRNE from "../components/CustomHeaderRNE";
+import CustomBikeCategPicker from "../components/CustomBikeCategPicker";
+import CustomRegionPicker from "../components/CustomRegionPicker";
 
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 
 export default function OtherRiderProfilScreen(props) {
   //Variables d'Etats des inputs
-  const [otherUserFirstName, setOtherUserFirstName] = useState(''); //prénom utilisateur
-  const [otherUserLastName, setOtherUserLastName] = useState(''); //nom utilisateur
-  const [otherUserBirthDate, setOtherUserBirthDate] = useState(''); //date de naissance de l'utilisateur
-  const [otherUserRegion, setotherUserRegion] = useState(''); //région où sort l'utilisateur
-  const [otherUserCity, setOtherUserCity] = useState(''); //ville où vit l'utilisateur
-  const [otherUserBio, setOtherUserBio] = useState(''); //biographie de l'utilisateur
-  const [otherUserUsageProfil, setOtherUserUsageProfil] = useState('New Biker'); //statut de l'utilisateur en fonction de sa participation dans l'appli
-  const [otherUserConnexionStatus, setOtherUserConnexionStatus] = useState(''); //statut de connexion l'utilisateur par rapport au chat
+  const [otherUserFirstName, setOtherUserFirstName] = useState(""); //prénom utilisateur
+  const [otherUserLastName, setOtherUserLastName] = useState(""); //nom utilisateur
+  const [otherUserBirthDate, setOtherUserBirthDate] = useState(""); //date de naissance de l'utilisateur
+  const [otherUserRegion, setotherUserRegion] = useState(""); //région où sort l'utilisateur
+  const [otherUserCity, setOtherUserCity] = useState(""); //ville où vit l'utilisateur
+  const [otherUserBio, setOtherUserBio] = useState(""); //biographie de l'utilisateur
+  const [otherUserUsageProfil, setOtherUserUsageProfil] = useState("New Biker"); //statut de l'utilisateur en fonction de sa participation dans l'appli
+  const [otherUserConnexionStatus, setOtherUserConnexionStatus] = useState(""); //statut de connexion l'utilisateur par rapport au chat
 
   //Variables d'Etats des checkboxes
-  const [otherUserGender, setOtherUserGender] = useState('');
+  const [otherUserGender, setOtherUserGender] = useState("");
   const [otherHasPassenger, setOtherHasPassenger] = useState(false);
   const [otherHasNoPassenger, setOtherHasNoPassenger] = useState(false);
 
-  const [otherUserBikeCateg, setOtherUserBikeCateg] = useState(''); //catégorie de moto de l'utilisateur
-  const [otherUserBikeBrand, setOtherUserBikeBrand] = useState(''); //marque de la moto de l'utilisateur
-  const [otherUserBikeModel, setOtherUserBikeModel] = useState(''); //modèle de la moto de l'utilisateur
+  const [otherUserBikeCateg, setOtherUserBikeCateg] = useState(""); //catégorie de moto de l'utilisateur
+  const [otherUserBikeBrand, setOtherUserBikeBrand] = useState(""); //marque de la moto de l'utilisateur
+  const [otherUserBikeModel, setOtherUserBikeModel] = useState(""); //modèle de la moto de l'utilisateur
 
   //Pour image picker
   //const [image, setImage] = useState(null); // image avatar user
@@ -73,7 +73,7 @@ export default function OtherRiderProfilScreen(props) {
   const [formProgress, setFormProgress] = useState(0);
 
   var handleSubmitUserProfil = async () => {
-    console.log('click détecté sur handleSubmitUserProfil');
+    console.log("click détecté sur handleSubmitUserProfil");
 
     var passenger;
     if (hasPassenger) {
@@ -83,9 +83,9 @@ export default function OtherRiderProfilScreen(props) {
     }
 
     const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
     });
@@ -102,7 +102,7 @@ export default function OtherRiderProfilScreen(props) {
         username: bodyUser.userData.firstname,
       });
     } else {
-      console.log('POST users/edit-profil failed', body);
+      console.log("POST users/edit-profil failed", body);
     }
 
     // var bodyUser = await data.json();
@@ -111,26 +111,26 @@ export default function OtherRiderProfilScreen(props) {
 
   // gender == male | female | other
   const setGenderCheckbox = (gender) => {
-    setUserGender(userGender != gender ? gender : '');
+    setUserGender(userGender != gender ? gender : "");
   };
 
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
-        backgroundColor='#FFD230'
+        backgroundColor="#FFD230"
         leftComponent={
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate('BottomNavigator', {
-                screen: 'RidersAroundScreen',
+              props.navigation.navigate("BottomNavigator", {
+                screen: "RidersAroundScreen",
               })
             }
           >
-            <AntDesign name='arrowleft' color='#363432' size={30} />
+            <AntDesign name="arrowleft" color="#363432" size={30} />
           </TouchableOpacity>
         }
         centerComponent={{
-          text: 'MOTARDS',
+          text: "MOTARDS",
           style: styles.heading,
         }}
       />
@@ -138,29 +138,29 @@ export default function OtherRiderProfilScreen(props) {
       <View style={styles.secondary}>
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#FFD230',
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#FFD230",
             padding: 10,
             height: 120,
             width: 340,
             borderRadius: 15,
             margin: 10,
-            marginTop: '5%',
+            marginTop: "5%",
           }}
         >
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row" }}>
             <View>
               <Image
                 source={{
-                  uri: 'https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png',
+                  uri: "https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png",
                 }}
                 style={{
                   width: 50,
                   height: 50,
-                  marginRight: '5%',
-                  alignContent: 'center',
-                  alignItems: 'center',
+                  marginRight: "5%",
+                  alignContent: "center",
+                  alignItems: "center",
                   borderWidth: 1,
                   borderRadius: 50,
                 }}
@@ -173,7 +173,7 @@ export default function OtherRiderProfilScreen(props) {
           </View>
         </View>
       </View>
-      <Text style={{ paddingTop: '10%' }}>Quel rider est-il/elle ?</Text>
+      <Text style={{ paddingTop: "10%" }}>Quel rider est-il/elle ?</Text>
 
       <View style={styles.inputshort}>
         <Text>{otherUserBirthDate}</Text>
@@ -187,20 +187,20 @@ export default function OtherRiderProfilScreen(props) {
         <Text>{otherUserGender}</Text>
       </View>
 
-      <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
+      <Text style={{ paddingTop: "20%", paddingBottom: 0 }}>
         Quelle est ta date de naissance ?
       </Text>
 
-      <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
+      <Text style={{ paddingTop: "5%", paddingBottom: 0 }}>
         Un peu plus sur lui/elle:
       </Text>
       <CustomLongInput
-        placeholder='Partage ta bio'
+        placeholder="Partage ta bio"
         value={userBio}
         setValue={setuserBio}
         secureTextEntry={false}
       />
-      <Text style={{ paddingTop: '5%', paddingBottom: '20%' }}>
+      <Text style={{ paddingTop: "5%", paddingBottom: "20%" }}>
         Dans quel coin roules-tu ?
       </Text>
 
@@ -209,47 +209,47 @@ export default function OtherRiderProfilScreen(props) {
         onValueChange={(value, index) => setuserRegion(value)}
       />
 
-      <Text style={{ paddingTop: '0%', paddingBottom: '5%' }}>
+      <Text style={{ paddingTop: "0%", paddingBottom: "5%" }}>
         Dans quelle ville vis-tu ?
       </Text>
       <CustomInput
-        placeholder='Ta ville'
+        placeholder="Ta ville"
         value={userCity}
         setValue={setuserCity}
         secureTextEntry={false}
       />
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
-          <FontAwesome name='motorcycle' size={30} color='#363432' /> Et sa moto
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+          <FontAwesome name="motorcycle" size={30} color="#363432" /> Et sa moto
           ?
         </Text>
 
         <View style={styles.secondary}>
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFD230',
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#FFD230",
               padding: 10,
               height: 120,
               width: 340,
               borderRadius: 15,
               margin: 10,
-              marginTop: '5%',
+              marginTop: "5%",
             }}
           >
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: "row" }}>
               <View>
                 <Image
                   source={{
-                    uri: 'https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png',
+                    uri: "https://res.cloudinary.com/la-capsule-batch-49/image/upload/v1646668605/kisspng-memoji-pile-of-poo-emoji-sticker-smiley-user-avatars-5ae24b6a0ff6a1.1779418215247798820654_nukosr.png",
                   }}
                   style={{
                     width: 50,
                     height: 50,
-                    marginRight: '5%',
-                    alignContent: 'center',
-                    alignItems: 'center',
+                    marginRight: "5%",
+                    alignContent: "center",
+                    alignItems: "center",
                     borderWidth: 1,
                     borderRadius: 50,
                   }}
@@ -264,7 +264,7 @@ export default function OtherRiderProfilScreen(props) {
           </View>
         </View>
 
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+        <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
           Sa catégorie?
         </Text>
         <CustomBikeCategPicker
@@ -277,8 +277,8 @@ export default function OtherRiderProfilScreen(props) {
       <Text
         style={{
           paddingTop: 0,
-          paddingBottom: '5%',
-          alignContent: 'center',
+          paddingBottom: "5%",
+          alignContent: "center",
         }}
       >
         Partage une photo
@@ -287,31 +287,31 @@ export default function OtherRiderProfilScreen(props) {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <CustomButton title='CHARGE TA BECANE!' onPress={pickImage2} />
+        <CustomButton title="CHARGE TA BECANE!" onPress={pickImage2} />
         {image2 && (
           <Image source={{ uri: image2 }} style={{ width: 200, height: 200 }} />
         )}
       </View>
 
-      <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+      <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
         As-tu un passager ?
       </Text>
       <View style={styles.secondary}>
         <CheckBox
-          title='Oui'
-          checkedColor='#ff8b00'
+          title="Oui"
+          checkedColor="#ff8b00"
           checked={hasPassenger}
           onPress={() => {
             setHasPassenger(!hasPassenger), setHasNoPassenger(false);
           }}
         />
         <CheckBox
-          title='Non'
-          checkedColor='#ff8b00'
+          title="Non"
+          checkedColor="#ff8b00"
           checked={hasNoPassenger}
           onPress={() => {
             setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
@@ -321,35 +321,35 @@ export default function OtherRiderProfilScreen(props) {
       <View
         style={{
           flex: 1,
-          flexDirection: 'row',
+          flexDirection: "row",
           width: deviceWidth,
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          backgroundColor: '#FEFAEA',
+          justifyContent: "space-around",
+          alignItems: "center",
+          backgroundColor: "#FEFAEA",
         }}
       >
         <Button
-          title='CALCULER ITINÉRAIRE'
+          title="CALCULER ITINÉRAIRE"
           containerStyle={{
             height: 40,
-            color: '#FFD230',
+            color: "#FFD230",
           }}
           titleStyle={{
-            color: '#FEFAEA',
-            fontWeight: 'bold',
+            color: "#FEFAEA",
+            fontWeight: "bold",
           }}
-          buttonStyle={{ backgroundColor: '#363432' }}
+          buttonStyle={{ backgroundColor: "#363432" }}
           onPress={() => handleClick()}
         ></Button>
         <Button
-          title='SUIVANT'
+          title="SUIVANT"
           onPress={() => SubmitItinerary()}
-          buttonStyle={{ backgroundColor: '#ff8b00' }}
+          buttonStyle={{ backgroundColor: "#ff8b00" }}
           icon={{
-            name: 'arrow-circle-right',
-            type: 'font-awesome',
+            name: "arrow-circle-right",
+            type: "font-awesome",
             size: 19,
-            color: 'white',
+            color: "white",
           }}
         ></Button>
       </View>
@@ -360,20 +360,20 @@ const styles = StyleSheet.create({
   container: {
     width: deviceWidth,
     height: deviceHeight,
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 0,
     paddingTop: 0,
   },
   secondary: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   //style genre input long
   input: {
-    backgroundColor: '#FFEDAC',
+    backgroundColor: "#FFEDAC",
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -382,9 +382,9 @@ const styles = StyleSheet.create({
   },
   //style input court
   inputshort: {
-    backgroundColor: '#FFEDAC',
+    backgroundColor: "#FFEDAC",
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -393,39 +393,39 @@ const styles = StyleSheet.create({
   },
   //style pour le header
   headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'yellow',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
     paddingVertical: 15,
   },
   heading: {
-    color: '#363432',
+    color: "#363432",
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   subheaderText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
-    backgroundColor: '#FFD230',
+    fontWeight: "bold",
+    backgroundColor: "#FFD230",
   },
   //fin du style pour le header
   bottomPage: {
     width: deviceWidth,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    maxHeight: '10%',
-    marginTop: '10%',
-    marginBottom: '10%',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    maxHeight: "10%",
+    marginTop: "10%",
+    marginBottom: "10%",
   },
   barprogress: {
     width: deviceWidth,
-    backgroundColor: '#FEFAEA',
-    marginBottom: '3%',
-    marginTop: '3%',
+    backgroundColor: "#FEFAEA",
+    marginBottom: "3%",
+    marginTop: "3%",
   },
   text: {},
 });
