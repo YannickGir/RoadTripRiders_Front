@@ -202,18 +202,15 @@ function HomepageScreen(props) {
 
         {roadTripList}
       </ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <CustomButton
-          title="CREER UN TRIP"
-          onPress={() =>
-            props.navigation.navigate("newRoadTripFirstStep", {
-              itinerary_id: "",
-            })
-          }
-        />
-      </KeyboardAvoidingView>
+
+      <CustomButton
+        title="CREER UN TRIP"
+        onPress={() =>
+          props.navigation.navigate("newRoadTripFirstStep", {
+            itinerary_id: "",
+          })
+        }
+      />
     </SafeAreaProvider>
   );
 }
