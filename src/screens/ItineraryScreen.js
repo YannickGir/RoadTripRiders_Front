@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   View,
@@ -8,52 +8,52 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Image,
-} from "react-native";
-import MapView, { Polyline, Marker } from "react-native-maps";
-import { Header as HeaderRNE } from "react-native-elements";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import HideWithKeyboard from "react-native-hide-with-keyboard";
+} from 'react-native';
+import MapView, { Polyline, Marker } from 'react-native-maps';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { Input, Button, Overlay, Text } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { captureRef } from "react-native-view-shot";
-import { MA_VARIABLE, APIGOOGLE } from "@env";
-import CustomButtonOrange from "../components/CustomButtonOrange";
-import CustomButton from "../components/CustomButton";
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Dimensions } from "react-native"; //************  pour mettre du style sur les overlays */
-import CustomTextBackground from "../components/CustomTextBackground";
-import Logo from "../../assets/images/tinyLogoRR.png";
-var polyline = require("@mapbox/polyline");
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Input, Button, Overlay, Text } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { captureRef } from 'react-native-view-shot';
+import { MA_VARIABLE, APIGOOGLE } from '@env';
+import CustomButtonOrange from '../components/CustomButtonOrange';
+import CustomButton from '../components/CustomButton';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Dimensions } from 'react-native'; //************  pour mettre du style sur les overlays */
+import CustomTextBackground from '../components/CustomTextBackground';
+import Logo from '../../assets/images/tinyLogoRR.png';
+var polyline = require('@mapbox/polyline');
 
 //**************************** Variable pour mettre du style sur les overlays */
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 
 export default function ItineraryScreen(props) {
-  const [departure_city, setDeparture_city] = useState(""); //Nom de la ville  de depart
-  const [departure_Region, setDeparture_Region] = useState(""); //Nom de la region du popint de depart
+  const [departure_city, setDeparture_city] = useState(''); //Nom de la ville  de depart
+  const [departure_Region, setDeparture_Region] = useState(''); //Nom de la region du popint de depart
   const [departure_Lat, setDeparture_Lat] = useState(0); //latitude du point de départ
   const [departure_Lng, setDeparture_Lng] = useState(0); //longitude du point de départ
-  const [departure_place_id, setDeparture_place_id] = useState(""); //place ID du point de depart
-  const [departure_name, setDeparture_name] = useState(""); //nom du lieu de départ
-  const [arrival_city, setArrival_city] = useState(""); //nom de la ville d'arrivée
+  const [departure_place_id, setDeparture_place_id] = useState(''); //place ID du point de depart
+  const [departure_name, setDeparture_name] = useState(''); //nom du lieu de départ
+  const [arrival_city, setArrival_city] = useState(''); //nom de la ville d'arrivée
   const [arrival_Lat, setArrival_Lat] = useState(0); //latitude de l'arrivée
   const [arrival_Lng, setArrival_Lng] = useState(0); //longitude de l'arrivée
-  const [arrival_place_id, setArrival_place_id] = useState(""); //place ID de l'arrivée
-  const [arrival_name, setArrival_name] = useState(""); //nom du lieu d'arrivée
-  const [etape_city, setEtape_city] = useState(""); //non envoye en BDD
+  const [arrival_place_id, setArrival_place_id] = useState(''); //place ID de l'arrivée
+  const [arrival_name, setArrival_name] = useState(''); //nom du lieu d'arrivée
+  const [etape_city, setEtape_city] = useState(''); //non envoye en BDD
   const [etape_Lat, setEtape_Lat] = useState(0); //non envoye en BDD
   const [etape_Lng, setEtape_Lng] = useState(0); //non envoye en BDD
-  const [etape_place_id, setEtape_place_id] = useState(""); //non envoye en BDD
-  const [etape_name, setEtape_name] = useState(""); //non envoye en BDD
+  const [etape_place_id, setEtape_place_id] = useState(''); //non envoye en BDD
+  const [etape_name, setEtape_name] = useState(''); //non envoye en BDD
   const [itinerary_distance, setItinerary_distance] = useState(0); //distance totale en nombre arrondi en KM
   const [itinerary_duration, setItinerary_duration] = useState(0); //durée du trip en secondes
   const [coords_parcours, setCoords_parcours] = useState([]); //tous les points du parcours(Map de points)
-  const [points, setPoints] = useState(""); //Polyline décodee
+  const [points, setPoints] = useState(''); //Polyline décodee
   const [thisVisible, setThisVisible] = useState(false); // pour afficher  Overlay DEPART
   const [thisVisible1, setThisVisible1] = useState(false); // pour afficher  Overlay ARRIVEE
   const [thisVisible2, setThisVisible2] = useState(false); // pour Overlay des etapes
@@ -64,15 +64,15 @@ export default function ItineraryScreen(props) {
     longitudeDelta: 8.5,
   }); // coordonnées initiales de la map
   const [myWaypoints, setMyWaypoints] = useState([]); //liste de tous les points d'etapes
-  const [listWaypoints, setListWaypoints] = useState(""); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
+  const [listWaypoints, setListWaypoints] = useState(''); //liste des waypoints envoyés a google en string apres le JOIN de mywaypoints
   const [etapesList, setEtapesList] = useState([]); //contient nom du lieu, nom de la ville,latitude, longitude, de chaque point d'etape
-  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState("");
+  const [theFinalEtapesStr, setTheFinalEtapesStr] = useState('');
   const [nameEtapesList, setNameEtapesList] = useState([]);
   const [arrivalButtonVisible, setArrivalButtonVisible] = useState(false);
-  const [durationDisplay, setDurationDisplay] = useState("");
+  const [durationDisplay, setDurationDisplay] = useState('');
   const captureViewRef = useRef();
   const ref = useRef();
-  console.log("etapesList", etapesList);
+  console.log('etapesList', etapesList);
 
   const itineraryClick = () => {
     setThisVisible(true);
@@ -80,11 +80,11 @@ export default function ItineraryScreen(props) {
   // console.log("essai");
   //*****ajouter des etapes */
   const addEtap = (placeid, etapename, etapecity, etapelat, etapelon) => {
-    console.log("etape_name", etapename);
+    console.log('etape_name', etapename);
     var wayp = [...myWaypoints, `place_id:${placeid}`];
     setMyWaypoints(wayp);
     setNameEtapesList([...nameEtapesList, etapename]);
-    console.log("nameEtapesList", nameEtapesList);
+    console.log('nameEtapesList', nameEtapesList);
     setEtapesList([
       ...etapesList,
       {
@@ -97,64 +97,64 @@ export default function ItineraryScreen(props) {
 
     // console.log("Clic detecté");
     if (myWaypoints.length > 1) {
-      var waypointsList = myWaypoints.join("|");
+      var waypointsList = myWaypoints.join('|');
       set;
     } else {
       var waypointsList = `place_id:${etape_place_id}`;
     }
-    setEtape_place_id("");
+    setEtape_place_id('');
 
     setListWaypoints(waypointsList);
   };
   var topDisplay = <></>;
   var bottomButtons = (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button
-        title="CRÉER ITINÉRAIRE"
+        title='CRÉER ITINÉRAIRE'
         containerStyle={{
           height: 40,
           marginHorizontal: 50,
           marginVertical: 10,
         }}
         onPress={() => itineraryClick()}
-        buttonStyle={{ backgroundColor: "#ff8b00", borderRadius: 15 }}
+        buttonStyle={{ backgroundColor: '#ff8b00', borderRadius: 15 }}
         titleStyle={{
-          color: "#FEFAEA",
+          color: '#FEFAEA',
           marginHorizontal: 20,
-          fontWeight: "bold",
+          fontWeight: 'bold',
         }}
-        alignSelf="center"
+        alignSelf='center'
       />
     </View>
   );
-  if (departure_city !== "" && itinerary_distance === 0) {
+  if (departure_city !== '' && itinerary_distance === 0) {
     bottomButtons = (
       <View
         style={{
           flex: 1,
-          flexDirection: "row",
+          flexDirection: 'row',
           width: deviceWidth,
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "#FEFAEA",
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          backgroundColor: '#FEFAEA',
         }}
       >
         <Button
-          title="CALCULER ITINÉRAIRE"
+          title='CALCULER ITINÉRAIRE'
           containerStyle={{
             height: 40,
-            color: "#FFD230",
+            color: '#FFD230',
           }}
           titleStyle={{
-            color: "#FEFAEA",
-            fontWeight: "bold",
+            color: '#FEFAEA',
+            fontWeight: 'bold',
           }}
-          buttonStyle={{ backgroundColor: "#363432" }}
+          buttonStyle={{ backgroundColor: '#363432' }}
           onPress={() => handleClick()}
         ></Button>
       </View>
     );
-  } else if (departure_city !== "" && itinerary_distance !== 0) {
+  } else if (departure_city !== '' && itinerary_distance !== 0) {
     topDisplay = (
       <View style={{}}>
         <Text
@@ -163,10 +163,10 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             paddingHorizontal: 5,
-            backgroundColor: "white",
+            backgroundColor: 'white',
           }}
         >
-          {"Distance : " + itinerary_distance + " " + "km"}
+          {'Distance : ' + itinerary_distance + ' ' + 'km'}
         </Text>
         <Text
           h4
@@ -175,10 +175,10 @@ export default function ItineraryScreen(props) {
             borderRadius: 10,
             paddingHorizontal: 5,
             marginTop: 2,
-            backgroundColor: "white",
+            backgroundColor: 'white',
           }}
         >
-          {"Durée : " + durationDisplay}
+          {'Durée : ' + durationDisplay}
         </Text>
       </View>
     );
@@ -186,11 +186,11 @@ export default function ItineraryScreen(props) {
       <View
         style={{
           flex: 1,
-          flexDirection: "row",
+          flexDirection: 'row',
           width: deviceWidth,
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "#FEFAEA",
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          backgroundColor: '#FEFAEA',
         }}
       >
         <View style={{}}>
@@ -200,10 +200,10 @@ export default function ItineraryScreen(props) {
               borderWidth: 1,
               borderRadius: 10,
               paddingHorizontal: 5,
-              backgroundColor: "white",
+              backgroundColor: 'white',
             }}
           >
-            {"Distance : " + itinerary_distance + " " + "km"}
+            {'Distance : ' + itinerary_distance + ' ' + 'km'}
           </Text>
           <Text
             h4
@@ -212,23 +212,23 @@ export default function ItineraryScreen(props) {
               borderRadius: 10,
               paddingHorizontal: 5,
               marginTop: 2,
-              backgroundColor: "white",
+              backgroundColor: 'white',
             }}
           >
-            {"Durée : " + durationDisplay}
+            {'Durée : ' + durationDisplay}
           </Text>
         </View>
 
         <Button
-          title="GO"
+          title='GO'
           onPress={() => SubmitItinerary()}
-          buttonStyle={{ backgroundColor: "#ff8b00" }}
-          titleStyle={{ fontWeight: "bold" }}
+          buttonStyle={{ backgroundColor: '#ff8b00' }}
+          titleStyle={{ fontWeight: 'bold' }}
           icon={{
-            name: "arrow-circle-right",
-            type: "font-awesome",
+            name: 'arrow-circle-right',
+            type: 'font-awesome',
             size: 19,
-            color: "white",
+            color: 'white',
           }}
         ></Button>
       </View>
@@ -241,7 +241,7 @@ export default function ItineraryScreen(props) {
     return (
       <Marker
         key={j}
-        pinColor="#ff8b00"
+        pinColor='#ff8b00'
         coordinate={{
           latitude: etape.latitude,
           longitude: etape.longitude,
@@ -262,16 +262,16 @@ export default function ItineraryScreen(props) {
     //********************INSERTION VERSION MATHIEU ***************/
 
     var macapture = await captureRef(captureViewRef, {
-      format: "jpg",
+      format: 'jpg',
       quality: 0.7,
     });
     // console.log(macapture);
 
     var data = new FormData();
-    data.append("macarte", {
+    data.append('macarte', {
       uri: macapture,
-      type: "image/jpeg",
-      name: "macarte.jpg",
+      type: 'image/jpeg',
+      name: 'macarte.jpg',
     });
 
     var mydata2 = {
@@ -298,16 +298,16 @@ export default function ItineraryScreen(props) {
     };
     // console.log("mydata2 :", mydata2);
 
-    data.append("mydata", JSON.stringify(mydata2));
+    data.append('mydata', JSON.stringify(mydata2));
     var rawResponse = await fetch(`${MA_VARIABLE}/itineraries/add`, {
-      method: "POST",
+      method: 'POST',
       body: data,
     });
     const response = await rawResponse.json();
-    console.log("console du fetch", response.newItinerary._id);
+    console.log('console du fetch', response.newItinerary._id);
 
-    props.navigation.navigate("newRoadTripFirstStep", {
-      screen: "CreateRoadTripScreenFirstStep",
+    props.navigation.navigate('newRoadTripFirstStep', {
+      screen: 'CreateRoadTripScreenFirstStep',
       itinerary_id: response.newItinerary._id,
     });
   };
@@ -318,11 +318,11 @@ export default function ItineraryScreen(props) {
   const handleClick = async () => {
     // console.log("listWaypoints", listWaypoints);
     // console.log("myWaypoints", myWaypoints);
-    var finalWaypointStr = myWaypoints.join("|");
-    var theFINALFINALETAPESSTR = nameEtapesList.join(";");
+    var finalWaypointStr = myWaypoints.join('|');
+    var theFINALFINALETAPESSTR = nameEtapesList.join(';');
     setTheFinalEtapesStr(theFINALFINALETAPESSTR);
     console.log(
-      "fetch sur google :",
+      'fetch sur google :',
       `https://maps.googleapis.com/maps/api/directions/json?&destination=place_id:${arrival_place_id}&origin=place_id:${departure_place_id}&waypoints=${finalWaypointStr}&avoid=highways&key=${APIGOOGLE}`
     );
     var rawResponse = await fetch(
@@ -355,7 +355,7 @@ export default function ItineraryScreen(props) {
       totalsecondes %= 3600;
       minutes = Math.floor(totalsecondes / 60);
       seconds = Math.floor(totalsecondes % 60);
-      return hours + "h " + minutes + "min";
+      return hours + 'h ' + minutes + 'min';
     };
     setDurationDisplay(secToTime(totalDuration));
 
@@ -372,7 +372,7 @@ export default function ItineraryScreen(props) {
     //*************************************************************************PREPARATION ENVOI BDD***********$ */
   };
   var departureDisplay = <></>;
-  if (departure_city !== "" && departure_name !== departure_city) {
+  if (departure_city !== '' && departure_name !== departure_city) {
     departureDisplay = (
       <HideWithKeyboard>
         <View
@@ -380,23 +380,23 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
+            backgroundColor: '#FEFAEA',
             marginTop: 15,
             marginBottom: 5,
-            alignItems: "center",
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag" size={24} color="black" />
-          <Text h3 h3Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag' size={24} color='black' />
+          <Text h3 h3Style={{ alignSelf: 'center' }}>
             {departure_city}
           </Text>
-          <Text h5 h5Style={{ alignSelf: "center" }}>
+          <Text h5 h5Style={{ alignSelf: 'center' }}>
             {departure_name}
           </Text>
         </View>
       </HideWithKeyboard>
     );
-  } else if (departure_city !== "" && departure_city == departure_name) {
+  } else if (departure_city !== '' && departure_city == departure_name) {
     departureDisplay = (
       <HideWithKeyboard>
         <View
@@ -404,14 +404,14 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
+            backgroundColor: '#FEFAEA',
             marginBottom: 20,
             marginTop: 15,
-            alignItems: "center",
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag" size={24} color="black" />
-          <Text h4 h4Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag' size={24} color='black' />
+          <Text h4 h4Style={{ alignSelf: 'center' }}>
             {departure_city}
           </Text>
         </View>
@@ -420,7 +420,7 @@ export default function ItineraryScreen(props) {
   }
 
   var arrivalDisplay = <></>;
-  if (arrival_city !== "" && arrival_name !== arrival_city) {
+  if (arrival_city !== '' && arrival_name !== arrival_city) {
     arrivalDisplay = (
       <HideWithKeyboard>
         <View
@@ -428,21 +428,21 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
-            alignItems: "center",
+            backgroundColor: '#FEFAEA',
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag-checkered" size={24} color="black" />
-          <Text h3 h3Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag-checkered' size={24} color='black' />
+          <Text h3 h3Style={{ alignSelf: 'center' }}>
             {arrival_city}
           </Text>
-          <Text h5 h5Style={{ alignSelf: "center" }}>
+          <Text h5 h5Style={{ alignSelf: 'center' }}>
             {arrival_name}
           </Text>
         </View>
       </HideWithKeyboard>
     );
-  } else if (arrival_city !== "" && arrival_city == arrival_name) {
+  } else if (arrival_city !== '' && arrival_city == arrival_name) {
     arrivalDisplay = (
       <HideWithKeyboard>
         <View
@@ -450,12 +450,12 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
-            alignItems: "center",
+            backgroundColor: '#FEFAEA',
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag-checkered" size={24} color="black" />
-          <Text h4 h4Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag-checkered' size={24} color='black' />
+          <Text h4 h4Style={{ alignSelf: 'center' }}>
             {arrival_city}
           </Text>
         </View>
@@ -464,7 +464,7 @@ export default function ItineraryScreen(props) {
   }
 
   var etapesDisplay = <></>;
-  if (arrival_city !== "" && arrival_name !== arrival_city) {
+  if (arrival_city !== '' && arrival_name !== arrival_city) {
     etapesDisplay = (
       <HideWithKeyboard>
         <View
@@ -472,21 +472,21 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
-            alignItems: "center",
+            backgroundColor: '#FEFAEA',
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag-checkered" size={24} color="black" />
-          <Text h3 h3Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag-checkered' size={24} color='black' />
+          <Text h3 h3Style={{ alignSelf: 'center' }}>
             {arrival_city}
           </Text>
-          <Text h5 h5Style={{ alignSelf: "center" }}>
+          <Text h5 h5Style={{ alignSelf: 'center' }}>
             {arrival_name}
           </Text>
         </View>
       </HideWithKeyboard>
     );
-  } else if (arrival_city !== "" && arrival_city == arrival_name) {
+  } else if (arrival_city !== '' && arrival_city == arrival_name) {
     etapesDisplay = (
       <HideWithKeyboard>
         <View
@@ -494,12 +494,12 @@ export default function ItineraryScreen(props) {
             borderWidth: 1,
             borderRadius: 10,
             padding: 10,
-            backgroundColor: "#FEFAEA",
-            alignItems: "center",
+            backgroundColor: '#FEFAEA',
+            alignItems: 'center',
           }}
         >
-          <FontAwesome5 name="flag-checkered" size={24} color="black" />
-          <Text h4 h4Style={{ alignSelf: "center" }}>
+          <FontAwesome5 name='flag-checkered' size={24} color='black' />
+          <Text h4 h4Style={{ alignSelf: 'center' }}>
             {arrival_city}
           </Text>
         </View>
@@ -525,15 +525,15 @@ export default function ItineraryScreen(props) {
           style={{
             width: deviceWidth * 0.85,
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Text h4 h3Style={{ alignSelf: "center" }}>
+          <Text h4 h3Style={{ alignSelf: 'center' }}>
             On part d'où ?
           </Text>
           <GooglePlacesAutocomplete
-            placeholder="Sélectionnez un lieu de départ..."
+            placeholder='Sélectionnez un lieu de départ...'
             fetchDetails={true}
             onPress={(data, details = null) => {
               setDeparture_Lat(details.geometry.location.lat);
@@ -544,26 +544,26 @@ export default function ItineraryScreen(props) {
               setArrivalButtonVisible(true);
 
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   setDeparture_city(details.address_components[i].long_name);
                 }
               }
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "100%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '100%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
@@ -571,20 +571,20 @@ export default function ItineraryScreen(props) {
                 marginBottom: 10,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "100%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '100%',
+                alignSelf: 'center',
               },
             }}
           />
@@ -593,20 +593,20 @@ export default function ItineraryScreen(props) {
 
         <HideWithKeyboard>
           <Button
-            title="VALIDER"
+            title='VALIDER'
             icon={{
-              name: "arrow-circle-right",
-              type: "font-awesome",
+              name: 'arrow-circle-right',
+              type: 'font-awesome',
               size: 19,
-              color: "white",
+              color: 'white',
             }}
             isVisible={arrivalButtonVisible}
             containerStyle={{
               height: 40,
-              width: "60%",
+              width: '60%',
               marginHorizontal: 0,
               marginVertical: 10,
-              alignSelf: "center",
+              alignSelf: 'center',
             }}
             onPress={() => {
               setThisVisible(false),
@@ -614,13 +614,13 @@ export default function ItineraryScreen(props) {
                 setThisVisible2(false);
             }}
             buttonStyle={{
-              backgroundColor: "#ff8b00",
+              backgroundColor: '#ff8b00',
               borderRadius: 15,
             }}
             titleStyle={{
-              color: "white",
-              fontWeight: "bold",
-              alignSelf: "center",
+              color: 'white',
+              fontWeight: 'bold',
+              alignSelf: 'center',
             }}
           />
         </HideWithKeyboard>
@@ -643,11 +643,11 @@ export default function ItineraryScreen(props) {
           style={{
             width: deviceWidth * 0.85,
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Text h4 h3Style={{ alignSelf: "center" }}>
+          <Text h4 h3Style={{ alignSelf: 'center' }}>
             On va où ?
           </Text>
           <GooglePlacesAutocomplete
@@ -661,26 +661,26 @@ export default function ItineraryScreen(props) {
               setArrival_name(details.name);
 
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   setArrival_city(details.address_components[i].long_name);
                 }
               }
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "100%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '100%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
@@ -688,20 +688,20 @@ export default function ItineraryScreen(props) {
                 marginBottom: 10,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "100%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '100%',
+                alignSelf: 'center',
               },
             }}
           />
@@ -711,38 +711,38 @@ export default function ItineraryScreen(props) {
         {arrivalDisplay}
         <HideWithKeyboard>
           <Button
-            title="ÉTAPES"
+            title='ÉTAPES'
             containerStyle={{
               height: 40,
               marginVertical: 10,
             }}
             icon={{
-              name: "plus",
-              type: "font-awesome",
+              name: 'plus',
+              type: 'font-awesome',
               size: 15,
-              color: "white",
+              color: 'white',
             }}
             onPress={() => {
               setThisVisible2(true), setThisVisible1(false);
               setThisVisible(false);
             }}
             buttonStyle={{
-              backgroundColor: "#ff8b00",
+              backgroundColor: '#ff8b00',
               borderRadius: 15,
             }}
             titleStyle={{
-              color: "#FEFAEA",
-              fontWeight: "bold",
-              alignSelf: "center",
+              color: '#FEFAEA',
+              fontWeight: 'bold',
+              alignSelf: 'center',
             }}
           />
           <Button
-            title="VALIDER"
+            title='VALIDER'
             icon={{
-              name: "check-circle",
-              type: "font-awesome",
+              name: 'check-circle',
+              type: 'font-awesome',
               size: 15,
-              color: "white",
+              color: 'white',
             }}
             containerStyle={{
               height: 40,
@@ -752,13 +752,13 @@ export default function ItineraryScreen(props) {
             }}
             onPress={() => setThisVisible1(false)}
             buttonStyle={{
-              backgroundColor: "#363432",
+              backgroundColor: '#363432',
               borderRadius: 15,
             }}
             titleStyle={{
-              color: "#FEFAEA",
-              fontWeight: "bold",
-              alignSelf: "center",
+              color: '#FEFAEA',
+              fontWeight: 'bold',
+              alignSelf: 'center',
             }}
           />
         </HideWithKeyboard>
@@ -782,11 +782,11 @@ export default function ItineraryScreen(props) {
           style={{
             width: deviceWidth * 0.85,
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Text h4 h3Style={{ alignSelf: "center" }}>
+          <Text h4 h3Style={{ alignSelf: 'center' }}>
             Les étapes du roadtrip
           </Text>
           <GooglePlacesAutocomplete
@@ -805,9 +805,9 @@ export default function ItineraryScreen(props) {
               // console.log("details.name  Etape=", details.name);
               setEtape_name(details.name);
               //****ajout fonction mathieu******
-              var cityname = "";
+              var cityname = '';
               for (var i = 0; i < details.address_components.length; i++) {
-                if (details.address_components[i].types[0] == "locality") {
+                if (details.address_components[i].types[0] == 'locality') {
                   cityname = details.address_components[i].long_name;
                 }
               }
@@ -821,19 +821,19 @@ export default function ItineraryScreen(props) {
             }}
             query={{
               key: `${APIGOOGLE}`,
-              language: "fr",
+              language: 'fr',
             }}
             textInputProps={{
               InputComp: Input,
-              leftIcon: { type: "font-awesome", name: "search" },
-              errorStyle: { color: "red" },
+              leftIcon: { type: 'font-awesome', name: 'search' },
+              errorStyle: { color: 'red' },
             }}
             enablePoweredByContainer={false}
             styles={{
               textInputContainer: {
-                backgroundColor: "#FFF9DA",
-                width: "100%",
-                alignSelf: "center",
+                backgroundColor: '#FFF9DA',
+                width: '100%',
+                alignSelf: 'center',
                 borderWidth: 1,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
@@ -841,57 +841,57 @@ export default function ItineraryScreen(props) {
                 marginBottom: 10,
               },
               textInput: {
-                color: "black",
+                color: 'black',
                 fontSize: 16,
               },
 
               listView: {
-                color: "black",
+                color: 'black',
               },
               row: {
-                backgroundColor: "#FFF9DA",
+                backgroundColor: '#FFF9DA',
                 padding: 13,
                 height: 44,
-                flexDirection: "row",
-                width: "100%",
-                alignSelf: "center",
+                flexDirection: 'row',
+                width: '100%',
+                alignSelf: 'center',
               },
             }}
           />
         </View>
         <HideWithKeyboard>
           <Button
-            title="AJOUTER UNE ÉTAPE"
+            title='AJOUTER UNE ÉTAPE'
             containerStyle={{
               height: 40,
               marginVertical: 10,
             }}
             icon={{
-              name: "plus",
-              type: "font-awesome",
+              name: 'plus',
+              type: 'font-awesome',
               size: 15,
-              color: "white",
+              color: 'white',
             }}
             onPress={() => {
               ref.current?.clear();
             }}
             buttonStyle={{
-              backgroundColor: "#ff8b00",
+              backgroundColor: '#ff8b00',
               borderRadius: 15,
             }}
             titleStyle={{
-              color: "#FEFAEA",
-              fontWeight: "bold",
-              alignSelf: "center",
+              color: '#FEFAEA',
+              fontWeight: 'bold',
+              alignSelf: 'center',
             }}
           />
           <Button
-            title="VALIDER"
+            title='VALIDER'
             icon={{
-              name: "check-circle",
-              type: "font-awesome",
+              name: 'check-circle',
+              type: 'font-awesome',
               size: 15,
-              color: "white",
+              color: 'white',
             }}
             containerStyle={{
               height: 40,
@@ -910,13 +910,13 @@ export default function ItineraryScreen(props) {
               });
             }}
             buttonStyle={{
-              backgroundColor: "#363432",
+              backgroundColor: '#363432',
               borderRadius: 15,
             }}
             titleStyle={{
-              color: "#FEFAEA",
-              fontWeight: "bold",
-              alignSelf: "center",
+              color: '#FEFAEA',
+              fontWeight: 'bold',
+              alignSelf: 'center',
             }}
           />
         </HideWithKeyboard>
@@ -926,13 +926,24 @@ export default function ItineraryScreen(props) {
   return (
     <SafeAreaProvider
       style={{
-        backgroundColor: "#FEFAEA",
+        backgroundColor: '#FEFAEA',
         width: deviceWidth,
-        alignContent: "center",
+        alignContent: 'center',
       }}
     >
       <HeaderRNE
-        backgroundColor="#FFD230"
+        backgroundColor='#FFD230'
+        leftComponent={
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate('newRoadTripFirstStep', {
+                screen: 'CreateRoadTripScreenFirstStep',
+              })
+            }
+          >
+            <AntDesign name='arrowleft' color='#363432' size={30} />
+          </TouchableOpacity>
+        }
         centerComponent={{
           text: "CRÉE L'ITINÉRAIRE",
           style: styles.heading,
@@ -953,7 +964,7 @@ export default function ItineraryScreen(props) {
       >
         <Marker
           size={10}
-          pinColor="#ff8b00"
+          pinColor='#ff8b00'
           coordinate={{
             latitude: departure_Lat,
             longitude: departure_Lng,
@@ -963,7 +974,7 @@ export default function ItineraryScreen(props) {
         ></Marker>
         <Marker
           size={10}
-          pinColor="#ff8b00"
+          pinColor='#ff8b00'
           coordinate={{
             latitude: arrival_Lat,
             longitude: arrival_Lng,
@@ -975,7 +986,7 @@ export default function ItineraryScreen(props) {
         <Polyline
           style={{}}
           coordinates={coords_parcours}
-          strokeColor={"#363432"}
+          strokeColor={'#363432'}
           strokeWidth={4}
         />
       </MapView>
@@ -989,27 +1000,27 @@ export default function ItineraryScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   heading: {
     // justifyContent: "center",
     // alignItems: "center",
     fontSize: 22,
-    width: "100%",
-    paddingVertical: "2%",
-    fontWeight: "bold",
-    paddingLeft: "5%",
+    width: '100%',
+    paddingVertical: '2%',
+    fontWeight: 'bold',
+    paddingLeft: '5%',
   },
   headerRight: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
   },
   logo2: {
-    width: "50%",
-    height: "700%",
-    marginBottom: "7%",
+    width: '50%',
+    height: '700%',
+    marginBottom: '7%',
   },
 });

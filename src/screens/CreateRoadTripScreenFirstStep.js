@@ -8,11 +8,12 @@ import {
   useWindowDimensions,
   Dimensions,
   Switch,
+  ScrollView,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Card, Overlay, Rating, RatingProps } from 'react-native-elements';
 import { Header as HeaderRNE } from 'react-native-elements';
 import { RadioButton } from 'react-native-paper';
@@ -37,6 +38,8 @@ import DatePicker from 'react-native-datepicker';
 import TimePicker from 'react-native-simple-time-picker';
 import Logo from '../../assets/images/tinyLogoRR.png';
 import { useIsFocused } from '@react-navigation/native';
+
+import CustomTimePicker from '../components/CustomTimePicker';
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
@@ -121,11 +124,13 @@ function CreateRoadTripScreenFirstStep(props) {
   //initialisation de la première étape au démarrage de la page------------------------
 
   //-----------------DATEPICKER-------------------------------
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
+  //const [date, setDate] = useState(new Date(1598051730000));
 
   //------------------------DATETIMEPICKER-----------------------------
   const [selectedHours, setSelectedHours] = useState(0);
   const [selectedMinutes, setSelectedMinutes] = useState(0);
+  const [visibility, setVisibility] = useState(false);
 
   const [From, setFrom] = useState(new Date());
   const [To, setTo] = useState(new Date());
@@ -201,7 +206,7 @@ function CreateRoadTripScreenFirstStep(props) {
         >
           <View style={{ marginBottom: '3%' }}>
             <CustomButtonOrange
-              title='NOUVEL ITINERAIRE'
+              title='NOUVEL ITINÉRAIRE'
               onPress={() => {
                 setItineraryexist('ok'),
                   setFormProgress(1),
@@ -219,16 +224,17 @@ function CreateRoadTripScreenFirstStep(props) {
               }}
             />
             <CustomButton
-              title='ITINERAIRE PROPOSE'
-              onPress={() =>
-                props.navigation.navigate('ListItineraries', {
-                  screen: 'ListItinerariesScreen',
-                })
-              }
+              title='ITINÉRAIRE PROPOSÉ'
+              onPress={() => {
+                setFormProgress(1),
+                  props.navigation.navigate('ListItineraries', {
+                    screen: 'ListItinerariesScreen',
+                  });
+              }}
             />
           </View>
           <View style={{ marginTop: '15%' }}>
-            <Text>Aucun itinéraire choisit ou créé</Text>
+            <Text>Aucun itinéraire choisi ou créé</Text>
           </View>
         </View>
 
@@ -300,49 +306,7 @@ function CreateRoadTripScreenFirstStep(props) {
 
   if (formProgress == 0 || formProgress == 1) {
     pagecontent = (
-      <View style={styles.container}>
-        <HeaderRNE
-          backgroundColor='#FFD230'
-          leftComponent={
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('HomeScreen', {
-                  screen: 'HomeScreen',
-                })
-              }
-            >
-              <AntDesign name='arrowleft' color='#363432' size={30} />
-            </TouchableOpacity>
-          }
-          centerComponent={{
-            text: 'CREE TON TRIP',
-            style: styles.heading,
-          }}
-          rightComponent={
-            <View style={styles.headerRight}>
-              <Image source={Logo} style={styles.logo2} />
-            </View>
-          }
-        />
-        {/* <HeaderRNE
-          backgroundColor="#FFD230"
-          leftComponent={
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate("RoadtripList", {
-                  screen: "RoadtripListScreen",
-                })
-              }
-            >
-              <AntDesign name="arrowleft" color="#363432" size={30} />
-            </TouchableOpacity>
-          }
-          centerComponent={{
-            text: "CREE TON TRIP",
-            style: styles.heading,
-          }}
-        /> */}
-
+      <View>
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -361,14 +325,21 @@ function CreateRoadTripScreenFirstStep(props) {
           />
           <Text style={{ fontWeight: 'bold', fontSize: 20 }}> Public </Text>
         </View>
+        <Text
+          style={{ fontWeight: 'bold', textAlign: 'center', paddingTop: '5%' }}
+        >
+          Ton titre
+        </Text>
         <View
           style={{
             paddingBottom: 10,
             paddingTop: 10,
+            alignContent: 'center',
+            alignItems: 'center',
           }}
         >
           <CustomNewTripInput
-            placeholder='votre titre de roadtrip'
+            placeholder='Le titre de ton roadtrip'
             value={roadtripTitle}
             setValue={setRoadtripTitle}
             secureTextEntry={false}
@@ -384,10 +355,12 @@ function CreateRoadTripScreenFirstStep(props) {
               style={styles.datePickerStyle}
               date={date} // Initial date from state
               mode='date' // The enum of date, datetime and time
-              androidMode={'spinner'}
-              display={'spinner'}
+              //androidMode={'spinner'}
+              display={'default'}
               placeholder='select date'
               format='DD-MM-YYYY'
+              minDate='01-01-2016'
+              maxDate='01-01-2024'
               confirmBtnText='Confirm'
               cancelBtnText='Cancel'
               customStyles={{
@@ -407,80 +380,84 @@ function CreateRoadTripScreenFirstStep(props) {
               onDateChange={(date) => {
                 setDate(date);
                 setRoadtripDate(date);
+                setShow(Platform.OS === 'ios');
               }}
             />
           </View>
         </View>
+        <CustomButton
+          title='CHOISIS TES HORAIRES'
+          onPress={() => setVisibility(true)}
+        />
+        <Overlay
+          isVisible={visibility}
+          onBackdropPress={() => setVisibility(false)}
+          overlayStyle={{
+            backgroundColor: '#FEFAEA',
+            alignContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}
+          >
+            Horaires :
+          </Text>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Départ :</Text>
 
-        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Horaires :</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Départ :</Text>
-            <CustomTimerFrom
-              selectedValue={roadtriptimeDeparture}
-              onValueChange={(value, index) => {
-                // setuserBikeCateg(value),
-                setRoadtriptimeDeparture(value),
-                  (value = { roadtriptimeDeparture });
-              }}
-              style={{ flex: 1 }}
-            />
-            {/* {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={From}
-                mode={"time"}
-                is24Hour={true}
-                display="spinner"
-                onChange={onChange}
+              <CustomTimerFrom
+                selectedValue={roadtriptimeDeparture}
+                onValueChange={(value, index) => {
+                  // setuserBikeCateg(value),
+                  setRoadtriptimeDeparture(value),
+                    (value = { roadtriptimeDeparture });
+                }}
+                style={{ flex: 1 }}
               />
-            )}
-
-            <CustomTimeNewTripInput
-              placeholder="00:00"
-              keyboardType="numeric"
-              onFocus={() => showTimepicker("from")}
-              value={From.toLocaleTimeString()}
-            /> */}
+            </View>
+            <Text> </Text>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+                Arrivée :
+              </Text>
+              <CustomTimerTo
+                selectedValue={roadtriptimeArrival}
+                onValueChange={(value, index) => {
+                  setRoadtriptimeArrival(value),
+                    (value = { roadtriptimeArrival });
+                }}
+                style={{ flex: 1 }}
+              />
+            </View>
           </View>
-          <Text> </Text>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Arrivée :</Text>
-            <CustomTimerTo
-              selectedValue={roadtriptimeArrival}
-              onValueChange={(value, index) => {
-                // setuserBikeCateg(value),
-                setRoadtriptimeArrival(value),
-                  (value = { roadtriptimeArrival });
-              }}
-              style={{ flex: 1 }}
-            />
-            {/* <CustomTimeNewTripInput
-              placeholder="00:00"
-              keyboardType="numeric"
-              onFocus={() => showTimepicker("to")}
-              value={To.toLocaleTimeString()}
-            /> */}
-          </View>
+        </Overlay>
+        <View
+          style={{
+            alignContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ fontWeight: 'bold', paddingTop: '2%' }}>
+            <FontAwesome5 name='flag' size={15} color='black' /> départ:{' '}
+            {roadtriptimeDeparture} h{' '}
+          </Text>
+          <Text style={{ fontWeight: 'bold', paddingTop: '2%' }}>
+            <FontAwesome5 name='flag-checkered' size={15} color='black' />{' '}
+            arrivée : {roadtriptimeArrival} h
+          </Text>
         </View>
         {Bottom}
       </View>
     );
   } else if (formProgress == 2) {
     pagecontent = (
-      <View style={styles.container}>
-        <HeaderRNE
-          backgroundColor='#FFD230'
-          centerComponent={{
-            text: 'CREE TON TRIP',
-            style: styles.heading,
-          }}
-          rightComponent={
-            <View style={styles.headerRight}>
-              <Image source={Logo} style={styles.logo2} />
-            </View>
-          }
-        />
+      <View>
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -488,6 +465,7 @@ function CreateRoadTripScreenFirstStep(props) {
             stepCount={3}
           />
         </View>
+        //
         <Card containerStyle={styles.card}>
           <View
             style={{
@@ -545,41 +523,8 @@ function CreateRoadTripScreenFirstStep(props) {
               />
               <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Tourisme</Text>
             </View>
-
-            {/* <Button
-                title={"Cool"}
-                value={roadtripType}
-                status={checked === "cool" ? "checked" : "unchecked"}
-                onPress={() => setRoadtripType("Cool")}
-                secureTextEntry={false}
-                containerStyle={{
-                  width: 80,
-                }}
-                buttonStyle={{
-                  backgroundColor: { colorButton },
-                  borderRadius: 15,
-                  height: "100%",
-                }}
-                titleStyle={{
-                  color: "#FEFAEA",
-                  marginHorizontal: 10,
-                  fontWeight: "bold",
-                  fontSize: 10,
-                }}
-              />
-              <CustomButtonChoice
-                title={"Sportif"}
-                value={roadtripType}
-                onPress={() => setRoadtripType("Sportif")}
-                secureTextEntry={false}
-              />
-              <CustomButtonChoice
-                title={"Tourisme"}
-                value={roadtripType}
-                onPress={() => setRoadtripType("Tourisme")}
-                secureTextEntry={false}
-              /> */}
           </View>
+          //
         </Card>
         <Card containerStyle={styles.card}>
           <View
@@ -592,13 +537,7 @@ function CreateRoadTripScreenFirstStep(props) {
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
               Pour quel type de moto ?
             </Text>
-            {/* <CustomBikeCategPicker
-            selectedValue={userBikeCateg}
-            onValueChange={(value, index) => {
-              setRoadtripMotoType(value), (value = { roadtripMotoType });
-            }}
-            // style={{ flex: 1 }}
-          /> */}
+
             <CustomBikeCategPicker2
               selectedValue={roadtripMotoType}
               onValueChange={(value, index) => {
@@ -607,15 +546,9 @@ function CreateRoadTripScreenFirstStep(props) {
               }}
               style={{ flex: 1 }}
             />
-            {/* <CustomNewTripInput
-            placeholder="Toutes catégories"
-            value={roadtripMotoType}
-            setValue={setRoadtripMotoType}
-          /> */}
           </View>
         </Card>
         <Card containerStyle={styles.card}>
-          {/* <View style={styles.tailleGroupe}> */}
           <View style={{ alignItems: 'center' }}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
               Taille du groupe
@@ -631,7 +564,6 @@ function CreateRoadTripScreenFirstStep(props) {
           </View>
           {/* </View> */}
         </Card>
-
         {/* CHOIX ITINERAIRE */}
         <View
           style={{
@@ -642,7 +574,7 @@ function CreateRoadTripScreenFirstStep(props) {
         >
           <View>
             <CustomButtonValidation
-              title='VALIDER !'
+              title='VALIDER'
               onPress={() => {
                 props.navigation.navigate('CreateRoadTripRecap', {
                   screen: 'CreateRoadTripScreenRecap',
@@ -669,13 +601,32 @@ function CreateRoadTripScreenFirstStep(props) {
   }
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/loginbg.png')}
-      style={styles.container}
-      resizeMode='cover'
-    >
-      <View>{pagecontent}</View>
-    </ImageBackground>
+    <SafeAreaProvider style={{ backgroundColor: '#FEFAEA' }}>
+      <HeaderRNE
+        backgroundColor='#FFD230'
+        leftComponent={
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate('HomeScreen', {
+                screen: 'HomeScreen',
+              })
+            }
+          >
+            <AntDesign name='arrowleft' color='#363432' size={30} />
+          </TouchableOpacity>
+        }
+        centerComponent={{
+          text: 'CREE TON ROADTRIP',
+          style: styles.heading,
+        }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
+      />
+      {pagecontent}
+    </SafeAreaProvider>
   );
 }
 // onPageChange(position);
@@ -774,7 +725,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   heading: {
-    fontSize: 22,
+    fontSize: 18,
     width: '100%',
     paddingVertical: '2%',
     fontWeight: 'bold',

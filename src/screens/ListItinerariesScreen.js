@@ -150,7 +150,7 @@ export default function ListItinerariesScreen(props) {
           </TouchableOpacity>
         }
         centerComponent={{
-          text: 'LISTE DES ITINERAIRES',
+          text: 'LISTE DES ITINÉRAIRES',
           style: styles.heading,
         }}
         rightComponent={
