@@ -164,7 +164,6 @@ function ChatScreen(props) {
         body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
       });
       var response = await data1.json();
-      reLoadConversations();
     }
   };
 
@@ -201,10 +200,12 @@ function ChatScreen(props) {
           source={require("../lotties/loading-dots-in-yellow.json")}
           overlayColor="rgba(255,255,255,0.75)"
           speed={1}
-          animationStyle={{ height: 500, width: 500 }}
+          animationStyle={{ height: 200, width: 200 }}
         ></AnimatedLoader>
+
         {conversationsList}
       </ScrollView>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ backgroundColor: "#FFD230" }}
