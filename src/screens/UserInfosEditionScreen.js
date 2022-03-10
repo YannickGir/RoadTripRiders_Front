@@ -429,7 +429,7 @@ function UserInfosEditionScreen(props) {
         <Text
           style={{ paddingTop: '5%', paddingBottom: '5%', fontWeight: 'bold' }}
         >
-          Parles nous de toi:
+          Parle nous de toi:
         </Text>
         <CustomLongInput
           placeholder='Partage ta bio'
@@ -680,9 +680,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: '#363432',
     fontSize: 22,
+    width: '100%',
+    paddingVertical: '2%',
     fontWeight: 'bold',
+    paddingLeft: '10%',
+  },
+  headerRight: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  logo2: {
+    width: '50%',
+    height: '700%',
+    marginBottom: '7%',
   },
   subheaderText: {
     color: 'white',

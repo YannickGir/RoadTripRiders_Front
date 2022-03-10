@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
+  Image,
 } from "react-native";
 import MapView, { Polyline, Marker } from "react-native-maps";
 import { Header as HeaderRNE } from "react-native-elements";
@@ -25,7 +26,7 @@ import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Dimensions } from "react-native"; //************  pour mettre du style sur les overlays */
 import CustomTextBackground from "../components/CustomTextBackground";
-
+import Logo from "../../assets/images/tinyLogoRR.png";
 var polyline = require("@mapbox/polyline");
 
 //**************************** Variable pour mettre du style sur les overlays */
@@ -933,9 +934,14 @@ export default function ItineraryScreen(props) {
       <HeaderRNE
         backgroundColor="#FFD230"
         centerComponent={{
-          text: "CRÉATION ITINÉRAIRE",
+          text: "CRÉE L'ITINÉRAIRE",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
 
       <MapView
@@ -987,9 +993,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   heading: {
-    color: "#363432",
-    fontSize: 18,
+    // justifyContent: "center",
+    // alignItems: "center",
+    fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "5%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
 });

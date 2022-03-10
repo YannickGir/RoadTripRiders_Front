@@ -60,7 +60,7 @@ export default function ListItinerariesScreen(props) {
 
   var cardItineraries = itinerariesData.map((itinerary, i) => {
     var durationitinerary = secToTime(itinerary.duration);
-    console.log("chemin photo", itinerary.snapshot);
+    //console.log("chemin photo", itinerary.snapshot);
     return (
       <TouchableOpacity
         key={i}
@@ -77,33 +77,10 @@ export default function ListItinerariesScreen(props) {
               alignSelf: "center",
               width: "70%",
               paddingBottom: "2%",
-              flexDirection: "row",
-              justifyContent: "space-between",
             }}
           >
-            <View>
-              <Text
-                style={{
-                  alignSelf: "center",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                }}
-              >
-                {itinerary.start.city}
-              </Text>
-            </View>
-
-            <View>
-              <Text
-                style={{
-                  alignSelf: "center",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                }}
-              >
-                {itinerary.arrival.city}
-              </Text>
-            </View>
+            <Text>Ville de départ :{itinerary.start.city}</Text>
+            <Text>Ville d'arrivée :{itinerary.arrival.city}</Text>
           </View>
           <Image
             size={64}

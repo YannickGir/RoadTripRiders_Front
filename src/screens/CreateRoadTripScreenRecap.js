@@ -26,6 +26,9 @@ import CustomButtonModif from "../components/CustomButtonModif";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 
+//-------------HEADER RNE-------------------------------
+import Logo from "../../assets/images/tinyLogoRR.png";
+import { Header as HeaderRNE } from "react-native-elements";
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
 import { color } from "react-native-elements/dist/helpers";
@@ -70,14 +73,16 @@ function CreateRoadTripScreenFirstStep(props) {
   const { height } = useWindowDimensions();
 
   const [formProgress, setFormProgress] = useState(0);
-  const [toggleButton, setToggleButton] = useState(false);
+  const [toggleButton, setToggleButton] = useState(
+    props.data_new_roadtrip.toggleButton
+  );
 
   //-------------------------Envoi des infos au store et en BDD-----------------
   const NewRoadtripData = async () => {
     await fetch(`${MA_VARIABLE}/addroadtrip`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `itineraryId=${props.data_new_roadtrip.itineraryId}&event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&arrival_time=${props.data_new_roadtrip.roadtriptimeArrival}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
+      body: `event_privacy=${props.data_new_roadtrip.toggleButton}&itineraryId=${props.data_new_roadtrip.itineraryId}&event_title=${props.data_new_roadtrip.roadtripTitle}&date_sortie=${props.data_new_roadtrip.roadtripDate}&arrival_time=${props.data_new_roadtrip.roadtriptimeArrival}&departure_time=${props.data_new_roadtrip.roadtriptimeDeparture}&driving_type=${props.data_new_roadtrip.roadtripType}&moto_type=${props.data_new_roadtrip.roadtripMotoType}&max_users=${props.data_new_roadtrip.roadtripSizeGroup}&token=${props.token}`,
       //   body: "event_data=props.data_new_roadtrip&token=props.token",
     });
     console.log("dans fetch", props.data_new_roadtrip);
@@ -95,14 +100,19 @@ function CreateRoadTripScreenFirstStep(props) {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <CustomHeaderNoArrow
-          onPress={() =>
-            props.navigation.navigate("RoadtripList", {
-              screen: "RoadtripListScreen",
-            })
+        <HeaderRNE
+          backgroundColor="#FFD230"
+          centerComponent={{
+            text: "RECAP DE TON TRIP",
+            style: styles.heading,
+          }}
+          rightComponent={
+            <View style={styles.headerRight}>
+              <Image source={Logo} style={styles.logo2} />
+            </View>
           }
-          title="RECAP DE TON TRIP"
         />
+
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -238,6 +248,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     maxHeight: "auto",
     width: "70%",
+  },
+  heading: {
+    // justifyContent: "center",
+    // alignItems: "center",
+    fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
+    fontWeight: "bold",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
 });
 

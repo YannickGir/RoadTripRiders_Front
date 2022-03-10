@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ import {
   Rating,
   RatingProps,
 } from 'react-native-elements';
+import Logo from '../../assets/images/tinyLogoRR.png';
 import { useIsFocused } from '@react-navigation/native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import CustomHeader from '../components/CustomHeader';
@@ -55,6 +57,8 @@ function HomepageScreen(props) {
     }
     loadUserData();
   }, [props.token]);
+
+  const { height } = useWindowDimensions();
 
   const [sectotime, setSectotime] = useState('');
   const secToTime = (totalsecondes) => {
@@ -192,6 +196,11 @@ function HomepageScreen(props) {
           text: 'SORTIES À VENIR',
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
         onPress={() => reloadRoadTrip()}
       />
 
@@ -266,10 +275,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
+
   heading: {
-    color: '#363432',
+    // justifyContent: "center",
+    // alignItems: "center",
     fontSize: 22,
+    width: '100%',
+    paddingVertical: '2%',
     fontWeight: 'bold',
+    paddingLeft: '10%',
+  },
+  headerRight: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  logo2: {
+    width: '50%',
+    height: '700%',
+    marginBottom: '7%',
   },
 });
 
