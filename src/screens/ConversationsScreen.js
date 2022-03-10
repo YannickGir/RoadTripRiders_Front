@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,13 +7,13 @@ import {
   Image,
   ScrollView,
   KeyboardAvoidingView,
-} from "react-native";
-import { MA_VARIABLE } from "@env";
-import { Button } from "react-native-elements";
-import { connect } from "react-redux";
-import { Header as HeaderRNE } from "react-native-elements";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useIsFocused } from "@react-navigation/native";
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useIsFocused } from '@react-navigation/native';
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
@@ -25,20 +25,20 @@ function ConversationsScreen(props) {
         `${MA_VARIABLE}/inbox/readconversationprivate?senderToken=${props.token}`
       );
       var body2 = await data2.json();
-      console.log("body", body2);
+      console.log('body', body2);
 
-      if (body2.conversationObjects == "") {
+      if (body2.conversationObjects == '') {
         return setConversationsListPrivate(
           <Text
             style={{
-              fontWeight: "bold",
+              fontWeight: 'bold',
               fontSize: 20,
-              alignSelf: "center",
-              textAlign: "center",
-              paddingTop: "50%",
+              alignSelf: 'center',
+              textAlign: 'center',
+              paddingTop: '50%',
             }}
           >
-            Mince ! Vous n'avez toujours pas de discution!
+            Mince ! Vous n'avez pas de discussion
           </Text>
         );
       } else {
@@ -46,21 +46,21 @@ function ConversationsScreen(props) {
           body2.conversationObjects.map((convData, i) => {
             var message = convData.last_private_message.content;
             if (message.length > 25) {
-              message = message.substring(0, 24) + "...";
+              message = message.substring(0, 24) + '...';
             }
 
             return (
               <TouchableOpacity
                 key={i}
                 onPress={() =>
-                  props.navigation.navigate("ChatPrivate", {
+                  props.navigation.navigate('ChatPrivate', {
                     conversation_id: convData._id,
                     conversation_firstname: convData.firstname,
                   })
                 }
               >
                 <View style={styles.user}>
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: 'row' }}>
                     <View>
                       <Image
                         style={styles.avatar}
@@ -73,8 +73,8 @@ function ConversationsScreen(props) {
                     </View>
                     <View>
                       <Text style={styles.titleText}>{convData.title}</Text>
-                      <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontWeight: "bold" }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontWeight: 'bold' }}>
                           {convData.firstname}:
                         </Text>
                         <Text> {message}</Text>
@@ -94,18 +94,18 @@ function ConversationsScreen(props) {
       );
       var body = await data.json();
       // console.log("bodyCov", body);
-      if (body.conversationObjects == "") {
+      if (body.conversationObjects == '') {
         return setConversationsList(
           <Text
             style={{
-              fontWeight: "bold",
+              fontWeight: 'bold',
               fontSize: 20,
-              alignSelf: "center",
-              textAlign: "center",
-              paddingTop: "50%",
+              alignSelf: 'center',
+              textAlign: 'center',
+              paddingTop: '50%',
             }}
           >
-            Mince ! Vous n'avez toujours pas de discution!
+            Mince ! Vous n'avez pas de discussion
           </Text>
         );
       } else {
@@ -113,21 +113,21 @@ function ConversationsScreen(props) {
           body.conversationObjects.map((convData, i) => {
             var message = convData.last_message.content;
             if (message.length > 25) {
-              message = message.substring(0, 24) + "...";
+              message = message.substring(0, 24) + '...';
             }
 
             return (
               <TouchableOpacity
                 key={i}
                 onPress={() =>
-                  props.navigation.navigate("Chat", {
+                  props.navigation.navigate('Chat', {
                     conversation_id: convData._id,
                     conversation_firstname: convData.firstname,
                   })
                 }
               >
                 <View style={styles.user}>
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: 'row' }}>
                     <View
                       style={
                         {
@@ -148,8 +148,8 @@ function ConversationsScreen(props) {
                     </View>
                     <View>
                       <Text style={styles.titleText}>{convData.title}</Text>
-                      <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontWeight: "bold" }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontWeight: 'bold' }}>
                           {convData.firstname}:
                         </Text>
                         <Text> {message}</Text>
@@ -180,9 +180,9 @@ function ConversationsScreen(props) {
   return (
     <SafeAreaProvider style={styles.backgroundColor}>
       <HeaderRNE
-        backgroundColor="#FFD230"
+        backgroundColor='#FFD230'
         centerComponent={{
-          text: "CONVERSATIONS",
+          text: 'CONVERSATIONS',
           style: styles.heading,
         }}
       />
@@ -196,31 +196,31 @@ function ConversationsScreen(props) {
 }
 const styles = StyleSheet.create({
   cards: {
-    backgroundColor: "#FFEDAC",
-    width: "100%",
+    backgroundColor: '#FFEDAC',
+    width: '100%',
   },
   backgroundColor: {
-    backgroundColor: "#FEFAEA",
+    backgroundColor: '#FEFAEA',
 
     flex: 1,
   },
 
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   user: {
-    flexDirection: "column",
-    width: "80%",
-    alignSelf: "center",
+    flexDirection: 'column',
+    width: '80%',
+    alignSelf: 'center',
 
-    backgroundColor: "#FFEDAC",
+    backgroundColor: '#FFEDAC',
     padding: 10,
     borderRadius: 15,
     marginTop: 10,
-    borderColor: "black",
-    shadowColor: "#000",
+    borderColor: 'black',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -229,25 +229,25 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
 
     elevation: 7,
-    marginBottom: "2%",
+    marginBottom: '2%',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 15,
   },
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
     width: 50,
     height: 50,
 
-    marginRight: "3%",
+    marginRight: '3%',
   },
   heading: {
-    color: "#363432",
+    color: '#363432',
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 

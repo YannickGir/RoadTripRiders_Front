@@ -158,6 +158,7 @@ function UserInfosEditionScreen(props) {
         avatar: bodyUser.userData.user_photo,
         username: bodyUser.userData.firstname,
       });
+      props.navigation.navigate('UserInfos');
     } else {
       console.log('POST users/edit-profil failed', body);
     }
@@ -645,11 +646,7 @@ function UserInfosEditionScreen(props) {
             <CustomButtonOrange
               title="C'EST TOUT BON"
               onPress={() => {
-                console.log('token :', props.token),
-                  props.navigation.navigate('BottomNavigator', {
-                    screen: 'MyAccountScreen',
-                  }),
-                  handleSubmitUserProfil();
+                console.log('token :', props.token), handleSubmitUserProfil();
               }}
             />
           </KeyboardAvoidingView>

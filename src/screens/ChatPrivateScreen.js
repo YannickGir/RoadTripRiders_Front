@@ -240,7 +240,8 @@ function ChatScreen(props) {
             <Ionicons
               name='send'
               size={24}
-              color='black'
+              color='#363432'
+              style={{ alignItems: 'center' }}
               onPress={() => {
                 handleSandMessage(),
                   setContentMessage(''),

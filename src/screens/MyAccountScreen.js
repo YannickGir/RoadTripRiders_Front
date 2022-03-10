@@ -53,7 +53,7 @@ function MyAccountScreen(props) {
           }}
         />
         <View style={styles.secondary}>
-          <View
+          <TouchableOpacity
             style={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -65,6 +65,11 @@ function MyAccountScreen(props) {
               margin: 10,
               marginTop: '10%',
             }}
+            onPress={() =>
+              props.navigation.navigate('UserInfos', {
+                screen: 'UserInfosScreen',
+              })
+            }
           >
             <View style={{ flexDirection: 'row' }}>
               <View>
@@ -81,7 +86,7 @@ function MyAccountScreen(props) {
                   }}
                 />
               </View>
-              <View>
+              <View style={{ alignContent: 'space-around' }}>
                 <Text style={{ fontSize: 30, color: '#363432' }}>
                   Hello {props.userData.username}
                 </Text>
@@ -89,10 +94,14 @@ function MyAccountScreen(props) {
                   <FontAwesome name='motorcycle' size={30} color='#363432' />{' '}
                   Statut : Newbi(ker)
                 </Text>
+                <Text style={{ textDecorationLine: 'underline' }}>
+                  Voir mon profil
+                </Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
+
         <View style={styles.secondary}>
           <TouchableOpacity
             style={styles.button}

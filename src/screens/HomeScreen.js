@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   Button,
@@ -10,31 +10,31 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-} from "react-native";
-import { MA_VARIABLE } from "@env";
-import { connect } from "react-redux";
-import CustomHeaderNoArrow from "../components/CustomHeaderNoArrow";
-import CustomButton from "../../src/components/CustomButton";
+} from 'react-native';
+import { MA_VARIABLE } from '@env';
+import { connect } from 'react-redux';
+import CustomHeaderNoArrow from '../components/CustomHeaderNoArrow';
+import CustomButton from '../../src/components/CustomButton';
 import {
   Card,
   Text,
   Overlay,
   Rating,
   RatingProps,
-} from "react-native-elements";
-import { useIsFocused } from "@react-navigation/native";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import CustomHeader from "../components/CustomHeader";
-import CustomInput from "../../src/components/CustomInput";
-import LoadingOverlay from "../../src/components/LoadingOverlay";
-import { Header as HeaderRNE } from "react-native-elements";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import CustomButtonOrange from "../../src/components/CustomButtonOrange";
-import LottieView from "lottie-react-native";
-import AnimatedLoader from "react-native-animated-loader";
-import animationMoto from "../lotties/motorcycle-loading.json";
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
+} from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+import CustomInput from '../../src/components/CustomInput';
+import LoadingOverlay from '../../src/components/LoadingOverlay';
+import { Header as HeaderRNE } from 'react-native-elements';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import CustomButtonOrange from '../../src/components/CustomButtonOrange';
+import LottieView from 'lottie-react-native';
+import AnimatedLoader from 'react-native-animated-loader';
+import animationMoto from '../lotties/motorcycle-loading.json';
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
@@ -56,13 +56,13 @@ function HomepageScreen(props) {
     loadUserData();
   }, [props.token]);
 
-  const [sectotime, setSectotime] = useState("");
+  const [sectotime, setSectotime] = useState('');
   const secToTime = (totalsecondes) => {
     hours = Math.floor(totalsecondes / 3600);
     totalsecondes %= 3600;
     minutes = Math.floor(totalsecondes / 60);
     seconds = Math.floor(totalsecondes % 60);
-    return hours + "h:" + minutes + "min:";
+    return hours + 'h:' + minutes + 'min:';
   };
   useEffect(() => {
     async function loadRoadTrip() {
@@ -81,7 +81,7 @@ function HomepageScreen(props) {
             <TouchableOpacity
               key={i}
               onPress={() =>
-                props.navigation.navigate("RoadTripDetails", {
+                props.navigation.navigate('RoadTripDetails', {
                   tripId: tripData._id,
                   itinerary_id: tripData.itinerary_id,
                 })
@@ -91,37 +91,37 @@ function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    width: "70%",
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    width: '70%',
                   }}
                 >
                   <Image
                     style={styles.avatar}
                     source={{ uri: tripData.user_photo }}
                   />
-                  <Text style={{ paddingLeft: "3%" }}>
+                  <Text style={{ paddingLeft: '3%' }}>
                     {tripData.firstname}
                   </Text>
                 </View>
                 <View
                   style={{
-                    alignSelf: "center",
-                    width: "70%",
-                    paddingBottom: "2%",
+                    alignSelf: 'center',
+                    width: '70%',
+                    paddingBottom: '2%',
                   }}
                 >
                   <Text style={styles.titleText}>{tripData.event_title}</Text>
                   <Rating
-                    type="custom"
-                    ratingColor="#f1c40f"
-                    tintColor="#FFEDAC"
+                    type='custom'
+                    ratingColor='#f1c40f'
+                    tintColor='#FFEDAC'
                     readonly
                     ratingCount={5}
                     startingValue={tripData.rating}
                     imageSize={15}
-                    style={{ alignSelf: "flex-start" }}
+                    style={{ alignSelf: 'flex-start' }}
                   />
                 </View>
                 <Image
@@ -132,16 +132,16 @@ function HomepageScreen(props) {
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "space-around",
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
                   }}
                 >
                   <View>
                     <Text>Distance :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -152,8 +152,8 @@ function HomepageScreen(props) {
                     <Text>Durée :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -164,8 +164,8 @@ function HomepageScreen(props) {
                     <Text>Niveau :</Text>
                     <Text
                       style={{
-                        alignSelf: "center",
-                        fontWeight: "bold",
+                        alignSelf: 'center',
+                        fontWeight: 'bold',
                         fontSize: 15,
                       }}
                     >
@@ -182,25 +182,25 @@ function HomepageScreen(props) {
 
     loadRoadTrip();
   }, [isFocused]);
-  console.log("test");
+  console.log('test');
 
   return (
-    <SafeAreaProvider style={{ backgroundColor: "#FEFAEA" }}>
+    <SafeAreaProvider style={{ backgroundColor: '#FEFAEA' }}>
       <HeaderRNE
-        backgroundColor="#FFD230"
+        backgroundColor='#FFD230'
         centerComponent={{
-          text: "SORTIES À VENIR",
+          text: 'SORTIES À VENIR',
           style: styles.heading,
         }}
         onPress={() => reloadRoadTrip()}
       />
 
-      <ScrollView style={{ width: "100%" }}>
-        <View style={{ flexDirection: "column-reverse" }}>
+      <ScrollView style={{ width: '100%' }}>
+        <View style={{ flexDirection: 'column-reverse' }}>
           <AnimatedLoader
             visible={visible}
-            source={require("../lotties/motorcycle-loading.json")}
-            overlayColor="rgba(255,255,255,0.75)"
+            source={require('../lotties/motorcycle-loading.json')}
+            overlayColor='rgba(255,255,255,0.75)'
             speed={1}
             animationStyle={{ height: 300, width: 300 }}
           ></AnimatedLoader>
@@ -210,10 +210,10 @@ function HomepageScreen(props) {
       </ScrollView>
 
       <CustomButton
-        title="CREER UN TRIP"
+        title='CREER UN ROADTRIP'
         onPress={() =>
-          props.navigation.navigate("newRoadTripFirstStep", {
-            itinerary_id: "",
+          props.navigation.navigate('newRoadTripFirstStep', {
+            itinerary_id: '',
           })
         }
       />
@@ -224,13 +224,13 @@ function HomepageScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FEFAEA",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FEFAEA',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: deviceWidth,
   },
   card: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -238,50 +238,50 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    backgroundColor: "#FFEDAC",
+    backgroundColor: '#FFEDAC',
     borderRadius: 15,
   },
 
   image: {
-    resizeMode: "contain",
-    backgroundColor: "transparent",
+    resizeMode: 'contain',
+    backgroundColor: 'transparent',
 
     marginTop: -200,
-    borderColor: "transparent",
+    borderColor: 'transparent',
   },
   avatar: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 35,
     width: 50,
     height: 50,
-    position: "relative",
+    position: 'relative',
   },
   map: {
-    width: "100%",
+    width: '100%',
     height: 150,
-    paddingTop: "2%",
+    paddingTop: '2%',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
   },
   heading: {
-    color: "#363432",
+    color: '#363432',
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
 function mapStateToProps(state) {
-  console.log("HOMESCREEN", state.token, state);
+  console.log('HOMESCREEN', state.token, state);
   return { token: state.token };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onSubmitUserData: function (userDataObject) {
-      dispatch({ type: "saveUserData", userData: userDataObject });
+      dispatch({ type: 'saveUserData', userData: userDataObject });
     },
   };
 }

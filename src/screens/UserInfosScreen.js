@@ -6,9 +6,6 @@ import {
   Image,
   Dimensions,
   useWindowDimensions,
-  KeyboardAvoidingView,
-  StatusBar,
-  SafeAreaView,
 } from 'react-native';
 //import header
 import { Header as HeaderRNE } from 'react-native-elements';
@@ -24,20 +21,9 @@ import {
 // fin import header
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
-import { Button, CheckBox } from 'react-native-elements';
-import CustomCheckBox from '../components/CustomCheckBox';
-import CustomInput from '../components/CustomInput';
-import CustomDatePicker from '../components/CustomDatePicker';
-import CustomTimePicker from '../components/CustomTimePicker';
+import { Button } from 'react-native-elements';
 import CustomButton from '../components/CustomButton';
-import ImageUploadComponent from '../components/ImageUploadComponent';
-import CustomButtonOrangeNext from '../components/CustomButtonOrangeNext';
-import CustomButtonOrange from '../components/CustomButtonOrange';
-import * as ImagePicker from 'expo-image-picker';
-import CustomHeader from '../components/CustomHeader';
-import CustomHeaderRNE from '../components/CustomHeaderRNE';
-import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
-import CustomRegionPicker from '../components/CustomRegionPicker';
+
 var moment = require('moment'); // pour présentation date
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -45,8 +31,6 @@ let deviceWidth = Dimensions.get('window').width;
 function UserInfosScreen(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
-
-  //var otherUserId = props.route.params.otherUserId;
 
   const [user, setUser] = useState({
     userData: {
@@ -68,32 +52,18 @@ function UserInfosScreen(props) {
     },
   });
 
-  //console.log('otherriderprofil otherUserId 1', otherUserId);
   useEffect(() => {
     async function loadMyProfil() {
-      const otherUserData = await fetch(
-        `${MA_VARIABLE}/users/token=${props.token}`
+      const userData = await fetch(
+        `${MA_VARIABLE}/users/my-profile?tokenFromFront=${props.token}`
       );
-      var body = await otherUserData.json();
+      var body = await userData.json();
       console.log('body other user', body);
-      setOtherUser(body);
-      //console.log('otherriderprofil otherUserId 2', otherUserId);
+      setUser(body);
     }
 
     loadMyProfil();
   }, []);
-
-  var contacter = async () => {
-    const data = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `token=${props.token}&tripId=${tripId}`,
-    });
-    var response = await data.json();
-    console.log('response', response);
-  };
 
   return (
     <View style={styles.container}>
@@ -104,7 +74,7 @@ function UserInfosScreen(props) {
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate('BottomNavigator', {
-                  screen: 'RidersAroundScreen',
+                  screen: 'MyAccountScreen',
                 })
               }
             >
@@ -112,7 +82,7 @@ function UserInfosScreen(props) {
             </TouchableOpacity>
           }
           centerComponent={{
-            text: 'MOTARDS',
+            text: 'MON PROFIL',
             style: styles.heading,
           }}
         />
@@ -136,7 +106,7 @@ function UserInfosScreen(props) {
                 <View>
                   <Image
                     source={{
-                      uri: `${otherUser.otherUserData.user_photo}`,
+                      uri: `${user.userData.user_photo}`,
                     }}
                     style={{
                       width: 70,
@@ -151,9 +121,9 @@ function UserInfosScreen(props) {
                 </View>
                 <View>
                   <Text style={{ fontSize: 20 }}>
-                    {otherUser.otherUserData.firstname}
+                    {user.userData.firstname}
                   </Text>
-                  <Text>{otherUser.otherUserData.lastname}</Text>
+                  <Text>{user.userData.lastname}</Text>
                 </View>
               </View>
             </View>
@@ -166,7 +136,7 @@ function UserInfosScreen(props) {
                 fontWeight: 'bold',
               }}
             >
-              Son anniversaire
+              Mon anniversaire
             </Text>
 
             <View style={{ flexDirection: 'row' }}>
@@ -177,9 +147,7 @@ function UserInfosScreen(props) {
                 style={{ alignSelf: 'center', marginRight: '2%' }}
               />
               <View style={styles.inputshort}>
-                <Text>
-                  {moment(otherUser.otherUserData.birth_date).format('L')}
-                </Text>
+                <Text>{moment(user.userData.birth_date).format('L')}</Text>
               </View>
             </View>
 
@@ -190,7 +158,7 @@ function UserInfosScreen(props) {
                 fontWeight: 'bold',
               }}
             >
-              Son genre
+              Mon genre
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <Ionicons
@@ -200,7 +168,7 @@ function UserInfosScreen(props) {
                 style={{ alignSelf: 'center', marginRight: '2%' }}
               />
               <View style={styles.inputshort}>
-                <Text>{otherUser.otherUserData.gender}</Text>
+                <Text>{user.userData.gender}</Text>
               </View>
             </View>
 
@@ -225,9 +193,9 @@ function UserInfosScreen(props) {
                     fontWeight: 'bold',
                   }}
                 >
-                  Sa bio
+                  Ma bio
                 </Text>
-                <Text>{otherUser.otherUserData.user_bio}</Text>
+                <Text>{user.userData.user_bio}</Text>
               </View>
             </View>
 
@@ -238,7 +206,7 @@ function UserInfosScreen(props) {
                 fontWeight: 'bold',
               }}
             >
-              Sa région pour sortir
+              Ma région pour sortir
             </Text>
 
             <View style={{ flexDirection: 'row' }}>
@@ -249,7 +217,7 @@ function UserInfosScreen(props) {
                 style={{ alignSelf: 'center', marginRight: '2%' }}
               />
               <View style={styles.inputshort}>
-                <Text>{otherUser.otherUserData.user_region}</Text>
+                <Text>{user.userData.user_region}</Text>
               </View>
             </View>
 
@@ -260,7 +228,7 @@ function UserInfosScreen(props) {
                 fontWeight: 'bold',
               }}
             >
-              Sa ville
+              Ma ville
             </Text>
 
             <View style={{ flexDirection: 'row' }}>
@@ -271,7 +239,7 @@ function UserInfosScreen(props) {
                 style={{ alignSelf: 'center', marginRight: '2%' }}
               />
               <View style={styles.inputshort}>
-                <Text>{otherUser.otherUserData.user_city}</Text>
+                <Text>{user.userData.user_city}</Text>
               </View>
             </View>
           </View>
@@ -283,7 +251,7 @@ function UserInfosScreen(props) {
                 fontWeight: 'bold',
               }}
             >
-              <FontAwesome name='motorcycle' size={30} color='#363432' /> Et sa
+              <FontAwesome name='motorcycle' size={30} color='#363432' /> Et ma
               moto ?
             </Text>
           </View>
@@ -306,7 +274,7 @@ function UserInfosScreen(props) {
                 <View>
                   <Image
                     source={{
-                      uri: `${otherUser.otherUserData.moto_picture}`,
+                      uri: `${user.userData.moto_picture}`,
                     }}
                     style={{
                       width: 70,
@@ -321,10 +289,10 @@ function UserInfosScreen(props) {
                 </View>
                 <View>
                   <Text style={{ fontSize: 20 }}>
-                    {otherUser.otherUserData.bike_type}
+                    {user.userData.bike_type}
                   </Text>
-                  <Text>{otherUser.otherUserData.bike_brand}</Text>
-                  <Text>{otherUser.otherUserData.bike_model}</Text>
+                  <Text>{user.userData.bike_brand}</Text>
+                  <Text>{user.userData.bike_model}</Text>
                 </View>
               </View>
             </View>
@@ -340,9 +308,9 @@ function UserInfosScreen(props) {
             backgroundColor: '#FEFAEA',
           }}
         >
-          <Button
+          <CustomButton
             icon={<Ionicons name='ios-mail' size={24} color='#FEFAEA' />}
-            title=' CONTACTER'
+            title='RETOUR SUR MON COMPTE'
             containerStyle={{
               height: 40,
               width: 180,
@@ -353,22 +321,12 @@ function UserInfosScreen(props) {
               fontWeight: 'bold',
             }}
             buttonStyle={{ backgroundColor: '#363432', borderRadius: 15 }}
-            onPress={() => handleClick()}
-          ></Button>
-          <Button
-            title='AJOUTER EN AMI'
-            containerStyle={{
-              height: 40,
-              width: 180,
-              color: '#FFD230',
-            }}
-            titleStyle={{
-              color: '#FEFAEA',
-              fontWeight: 'bold',
-            }}
-            buttonStyle={{ backgroundColor: '#363432', borderRadius: 15 }}
-            onPress={() => handleClick()}
-          ></Button>
+            onPress={() =>
+              props.navigation.navigate('BottomNavigator', {
+                screen: 'MyAccountScreen',
+              })
+            }
+          ></CustomButton>
         </View>
       </SafeAreaProvider>
     </View>
