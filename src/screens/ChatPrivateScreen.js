@@ -160,7 +160,7 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log('click détecté');
     if (contentMessage != '') {
-      const data1 = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
+      const data1 = await fetch(`${MA_VARIABLE}/inbox/createprivatemessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

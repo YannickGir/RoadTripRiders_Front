@@ -42,7 +42,7 @@ var moment = require("moment"); // pour présentation date
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-export default function OtherRiderProfilScreen(props) {
+function OtherRiderProfilScreen(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
@@ -75,7 +75,6 @@ export default function OtherRiderProfilScreen(props) {
     otherUserData: {
       firstname: "",
       lastname: "",
-      user_photo: "",
       token: "",
       birth_date: "",
       gender: "",
@@ -87,7 +86,6 @@ export default function OtherRiderProfilScreen(props) {
       bike_type: "",
       bike_brand: "",
       bike_categ: "",
-      moto_picture: "",
     },
   });
 
@@ -106,16 +104,22 @@ export default function OtherRiderProfilScreen(props) {
     loadUserProfil();
   }, []);
 
-  var contacter = async () => {
-    const data = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
+  var handleClick = async () => {
+    const data = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `token=${props.token}&tripId=${tripId}`,
+      body: `token=${props.token}&otherUserId=${otherUserId}`,
     });
     var response = await data.json();
     console.log("response", response);
+
+    if (response.alreadyConv == true) {
+      props.navigation.navigate("ChatPrivate", {
+        conversation_id: response.conversationPrivateSaved._id,
+      });
+    }
   };
 
   return (
@@ -476,3 +480,10 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+function mapStateToProps(state) {
+  return {
+    token: state.token,
+  };
+}
+export default connect(mapStateToProps, null)(OtherRiderProfilScreen);
