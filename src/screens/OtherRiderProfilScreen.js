@@ -103,18 +103,6 @@ export default function OtherRiderProfilScreen(props) {
     loadUserProfil();
   }, []);
 
-  var contacter = async () => {
-    const data = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `token=${props.token}&tripId=${tripId}`,
-    });
-    var response = await data.json();
-    console.log("response", response);
-  };
-
   return (
     <View style={styles.container}>
       <SafeAreaProvider>
