@@ -35,7 +35,7 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
+        `https://roadtripridersyann.herokuapp.com/inbox/tripchatprivate?idConv=${idConv}`
       );
       var body = await data.json();
       setVisible(false);
@@ -100,7 +100,7 @@ function ChatScreen(props) {
 
   async function reLoadConversations() {
     const data = await fetch(
-      `${MA_VARIABLE}/inbox/tripchatprivate?idConv=${idConv}`
+      `https://roadtripridersyann.herokuapp.com/inbox/tripchatprivate?idConv=${idConv}`
     );
     var body = await data.json();
 
@@ -160,13 +160,16 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
-      });
+      const data1 = await fetch(
+        `https://roadtripridersyann.herokuapp.com/inbox/addprivatemessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
+        }
+      );
       var response = await data1.json();
       reLoadConversations();
     }

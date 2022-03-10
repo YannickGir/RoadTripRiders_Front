@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Logo from "../../assets/images/motoLogo.png";
+import LogoTitle from "../../assets/images/roadtripRidersLogo2.png";
 import CustomInput from "../../src/components/CustomInput";
 import CustomButton from "../../src/components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,13 +54,16 @@ function LogInScreen(props) {
 
   var handleSubmitLogin = async () => {
     console.log("click détecté sur login");
-    const data = await fetch(`${MA_VARIABLE}/users/log-in`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
-    });
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/users/log-in`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `emailFromFront=${userEmail}&passwordFromFront=${userPassword}`,
+      }
+    );
 
     var response = await data.json();
     console.log("response", response);
@@ -89,26 +93,41 @@ function LogInScreen(props) {
       style={styles.container}
       resizeMode="cover"
     >
-      <Image
-        source={Logo}
-        style={(styles.logo, { height: height * 0.2 })}
-        resizeMode="contain"
-      />
-      <Text>Se connecter avec une adresse mail:</Text>
-      <CustomInput
-        autoCapitalize="none"
-        placeholder="Email"
-        value={userEmail}
-        setValue={setUserEmail}
-        secureTextEntry={false}
-      />
-      <CustomInput
-        autoCapitalize="none"
-        placeholder="Mot de passe"
-        value={userPassword}
-        setValue={setUserPassword}
-        secureTextEntry={true}
-      />
+      <View style={{ marginBottom: "8%" }}>
+        <Image
+          source={LogoTitle}
+          style={(styles.logo2, { height: height * 0.2 })}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={{ marginBottom: "8%" }}>
+        <Image
+          source={Logo}
+          style={(styles.logo, { height: height * 0.2 })}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={{ marginBottom: "3%" }}>
+        <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+          Se connecter avec une adresse mail:
+        </Text>
+      </View>
+      <View>
+        <CustomInput
+          autoCapitalize="none"
+          placeholder="Email"
+          value={userEmail}
+          setValue={setUserEmail}
+          secureTextEntry={false}
+        />
+        <CustomInput
+          autoCapitalize="none"
+          placeholder="Mot de passe"
+          value={userPassword}
+          setValue={setUserPassword}
+          secureTextEntry={true}
+        />
+      </View>
       {tabErrorsSignin}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -138,6 +157,12 @@ const styles = StyleSheet.create({
     width: "70%",
     maxWidth: 300,
     maxHeight: 200,
+  },
+  logo2: {
+    width: "50%",
+    maxWidth: 200,
+    maxHeight: 200,
+    marginBottom: "20%",
   },
 });
 

@@ -13,6 +13,7 @@ import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Logo from "../../assets/images/tinyLogoRR.png";
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
@@ -21,7 +22,7 @@ function ConversationsScreen(props) {
   useEffect(() => {
     async function loadConversationsPrivate() {
       const data2 = await fetch(
-        `${MA_VARIABLE}/inbox/readconversationprivate?senderToken=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/inbox/readconversationprivate?senderToken=${props.token}`
       );
       var body2 = await data2.json();
       console.log("body", body2);
@@ -89,7 +90,7 @@ function ConversationsScreen(props) {
     }
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
       // console.log("bodyCov", body);
@@ -184,6 +185,11 @@ function ConversationsScreen(props) {
           text: "CONVERSATIONS",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
 
       <ScrollView style={{ flex: 1 }}>
@@ -244,9 +250,20 @@ const styles = StyleSheet.create({
     marginRight: "3%",
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "10%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
 });
 

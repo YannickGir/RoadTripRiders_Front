@@ -18,6 +18,7 @@ import AnimatedLoader from "react-native-animated-loader";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Logo from "../../assets/images/tinyLogoRR.png";
 let deviceWidth = Dimensions.get("window").width;
 function ChatScreen(props) {
   // const [dimensions, setDimensions] = useState({ window, screen });
@@ -33,7 +34,7 @@ function ChatScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`
+        `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
       );
       var body = await data.json();
 
@@ -187,7 +188,30 @@ function ChatScreen(props) {
           text: "CHAT",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
+      {/* <HeaderRNE
+        backgroundColor="#FFD230"
+        leftComponent={
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("BottomNavigator", {
+                screen: "ConversationScreen",
+              })
+            }
+          >
+            <AntDesign name="arrowleft" color="#363432" size={30} />
+          </TouchableOpacity>
+        }
+        centerComponent={{
+          text: "CHAT",
+          style: styles.heading,
+        }}
+      /> */}
 
       <ScrollView
         ref={scrollViewRef}
@@ -319,9 +343,21 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+
+    paddingLeft: "38%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
   subheaderText: {
     color: "white",

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  useWindowDimensions,
 } from "react-native";
 import { MA_VARIABLE } from "@env";
 import { connect } from "react-redux";
@@ -22,6 +23,7 @@ import {
   Rating,
   RatingProps,
 } from "react-native-elements";
+import Logo from "../../assets/images/tinyLogoRR.png";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
@@ -43,7 +45,7 @@ function HomepageScreen(props) {
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -53,6 +55,8 @@ function HomepageScreen(props) {
     }
     loadUserData();
   }, [props.token]);
+
+  const { height } = useWindowDimensions();
 
   const [sectotime, setSectotime] = useState("");
   const secToTime = (totalsecondes) => {
@@ -64,7 +68,9 @@ function HomepageScreen(props) {
   };
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      const data = await fetch(
+        `https://roadtripridersyann.herokuapp.com/roadtriplist`
+      );
       var body = await data.json();
       // console.log("body", body);
 
@@ -189,6 +195,11 @@ function HomepageScreen(props) {
           text: "SORTIES À VENIR",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
 
       <ScrollView style={{ flex: 1, width: "100%" }}>
@@ -260,10 +271,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
   },
+
   heading: {
-    color: "#363432",
+    // justifyContent: "center",
+    // alignItems: "center",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "10%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
 });
 

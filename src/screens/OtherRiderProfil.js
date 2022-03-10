@@ -82,19 +82,22 @@ export default function OtherRiderProfilScreen(props) {
       passenger = false;
     }
 
-    const data = await fetch(`${MA_VARIABLE}/users/edit-profil`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
-    });
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/users/edit-profil`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
+      }
+    );
 
     const body = await data.json();
 
     if (body.result) {
       const dataUser = await fetch(
-        `${MA_VARIABLE}/users/user-data?token=${props.token}`
+        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({

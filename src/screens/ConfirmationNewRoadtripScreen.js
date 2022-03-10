@@ -13,11 +13,13 @@ import {
 import CustomButton from "../components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
+
 // import pour le header
 import { Header as HeaderRNE, Card } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import Logo from "../../assets/images/tinyLogoRR.png";
 // fin import pour le header
 
 import LogInScreen from "./LogInScreen";
@@ -62,6 +64,11 @@ function ConfirmationNewRoadtripScreen(props) {
           text: "ROADTRIP CREE !",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
       <View style={styles.secondary}>
         <View
@@ -236,9 +243,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "8%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
   subheaderText: {
     color: "white",

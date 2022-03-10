@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-function CustomTimer({ selectedValue, onValueChange }) {
+function CustomTimerTo({ selectedValue, onValueChange }) {
   const [userBikeCateg, setuserBikeCateg] = useState("");
 
   return (
@@ -13,7 +13,7 @@ function CustomTimer({ selectedValue, onValueChange }) {
         mode="dropdown" // Android only
         style={styles.picker}
       >
-        <Picker.Item label="Votre heure" value="00:00" />
+        <Picker.Item label="à" value="00:00" />
         <Picker.Item label="6:00" value="6:00" />
         <Picker.Item label="7:00" value="7:00" />
         <Picker.Item label="8:00" value="8:00" />
@@ -39,7 +39,7 @@ function CustomTimer({ selectedValue, onValueChange }) {
   );
 }
 
-export default CustomTimer;
+export default CustomTimerTo;
 
 // Just some styles
 const styles = StyleSheet.create({
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
   },
 
   picker: {
-    // marginVertical: 30,
-    width: 170,
-    padding: 10,
+    paddingTop: "5%",
+    paddingRight: "30%",
+    width: 150,
     borderWidth: 1,
     borderRadius: 15,
     borderColor: "#666",

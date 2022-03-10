@@ -24,6 +24,7 @@ import CustomInputWithoutPlaceholder from "../components/CustomInputWithoutPlace
 import CustomLongInputWithoutPlaceholder from "../components/CustomLongInputWithoutPlaceholder";
 import CustomInputTimeWithoutPlaceholder from "../components/CustomInputTimeWithoutPlaceholder";
 import CustomButton from "../components/CustomButton";
+import { connect } from "react-redux";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -62,8 +63,10 @@ const RoadTripDetailsScreen = (props) => {
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
-        `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
+        `https://roadtripridersyann.herokuapp.com/roadtripdetails?tripId=${tripId}`
       );
+
+      console.log("props.route.params.tripId", props.route.params.tripId);
       var body = await data.json();
       console.log("body", body.userData);
       setTrip(body);
@@ -381,5 +384,9 @@ const styles = StyleSheet.create({
   },
   //fin du style pour le header
 });
+function mapStateToProps(state) {
+  console.log("HOMESCREEN", state.token, state);
+  return { token: state.token };
+}
 
-export default RoadTripDetailsScreen;
+export default connect(mapStateToProps, null)(RoadTripDetailsScreen);

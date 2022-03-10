@@ -64,7 +64,7 @@ import ChatPrivateScreen from "./src/screens/ChatPrivateScreen";
 //Ecran du chat général
 import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 //Ecrans de création de roadtrips
-import TestTimerScreen from "./src/screens/TestTimerScreen";
+
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ConfirmationNewRoadtripScreen from "./src/screens/ConfirmationNewRoadtripScreen";
@@ -191,6 +191,11 @@ export default function App() {
             component={UserInfosEditionScreen}
           />
           <Stack.Screen
+            name="UserPastRoadtrips"
+            component={UserPastRoadtripsScreen}
+          />
+
+          <Stack.Screen
             name="UserRoadtripsToCome"
             component={UserRoadtripsToComeScreen}
           />
@@ -203,7 +208,7 @@ export default function App() {
             component={CreateRoadTripScreenFirstStep}
           />
           <Stack.Screen name="Itinerary" component={ItineraryScreen} />
-          <Stack.Screen name="TestTimerScreen" component={TestTimerScreen} />
+
           <Stack.Screen
             name="CreateRoadTripRecap"
             component={CreateRoadTripScreenRecap}
