@@ -60,7 +60,8 @@ const RoadTripDetailsScreen = (props) => {
       firstname: "",
     },
   });
-  var tripId = props.route.params.tripId;
+  const [tripId, setTripId] = useState(props.route.params.tripId);
+  console.log("tripId", tripId);
   // console.log("tripId", tripId);
   useEffect(() => {
     async function loadRoadTrip() {
@@ -68,7 +69,7 @@ const RoadTripDetailsScreen = (props) => {
         `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
       var body = await data.json();
-      console.log("body", body.roadtripData);
+      console.log("body.roadtripData", body.roadtripData);
       setTrip(body);
       // console.log("tripId:", trip);
     }
@@ -105,7 +106,7 @@ const RoadTripDetailsScreen = (props) => {
     var response = await data1.json();
     console.log("response", response);
     props.navigation.navigate("ConfirmationJoinTrip", {
-      tripId: response.roadtrip_id,
+      tripId: tripId,
     });
   };
 
