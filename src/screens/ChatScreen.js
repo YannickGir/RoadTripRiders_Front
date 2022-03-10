@@ -98,7 +98,9 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(`/inbox/tripchat?idConv=${idConv}`);
+    const data = await fetch(
+      `https://roadtripridersyann.herokuapp.com/inbox/tripchat?idConv=${idConv}`
+    );
     var body = await data.json();
 
     setConversationsList(
@@ -157,15 +159,17 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(`/inbox/addmessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
-      });
+      const data1 = await fetch(
+        `https://roadtripridersyann.herokuapp.com/inbox/addmessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `content=${contentMessage}&senderToken=${props.token}&idConv=${idConv}`,
+        }
+      );
       var response = await data1.json();
-      reLoadConversations();
     }
   };
 
@@ -225,10 +229,12 @@ function ChatScreen(props) {
           source={require("../lotties/loading-dots-in-yellow.json")}
           overlayColor="rgba(255,255,255,0.75)"
           speed={1}
-          animationStyle={{ height: 500, width: 500 }}
+          animationStyle={{ height: 200, width: 200 }}
         ></AnimatedLoader>
+
         {conversationsList}
       </ScrollView>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ backgroundColor: "#FFD230" }}
@@ -244,7 +250,7 @@ function ChatScreen(props) {
             <FontAwesome
               name="refresh"
               size={24}
-              color="black"
+              color="#FFD230"
               onPress={() => {
                 reLoadConversations();
               }}

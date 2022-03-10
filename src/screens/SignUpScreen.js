@@ -15,6 +15,7 @@ import Logo from "../../assets/images/motoLogo.png";
 import CustomInput from "../../src/components/CustomInput";
 import CustomButton from "../../src/components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LogoTitle from "../../assets/images/roadtripRidersLogo2.png";
 
 //Ici on réexploite ce qui a été créé pour la page Log In
 function SignUpScreen(props) {
@@ -114,12 +115,23 @@ function SignUpScreen(props) {
       style={styles.container}
       resizeMode="cover"
     >
-      <Image
-        source={Logo}
-        style={(styles.logo, { height: height * 0.2 })}
-        resizeMode="contain"
-      />
-      <Text>S'inscrire avec une adresse mail:</Text>
+      <View style={{ marginBottom: "8%" }}>
+        <Image
+          source={LogoTitle}
+          style={(styles.logo2, { height: height * 0.2 })}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={{ marginBottom: "8%" }}>
+        <Image
+          source={Logo}
+          style={(styles.logo, { height: height * 0.2 })}
+          resizeMode="contain"
+        />
+      </View>
+      <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+        S'inscrire avec une adresse mail:
+      </Text>
       <CustomInput
         autoCapitalize="none"
         placeholder="Email"

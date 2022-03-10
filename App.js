@@ -56,7 +56,7 @@ import UserPastRoadtripsScreen from "./src/screens/UserPastRoadtripsScreen";
 import UserRoadtripsToComeScreen from "./src/screens/UserRoadtripsToComeScreen";
 
 // Profil d'un autre utilisateur
-import OtherRiderProfilScreen from "./src/screens/OtherRiderProfil";
+import OtherRiderProfilScreen from "./src/screens/OtherRiderProfilScreen";
 
 //Ecran des messages dans les conversations
 import ChatScreen from "./src/screens/ChatScreen";
@@ -68,6 +68,8 @@ import ChatGeneralScreen from "./src/screens/ChatGeneralScreen";
 import CreateRoadTripScreenFirstStep from "./src/screens/CreateRoadTripScreenFirstStep";
 import CreateRoadTripScreenRecap from "./src/screens/CreateRoadTripScreenRecap";
 import ConfirmationNewRoadtripScreen from "./src/screens/ConfirmationNewRoadtripScreen";
+import ConfirmationJoinTripScreen from "./src/screens/ConfirmationJoinTripScreen";
+
 import ListItinerariesScreen from "./src/screens/ListItinerariesScreen";
 import DisplayItineraryScreen from "./src/screens/DisplayItineraryScreen";
 
@@ -109,6 +111,10 @@ const formStackNavigator = () => {
       <Stack.Screen
         name="ConfirmationNewRoadtrip"
         component={ConfirmationNewRoadtripScreen}
+      />
+      <Stack.Screen
+        name="ConfirmationJoinTrip"
+        component={ConfirmationJoinTripScreen}
       />
 
       <Stack.Screen name="RoadtripList" component={RoadtripListScreen} />
@@ -181,6 +187,10 @@ export default function App() {
           <Stack.Screen
             name="ConfirmationNewRoadtrip"
             component={ConfirmationNewRoadtripScreen}
+          />
+          <Stack.Screen
+            name="ConfirmationJoinTrip"
+            component={ConfirmationJoinTripScreen}
           />
           <Stack.Screen
             name="RoadTripDetails"

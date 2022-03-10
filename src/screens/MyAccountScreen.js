@@ -8,6 +8,7 @@ import { Header as HeaderRNE } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import Logo from "../../assets/images/tinyLogoRR.png";
 // fin import pour le header
 
 import LogInScreen from "./LogInScreen";
@@ -51,6 +52,11 @@ function MyAccountScreen(props) {
             text: "MON COMPTE",
             style: styles.heading,
           }}
+          rightComponent={
+            <View style={styles.headerRight}>
+              <Image source={Logo} style={styles.logo2} />
+            </View>
+          }
         />
         <View style={styles.secondary}>
           <View
@@ -82,7 +88,7 @@ function MyAccountScreen(props) {
                 />
               </View>
               <View>
-                <Text style={{ fontSize: 30 }}>
+                <Text style={{ fontSize: 30, color: "#363432" }}>
                   Hello {props.userData.username}
                 </Text>
                 <Text>
@@ -167,14 +173,7 @@ function MyAccountScreen(props) {
             <Text>à venir</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton
-          title="OTHER USER ACCOUNT"
-          onPress={() =>
-            props.navigation.navigate("OtherRiderProfil", {
-              screen: "OtherRiderProfilScreen",
-            })
-          }
-        />
+
         <CustomButton title="SE DECONNECTER" onPress={() => handleLogOut()} />
       </SafeAreaProvider>
     </View>
@@ -212,9 +211,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "10%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
   subheaderText: {
     color: "white",

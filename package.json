@@ -29,6 +29,7 @@
     "expo-status-bar": "~1.2.0",
     "formik": "^2.2.9",
     "lottie-react-native": "^5.0.1",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
@@ -52,6 +53,7 @@
     "react-native-vector-icons": "^9.1.0",
     "react-native-view-shot": "^3.1.2",
     "react-native-web": "0.17.1",
+    "react-native-webview": "^11.17.2",
     "react-redux": "^7.2.6",
     "react-time-picker": "^4.5.0",
     "redux": "^4.1.2"

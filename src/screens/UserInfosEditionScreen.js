@@ -14,14 +14,13 @@ import DatePicker from "react-native-datepicker";
 import { Header as HeaderRNE } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { MA_VARIABLE } from "@env";
 import { connect } from "react-redux";
 import { Button, CheckBox } from "react-native-elements";
 import CustomCheckBox from "../components/CustomCheckBox";
 import CustomInput from "../components/CustomInput";
 import CustomDatePicker from "../components/CustomDatePicker";
-
 import CustomTimePicker from "../components/CustomTimePicker";
 import CustomButton from "../components/CustomButton";
 import ImageUploadComponent from "../components/ImageUploadComponent";
@@ -33,6 +32,7 @@ import CustomHeaderRNE from "../components/CustomHeaderRNE";
 import CustomBikeCategPicker from "../components/CustomBikeCategPicker";
 import CustomRegionPicker from "../components/CustomRegionPicker";
 import CustomLongInput from "../components/CustomLongInput";
+var moment = require("moment"); // pour présentation date
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from "react-native-step-indicator";
@@ -75,6 +75,8 @@ function UserInfosEditionScreen(props) {
   const [userBio, setuserBio] = useState(""); //biographie de l'utilisateur
   const [userUsageProfil, setuserUsageProfil] = useState("New Biker"); //statut de l'utilisateur en fonction de sa participation dans l'appli
   const [userConnexionStatus, setuserConnexionStatus] = useState(""); //statut de connexion l'utilisateur par rapport au chat
+  const [userLatitude, setuserLatitude] = useState(0); //ville où vit l'utilisateur
+  const [userLongitude, setuserLongitude] = useState(0); //ville où vit l'utilisateur
 
   //Variables d'Etats des checkboxes
   const [userGender, setUserGender] = useState("");
@@ -105,6 +107,38 @@ function UserInfosEditionScreen(props) {
       passenger = false;
     }
 
+    const cityData = await fetch(
+      `https://api-adresse.data.gouv.fr/search/?q=${userCity}`
+    );
+    const cityDataResponse = await cityData.json();
+    console.log(
+      "cityDataResponse.features[0].geometry.coordinates[0]",
+      cityDataResponse.features[0].geometry.coordinates[0]
+    );
+    // Une fois les coordonnées de la ville récupérées, on va modifier de facon aléatoire
+    //ces coordonnées afin d'obtenir des points légèrement différents sur la carte
+    // création d'un entier aléatoire entre -15 et 15 qu'on utilisera ensuite pour ajouter ou retirer 1.5km à la latitude
+    // et à la longitude pour que les offres sur une même ville soient légérement distants sur une carte
+    function entierAleatoire(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    var entier = entierAleatoire(-25, 25);
+    var entier2 = entierAleatoire(-25, 25);
+
+    /// on sait que 0.001° = 111 m
+    var hundredMetersMultiplier = 0.001;
+    var finalLatitude =
+      cityDataResponse.features[0].geometry.coordinates[1] +
+      hundredMetersMultiplier * entier;
+    var finalLongitude =
+      cityDataResponse.features[0].geometry.coordinates[0] +
+      hundredMetersMultiplier * entier2;
+    console.log("finalLatitude", finalLatitude);
+    console.log("finalLongitude", finalLongitude);
+
+    setuserLatitude(finalLatitude);
+    setuserLongitude(finalLongitude);
+
     const data = await fetch(
       `https://roadtripridersyann.herokuapp.com/users/edit-profil`,
       {
@@ -112,7 +146,7 @@ function UserInfosEditionScreen(props) {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}`,
+        body: `token=${props.token}&firstnameFromFront=${userFirstName}&lastnameFromFront=${userLastName}&birthdayFromFront=${userBirthDate}&genderFromFront=${userGender}&passengerFromFront=${hasPassenger}&userRegionFromFront=${userRegion}&userCityFromFront=${userCity}&userBioFromFront=${userBio}&bikeCategFromFront=${userBikeCateg}&bikeBrandFromFront=${userBikeBrand}&bikeModelFromFront=${userBikeModel}&imageFromFront=${image}&image2FromFront=${image2}&userLongitudeFromFront=${finalLongitude}&userLatitudeFromFront=${finalLatitude}`,
       }
     );
 
@@ -222,7 +256,7 @@ function UserInfosEditionScreen(props) {
   var pagecontent = <></>;
 
   if (formProgress == 0) {
-    // gender == male | female | other
+    // gender == homme | femme | autre
     const setGenderCheckbox = (gender) => {
       setUserGender(userGender != gender ? gender : "");
     };
@@ -257,7 +291,9 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingTop: "10%" }}>Quel rider es-tu ?</Text>
+        <Text style={{ paddingTop: "10%", fontWeight: "bold" }}>
+          Quel rider es-tu ?
+        </Text>
 
         <CustomInput
           placeholder="Prénom"
@@ -289,7 +325,9 @@ function UserInfosEditionScreen(props) {
             />
           )}
         </View>
-        <Text style={{ paddingTop: "20%", paddingBottom: 0 }}>
+        <Text
+          style={{ paddingTop: "20%", paddingBottom: "5%", fontWeight: "bold" }}
+        >
           Quelle est ta date de naissance ?
         </Text>
 
@@ -300,7 +338,7 @@ function UserInfosEditionScreen(props) {
           androidMode={"spinner"}
           display={"spinner"}
           placeholder="select date"
-          format="YYYY-MM-DD"
+          format="DD-MM-YYYY"
           // minDate="01-01-2016"
           // maxDate="01-01-2019"
           confirmBtnText="Confirm"
@@ -327,31 +365,33 @@ function UserInfosEditionScreen(props) {
         {/* <CustomDatePicker
           selectedValue={userBirthDate}
           onChange={(value, index) => setuserBirthDate(value)}
-          title="DATE"
+          title='DATE'
         />
         <Text>{userBirthDate}</Text> */}
 
-        <Text style={{ paddingTop: "5%", paddingBottom: "2%" }}>
+        <Text
+          style={{ paddingTop: "5%", paddingBottom: "5%", fontWeight: "bold" }}
+        >
           Ton sexe ?
         </Text>
         <View style={styles.secondary}>
           <CheckBox
             title="Homme"
             checkedColor="#ff8b00"
-            checked={userGender === "male"}
-            onPress={() => setGenderCheckbox("male")}
+            checked={userGender === "homme"}
+            onPress={() => setGenderCheckbox("homme")}
           />
           <CheckBox
             title="Femme"
             checkedColor="#ff8b00"
-            checked={userGender === "female"}
-            onPress={() => setGenderCheckbox("female")}
+            checked={userGender === "femme"}
+            onPress={() => setGenderCheckbox("femme")}
           />
           <CheckBox
             title="Autre"
             checkedColor="#ff8b00"
-            checked={userGender === "other"}
-            onPress={() => setGenderCheckbox("other")}
+            checked={userGender === "autre"}
+            onPress={() => setGenderCheckbox("autre")}
           />
         </View>
 
@@ -394,7 +434,9 @@ function UserInfosEditionScreen(props) {
           </View>
         </SafeAreaProvider>
 
-        <Text style={{ paddingTop: "5%", paddingBottom: 0 }}>
+        <Text
+          style={{ paddingTop: "5%", paddingBottom: "5%", fontWeight: "bold" }}
+        >
           Parles nous de toi:
         </Text>
         <CustomLongInput
@@ -403,7 +445,9 @@ function UserInfosEditionScreen(props) {
           setValue={setuserBio}
           secureTextEntry={false}
         />
-        <Text style={{ paddingTop: "5%", paddingBottom: "20%" }}>
+        <Text
+          style={{ paddingTop: "8%", paddingBottom: "20%", fontWeight: "bold" }}
+        >
           Dans quel coin roules-tu ?
         </Text>
 
@@ -450,7 +494,14 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingTop: "0%", paddingBottom: "5%" }}>
+        <Text
+          style={{
+            paddingTop: "0%",
+            marginTop: 0,
+            paddingBottom: "5%",
+            fontWeight: "bold",
+          }}
+        >
           Dans quelle ville vis-tu ?
         </Text>
         <CustomInput
@@ -460,7 +511,13 @@ function UserInfosEditionScreen(props) {
           secureTextEntry={false}
         />
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+          <Text
+            style={{
+              paddingTop: "8%",
+              paddingBottom: "5%",
+              fontWeight: "bold",
+            }}
+          >
             Et ta moto ?
           </Text>
 
@@ -481,9 +538,10 @@ function UserInfosEditionScreen(props) {
         <View style={{ flex: 1, alignItems: "center" }}>
           <Text
             style={{
-              paddingTop: "5%",
-              paddingBottom: "25%",
+              paddingTop: 0,
+              paddingBottom: "28%",
               alignContent: "center",
+              fontWeight: "bold",
             }}
           >
             Sa catégorie?
@@ -532,12 +590,12 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-
         <Text
           style={{
             paddingTop: 0,
             paddingBottom: "5%",
             alignContent: "center",
+            fontWeight: "bold",
           }}
         >
           Partage une photo
@@ -559,7 +617,13 @@ function UserInfosEditionScreen(props) {
           )}
         </View>
 
-        <Text style={{ paddingTop: "5%", paddingBottom: "5%" }}>
+        <Text
+          style={{
+            paddingTop: "5%",
+            paddingBottom: "5%",
+            fontWeight: "bold",
+          }}
+        >
           As-tu un passager ?
         </Text>
         <View style={styles.secondary}>
@@ -570,6 +634,7 @@ function UserInfosEditionScreen(props) {
             onPress={() => {
               setHasPassenger(!hasPassenger), setHasNoPassenger(false);
             }}
+            style={{ marginBottom: 20 }}
           />
           <CheckBox
             title="Non"
@@ -578,8 +643,10 @@ function UserInfosEditionScreen(props) {
             onPress={() => {
               setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
             }}
+            style={{ marginBottom: 20 }}
           />
         </View>
+
         <View style={styles.bottomPage}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -625,9 +692,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "10%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
   subheaderText: {
     color: "white",

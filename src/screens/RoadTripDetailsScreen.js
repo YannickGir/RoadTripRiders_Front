@@ -43,6 +43,7 @@ const RoadTripDetailsScreen = (props) => {
       description: "",
       driving_type: "",
       departure_time: "",
+      arrival_time: "",
       max_users: "",
       roadtrip_users_ids: [],
       roadtrip_admin_id: [],
@@ -58,7 +59,8 @@ const RoadTripDetailsScreen = (props) => {
       firstname: "",
     },
   });
-  var tripId = props.route.params.tripId;
+  const [tripId, setTripId] = useState(props.route.params.tripId);
+  console.log("tripId", tripId);
   // console.log("tripId", tripId);
   useEffect(() => {
     async function loadRoadTrip() {
@@ -68,7 +70,7 @@ const RoadTripDetailsScreen = (props) => {
 
       console.log("props.route.params.tripId", props.route.params.tripId);
       var body = await data.json();
-      console.log("body", body.userData);
+      console.log("body.roadtripData", body.roadtripData);
       setTrip(body);
       // console.log("tripId:", trip);
     }
@@ -92,6 +94,26 @@ const RoadTripDetailsScreen = (props) => {
   var placesRestante =
     trip.roadtripData.max_users - users.length - admin.length;
   // console.log("placesRestante1", placesRestante);
+
+  var joinTrip = async () => {
+    console.log("click détecté");
+    const data1 = await fetch(
+      `https://roadtripridersyann.herokuapp.com/inbox/createconversation`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `token=${props.token}&tripId=${tripId}`,
+      }
+    );
+    var response = await data1.json();
+    console.log("response", response);
+    props.navigation.navigate("ConfirmationJoinTrip", {
+      tripId: tripId,
+    });
+  };
+
   return (
     <SafeAreaProvider style={styles.container}>
       <HeaderRNE
@@ -206,7 +228,7 @@ const RoadTripDetailsScreen = (props) => {
                   fontSize: 15,
                 }}
               >
-                {trip.itineraryData.distance.slice(0, -4)} km
+                {trip.itineraryData.distance} km
               </Text>
             </View>
             <View>
@@ -251,7 +273,7 @@ const RoadTripDetailsScreen = (props) => {
               {trip.itineraryData.arrival.city}
             </Text>
           </View>
-          <Text style={{ paddingTop: "2%" }}>
+          <Text style={{ paddingTop: "2%", paddingBottom: "2%" }}>
             <FontAwesome5 name="clock" size={24} color="#363432" /> Horaires
           </Text>
         </View>
@@ -264,6 +286,15 @@ const RoadTripDetailsScreen = (props) => {
           />
           <View style={styles.text2}>
             <Text>{trip.roadtripData.departure_time}</Text>
+          </View>
+          <FontAwesome5
+            name="flag-checkered"
+            size={24}
+            color="#363432"
+            style={{ paddingRight: "5%", paddingLeft: "5%" }}
+          />
+          <View style={styles.text2}>
+            <Text>{trip.roadtripData.arrival_time}</Text>
           </View>
         </View>
         <View style={styles.secondary}>
@@ -305,7 +336,12 @@ const RoadTripDetailsScreen = (props) => {
             <Text>{trip.roadtripData.moto_type}</Text>
           </View>
         </View>
-        <CustomButton title="S'INSCRIRE" />
+        <CustomButton
+          title="S'INSCRIRE"
+          onPress={() => {
+            joinTrip();
+          }}
+        />
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -385,8 +421,8 @@ const styles = StyleSheet.create({
   //fin du style pour le header
 });
 function mapStateToProps(state) {
-  console.log("HOMESCREEN", state.token, state);
-  return { token: state.token };
+  return {
+    token: state.token,
+  };
 }
-
 export default connect(mapStateToProps, null)(RoadTripDetailsScreen);
