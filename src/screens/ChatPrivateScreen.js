@@ -224,7 +224,7 @@ function ChatScreen(props) {
             <FontAwesome
               name="refresh"
               size={24}
-              color="black"
+              color="#FFD230"
               onPress={() => {
                 reLoadConversations();
               }}

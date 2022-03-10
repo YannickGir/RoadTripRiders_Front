@@ -13,11 +13,12 @@ import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useIsFocused } from "@react-navigation/native";
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
   const [conversationsListPrivate, setConversationsListPrivate] = useState([]);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     async function loadConversationsPrivate() {
       const data2 = await fetch(
@@ -174,7 +175,7 @@ function ConversationsScreen(props) {
 
     loadConversations();
     loadConversationsPrivate();
-  }, []);
+  }, [isFocused]);
 
   return (
     <SafeAreaProvider style={styles.backgroundColor}>

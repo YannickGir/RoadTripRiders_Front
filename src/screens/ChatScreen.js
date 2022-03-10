@@ -97,7 +97,7 @@ function ChatScreen(props) {
   }, []);
 
   async function reLoadConversations() {
-    const data = await fetch(`/inbox/tripchat?idConv=${idConv}`);
+    const data = await fetch(`${MA_VARIABLE}/inbox/tripchat?idConv=${idConv}`);
     var body = await data.json();
 
     setConversationsList(
@@ -156,7 +156,7 @@ function ChatScreen(props) {
   var handleSandMessage = async () => {
     console.log("click détecté");
     if (contentMessage != "") {
-      const data1 = await fetch(`/inbox/addmessage`, {
+      const data1 = await fetch(`${MA_VARIABLE}/inbox/addmessage`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -220,7 +220,7 @@ function ChatScreen(props) {
             <FontAwesome
               name="refresh"
               size={24}
-              color="black"
+              color="#FFD230"
               onPress={() => {
                 reLoadConversations();
               }}

@@ -22,6 +22,7 @@ import {
   Rating,
   RatingProps,
 } from "react-native-elements";
+import { useIsFocused } from "@react-navigation/native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../../src/components/CustomInput";
@@ -38,7 +39,8 @@ let deviceWidth = Dimensions.get("window").width;
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
   const [visible, setVisible] = useState(true);
-
+  const isFocused = useIsFocused();
+  const scrollViewRef = useRef(ScrollView);
   const ratingProps = {};
   useEffect(() => {
     async function loadUserData() {
@@ -179,8 +181,9 @@ function HomepageScreen(props) {
     }
 
     loadRoadTrip();
-  }, []);
+  }, [isFocused]);
   console.log("test");
+
   return (
     <SafeAreaProvider style={{ backgroundColor: "#FEFAEA" }}>
       <HeaderRNE
@@ -189,18 +192,21 @@ function HomepageScreen(props) {
           text: "SORTIES À VENIR",
           style: styles.heading,
         }}
+        onPress={() => reloadRoadTrip()}
       />
 
-      <ScrollView style={{ flex: 1, width: "100%" }}>
-        <AnimatedLoader
-          visible={visible}
-          source={require("../lotties/motorcycle-loading.json")}
-          overlayColor="rgba(255,255,255,0.75)"
-          speed={1}
-          animationStyle={{ height: 300, width: 300 }}
-        ></AnimatedLoader>
+      <ScrollView style={{ width: "100%" }}>
+        <View style={{ flexDirection: "column-reverse" }}>
+          <AnimatedLoader
+            visible={visible}
+            source={require("../lotties/motorcycle-loading.json")}
+            overlayColor="rgba(255,255,255,0.75)"
+            speed={1}
+            animationStyle={{ height: 300, width: 300 }}
+          ></AnimatedLoader>
 
-        {roadTripList}
+          {roadTripList}
+        </View>
       </ScrollView>
 
       <CustomButton

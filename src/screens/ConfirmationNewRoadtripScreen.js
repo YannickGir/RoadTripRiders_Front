@@ -40,18 +40,6 @@ function ConfirmationNewRoadtripScreen(props) {
     });
   }, []);
 
-  function handleLogOut() {
-    // on redirige vers l'écran de connection
-    props.navigation.navigate("LogIn", {
-      screen: "LogInScreen",
-    });
-    // on enlève le token du async storage
-    AsyncStorage.removeItem("token");
-    console.log("token supprimé et utilisateur déconnecté");
-    // on vide le store
-    props.removeToken();
-  }
-
   return (
     <SafeAreaProvider
       style={{ height: deviceHeight, backgroundColor: "#FEFAEA" }}
