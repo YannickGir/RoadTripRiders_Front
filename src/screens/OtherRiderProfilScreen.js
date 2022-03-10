@@ -170,7 +170,13 @@ export default function OtherRiderProfilScreen(props) {
             </View>
           </View>
           <View style={styles.centered}>
-            <Text style={{ paddingTop: '5%', paddingBottom: '1%' }}>
+            <Text
+              style={{
+                paddingTop: '5%',
+                paddingBottom: '1%',
+                fontWeight: 'bold',
+              }}
+            >
               Son anniversaire
             </Text>
 
@@ -217,7 +223,15 @@ export default function OtherRiderProfilScreen(props) {
                   marginTop: '5%',
                 }}
               >
-                <Text>Sa bio</Text>
+                <Text
+                  style={{
+                    paddingTop: '5%',
+                    paddingBottom: '1%',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Sa bio
+                </Text>
                 <Text>{otherUser.otherUserData.user_bio}</Text>
               </View>
             </View>
