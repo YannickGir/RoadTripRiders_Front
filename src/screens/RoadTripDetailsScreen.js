@@ -65,7 +65,7 @@ const RoadTripDetailsScreen = (props) => {
   useEffect(() => {
     async function loadRoadTrip() {
       const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtripdetails?tripId=${tripId}`
+        `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
 
       console.log("props.route.params.tripId", props.route.params.tripId);
@@ -97,16 +97,13 @@ const RoadTripDetailsScreen = (props) => {
 
   var joinTrip = async () => {
     console.log("click détecté");
-    const data1 = await fetch(
-      `https://roadtripridersyann.herokuapp.com/inbox/createconversation`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `token=${props.token}&tripId=${tripId}`,
-      }
-    );
+    const data1 = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `token=${props.token}&tripId=${tripId}`,
+    });
     var response = await data1.json();
     console.log("response", response);
     props.navigation.navigate("ConfirmationJoinTrip", {

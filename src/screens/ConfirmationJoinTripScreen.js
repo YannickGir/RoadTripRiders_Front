@@ -39,7 +39,7 @@ function ConfirmationJoinTripScreen(props) {
   useEffect(() => {
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/readOneconversation?tripId=${tripId}`
+        `${MA_VARIABLE}/inbox/readOneconversation?tripId=${tripId}`
       );
       var body = await data.json();
       console.log("body", body);

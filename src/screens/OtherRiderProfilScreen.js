@@ -95,7 +95,7 @@ export default function OtherRiderProfilScreen(props) {
   useEffect(() => {
     async function loadUserProfil() {
       const otherUserData = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/other-user-profil?otherUserIdfromFront=${otherUserId}`
+        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=${otherUserId}`
       );
       var body = await otherUserData.json();
       console.log("body other user", body);
@@ -107,16 +107,13 @@ export default function OtherRiderProfilScreen(props) {
   }, []);
 
   var contacter = async () => {
-    const data = await fetch(
-      `https://roadtripridersyann.herokuapp.com/inbox/createconversation`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `token=${props.token}&tripId=${tripId}`,
-      }
-    );
+    const data = await fetch(`${MA_VARIABLE}/inbox/createconversation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `token=${props.token}&tripId=${tripId}`,
+    });
     var response = await data.json();
     console.log("response", response);
   };

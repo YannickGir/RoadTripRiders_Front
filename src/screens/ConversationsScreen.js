@@ -23,7 +23,7 @@ function ConversationsScreen(props) {
   useEffect(() => {
     async function loadConversationsPrivate() {
       const data2 = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/readconversationprivate?senderToken=${props.token}`
+        `${MA_VARIABLE}/inbox/readconversationprivate?senderToken=${props.token}`
       );
       var body2 = await data2.json();
       console.log("body", body2);
@@ -91,7 +91,7 @@ function ConversationsScreen(props) {
     }
     async function loadConversations() {
       const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/inbox/readconversation?senderToken=${props.token}`
+        `${MA_VARIABLE}/inbox/readconversation?senderToken=${props.token}`
       );
       var body = await data.json();
       // console.log("bodyCov", body);

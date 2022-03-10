@@ -55,7 +55,7 @@ export default function DisplayItineraryScreen(props) {
     //console.log("debut Useeffect");
     const displayItinerary = async () => {
       var rawResponse = await fetch(
-        `https://roadtripridersyann.herokuapp.com/itineraries/display?id=${props.route.params.itinerary_id}`
+        `${MA_VARIABLE}/itineraries/display?id=${props.route.params.itinerary_id}`
       );
       const response = await rawResponse.json();
       console.log("console du fetch response", response);

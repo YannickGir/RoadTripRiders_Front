@@ -168,7 +168,7 @@ function CreateRoadTripScreenFirstStep(props) {
 
     const getDataitinerary = async () => {
       const dataItinerary = await fetch(
-        `https://roadtripridersyann.herokuapp.com/itineraries/get-itinerary?itineraryIdFromFront=${props.route.params.itinerary_id}`
+        `${MA_VARIABLE}/itineraries/get-itinerary?itineraryIdFromFront=${props.route.params.itinerary_id}`
       );
       var dataItineraryParse = await dataItinerary.json();
       console.log("dataItineraryParse", dataItineraryParse);

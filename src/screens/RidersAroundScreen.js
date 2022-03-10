@@ -59,14 +59,11 @@ export default function RidersAroundScreen(props) {
   useEffect(() => {
     async function results() {
       var rayon = 30;
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/find-riders`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `latitudeFromFront=${myLocation.latitude}&longitudeFromFront=${myLocation.longitude}&rayon=${rayon}`,
-        }
-      );
+      const data = await fetch(`${MA_VARIABLE}/users/find-riders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `latitudeFromFront=${myLocation.latitude}&longitudeFromFront=${myLocation.longitude}&rayon=${rayon}`,
+      });
       const body = await data.json();
       console.log("body", body);
       captureViewRef.current.animateToRegion({
