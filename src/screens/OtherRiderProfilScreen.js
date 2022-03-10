@@ -38,7 +38,7 @@ import CustomHeader from '../components/CustomHeader';
 import CustomHeaderRNE from '../components/CustomHeaderRNE';
 import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
 import CustomRegionPicker from '../components/CustomRegionPicker';
-
+var moment = require('moment'); // pour présentation date
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
@@ -179,7 +179,9 @@ export default function OtherRiderProfilScreen(props) {
                 style={{ alignSelf: 'center', marginRight: '2%' }}
               />
               <View style={styles.inputshort}>
-                <Text>{otherUser.otherUserData.birth_date}</Text>
+                <Text>
+                  {moment(otherUser.otherUserData.birth_date).format('L')}
+                </Text>
               </View>
             </View>
 

@@ -82,7 +82,7 @@ function MyAccountScreen(props) {
                 />
               </View>
               <View>
-                <Text style={{ fontSize: 30 }}>
+                <Text style={{ fontSize: 30, color: '#363432' }}>
                   Hello {props.userData.username}
                 </Text>
                 <Text>
