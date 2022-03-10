@@ -32,6 +32,7 @@ import CustomHeaderRNE from '../components/CustomHeaderRNE';
 import CustomBikeCategPicker from '../components/CustomBikeCategPicker';
 import CustomRegionPicker from '../components/CustomRegionPicker';
 import CustomLongInput from '../components/CustomLongInput';
+var moment = require('moment'); // pour présentation date
 
 //------------pour barre de progression----nb installé : npm install react-native-step-indicator --save   -----------------------
 import StepIndicator from 'react-native-step-indicator';
@@ -121,7 +122,9 @@ function UserInfosEditionScreen(props) {
     function entierAleatoire(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    var entier = entierAleatoire(-15, 15);
+    var entier = entierAleatoire(-25, 25);
+    var entier2 = entierAleatoire(-25, 25);
+
     /// on sait que 0.001° = 111 m
     var hundredMetersMultiplier = 0.001;
     var finalLatitude =
@@ -129,7 +132,7 @@ function UserInfosEditionScreen(props) {
       hundredMetersMultiplier * entier;
     var finalLongitude =
       cityDataResponse.features[0].geometry.coordinates[0] +
-      hundredMetersMultiplier * entier;
+      hundredMetersMultiplier * entier2;
     console.log('finalLatitude', finalLatitude);
     console.log('finalLongitude', finalLongitude);
 

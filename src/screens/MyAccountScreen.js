@@ -82,7 +82,7 @@ function MyAccountScreen(props) {
                 />
               </View>
               <View>
-                <Text style={{ fontSize: 30 }}>
+                <Text style={{ fontSize: 30, color: '#363432' }}>
                   Hello {props.userData.username}
                 </Text>
                 <Text>
@@ -167,14 +167,7 @@ function MyAccountScreen(props) {
             <Text>à venir</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton
-          title='OTHER USER ACCOUNT'
-          onPress={() =>
-            props.navigation.navigate('OtherRiderProfil', {
-              screen: 'OtherRiderProfilScreen',
-            })
-          }
-        />
+
         <CustomButton title='SE DECONNECTER' onPress={() => handleLogOut()} />
       </SafeAreaProvider>
     </View>

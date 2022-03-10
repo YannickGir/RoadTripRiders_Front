@@ -38,13 +38,17 @@ import CustomHeader from "../components/CustomHeader";
 import CustomHeaderRNE from "../components/CustomHeaderRNE";
 import CustomBikeCategPicker from "../components/CustomBikeCategPicker";
 import CustomRegionPicker from "../components/CustomRegionPicker";
-
+var moment = require("moment"); // pour présentation date
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-export default function OtherRiderProfilScreen(props) {
+function OtherRiderProfilScreen(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
+
+  // appel de la variable récupérée de la page RidersAroundScreen
+  var otherUserId = props.route.params.otherUserId;
+  console.log("COUCOU dans other profil", otherUserId);
 
   //Variables d'Etats des inputs
   const [otherUserFirstName, setOtherUserFirstName] = useState(""); //prénom utilisateur
@@ -71,7 +75,7 @@ export default function OtherRiderProfilScreen(props) {
     otherUserData: {
       firstname: "",
       lastname: "",
-      user_photo: "",
+
       token: "",
       birth_date: "",
       gender: "",
@@ -83,7 +87,6 @@ export default function OtherRiderProfilScreen(props) {
       bike_type: "",
       bike_brand: "",
       bike_categ: "",
-      moto_picture: "",
     },
   });
 
@@ -91,8 +94,7 @@ export default function OtherRiderProfilScreen(props) {
   useEffect(() => {
     async function loadUserProfil() {
       const otherUserData = await fetch(
-        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=6228e09915231a3acb3cd77c`
-        //`${MA_VARIABLE}/other-user-profil?otherUserIdfromFront=${otherUserId}`
+        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=${otherUserId}`
       );
       var body = await otherUserData.json();
       console.log("body other user", body);
@@ -102,6 +104,24 @@ export default function OtherRiderProfilScreen(props) {
 
     loadUserProfil();
   }, []);
+
+  var handleClick = async () => {
+    const data = await fetch(`${MA_VARIABLE}/inbox/addprivatemessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `token=${props.token}&otherUserId=${otherUserId}`,
+    });
+    var response = await data.json();
+    console.log("response", response);
+
+    if (response.alreadyConv == true) {
+      props.navigation.navigate("ChatPrivate", {
+        conversation_id: response.conversationPrivateSaved._id,
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -167,7 +187,13 @@ export default function OtherRiderProfilScreen(props) {
             </View>
           </View>
           <View style={styles.centered}>
-            <Text style={{ paddingTop: "5%", paddingBottom: "1%" }}>
+            <Text
+              style={{
+                paddingTop: "5%",
+                paddingBottom: "1%",
+                fontWeight: "bold",
+              }}
+            >
               Son anniversaire
             </Text>
 
@@ -179,7 +205,9 @@ export default function OtherRiderProfilScreen(props) {
                 style={{ alignSelf: "center", marginRight: "2%" }}
               />
               <View style={styles.inputshort}>
-                <Text>{otherUser.otherUserData.birth_date}</Text>
+                <Text>
+                  {moment(otherUser.otherUserData.birth_date).format("L")}
+                </Text>
               </View>
             </View>
 
@@ -212,7 +240,15 @@ export default function OtherRiderProfilScreen(props) {
                   marginTop: "5%",
                 }}
               >
-                <Text>Sa bio</Text>
+                <Text
+                  style={{
+                    paddingTop: "5%",
+                    paddingBottom: "1%",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Sa bio
+                </Text>
                 <Text>{otherUser.otherUserData.user_bio}</Text>
               </View>
             </View>
@@ -421,3 +457,10 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+function mapStateToProps(state) {
+  return {
+    token: state.token,
+  };
+}
+export default connect(mapStateToProps, null)(OtherRiderProfilScreen);
