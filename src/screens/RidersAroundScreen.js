@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Button,
@@ -7,20 +7,20 @@ import {
   Text,
   Dimensions,
   Image,
-} from 'react-native';
-import { MA_VARIABLE } from '@env';
-import MapView, { Marker, Callout } from 'react-native-maps';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import { Header as HeaderRNE, HeaderProps, Icon } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
-import { WebView } from 'react-native-webview';
-import CustomButtonModif from '../components/CustomButtonModif';
-
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
+} from "react-native";
+import { MA_VARIABLE } from "@env";
+import MapView, { Marker, Callout } from "react-native-maps";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { Header as HeaderRNE, HeaderProps, Icon } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
+import { WebView } from "react-native-webview";
+import CustomButtonModif from "../components/CustomButtonModif";
+import Logo from "../../assets/images/tinyLogoRR.png";
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 
 export default function RidersAroundScreen(props) {
   const captureViewRef = useRef();
@@ -46,9 +46,9 @@ export default function RidersAroundScreen(props) {
   useEffect(() => {
     async function askPermissions() {
       var { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === 'granted') {
+      if (status === "granted") {
         var location = await Location.getCurrentPositionAsync({});
-        console.log('location', location);
+        console.log("location", location);
         setMyLocation(location.coords);
       }
     }
@@ -60,12 +60,12 @@ export default function RidersAroundScreen(props) {
     async function results() {
       var rayon = 30;
       const data = await fetch(`${MA_VARIABLE}/users/find-riders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `latitudeFromFront=${myLocation.latitude}&longitudeFromFront=${myLocation.longitude}&rayon=${rayon}`,
       });
       const body = await data.json();
-      console.log('body', body);
+      console.log("body", body);
       captureViewRef.current.animateToRegion({
         latitude: myLocation.latitude,
         longitude: myLocation.longitude,
@@ -74,13 +74,13 @@ export default function RidersAroundScreen(props) {
       });
       setRidersAroundList(
         body.usersAround.map((userData, i) => {
-          if (Platform.OS === 'android') {
-            console.log('android detecté');
+          if (Platform.OS === "android") {
+            console.log("android detecté");
             return (
               <Marker
                 key={i}
                 size={10}
-                pinColor='#ff8b00'
+                pinColor="#ff8b00"
                 coordinate={{
                   latitude: userData.user_latitude,
                   longitude: userData.user_longitude,
@@ -91,16 +91,16 @@ export default function RidersAroundScreen(props) {
                 <View style={{ borderRadius: 10 }}>
                   <Callout
                     onPress={() =>
-                      props.navigation.navigate('OtherRiderProfil', {
+                      props.navigation.navigate("OtherRiderProfil", {
                         otherUserId: userData._id,
                       })
                     }
                   >
                     <View
                       style={{
-                        flexDirection: 'column',
+                        flexDirection: "column",
                         width: 250,
-                        alignItems: 'flex-start',
+                        alignItems: "flex-start",
                       }}
                     >
                       <WebView
@@ -115,13 +115,13 @@ export default function RidersAroundScreen(props) {
               </Marker>
             );
           } else {
-            console.log('iOS detecté');
+            console.log("iOS detecté");
 
             return (
               <Marker
                 key={i}
                 size={10}
-                pinColor='#ff8b00'
+                pinColor="#ff8b00"
                 coordinate={{
                   latitude: userData.user_latitude,
                   longitude: userData.user_longitude,
@@ -131,28 +131,28 @@ export default function RidersAroundScreen(props) {
               >
                 <Callout
                   onPress={() =>
-                    props.navigation.navigate('OtherRiderProfil', {
+                    props.navigation.navigate("OtherRiderProfil", {
                       otherUserId: userData._id,
                     })
                   }
                 >
                   <View
-                    style={{ alignItems: 'center', alignContent: 'center' }}
+                    style={{ alignItems: "center", alignContent: "center" }}
                   >
                     <Text>
                       <Image
                         source={{ uri: userData.user_photo }}
                         style={{ height: 100, width: 100, borderRadius: 500 }}
-                        resizeMode='cover'
+                        resizeMode="cover"
                       />
                     </Text>
                     <Text>
                       {userData.firstname} {userData.lastname}
                     </Text>
                     <CustomButtonModif
-                      title='VOIR LE PROFIL'
+                      title="VOIR LE PROFIL"
                       onPress={() =>
-                        props.navigation.navigate('OtherRiderProfil', {
+                        props.navigation.navigate("OtherRiderProfil", {
                           otherUserId: userData._id,
                         })
                       }
@@ -170,17 +170,16 @@ export default function RidersAroundScreen(props) {
   return (
     <SafeAreaProvider>
       <HeaderRNE
-        backgroundColor='#FFD230'
-        leftComponent={{
-          icon: 'location-outline',
-          type: 'ionicon',
-
-          color: '#363432',
-        }}
+        backgroundColor="#FFD230"
         centerComponent={{
-          text: 'TROUVER DES RIDERS',
+          text: "TROUVE DES RIDERS",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
       <MapView
         ref={captureViewRef}
@@ -200,27 +199,37 @@ export default function RidersAroundScreen(props) {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FEFAEA',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FEFAEA",
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'yellow',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "yellow",
     marginBottom: 20,
-    width: '100%',
+    width: "100%",
     paddingVertical: 15,
   },
   heading: {
-    color: '#363432',
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
+    fontWeight: "bold",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
   subheaderText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
-    backgroundColor: '#FFD230',
+    fontWeight: "bold",
+    backgroundColor: "#FFD230",
   },
 });

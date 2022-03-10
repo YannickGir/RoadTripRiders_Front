@@ -201,6 +201,11 @@ export default function App() {
             component={UserInfosEditionScreen}
           />
           <Stack.Screen
+            name="UserPastRoadtrips"
+            component={UserPastRoadtripsScreen}
+          />
+
+          <Stack.Screen
             name="UserRoadtripsToCome"
             component={UserRoadtripsToComeScreen}
           />

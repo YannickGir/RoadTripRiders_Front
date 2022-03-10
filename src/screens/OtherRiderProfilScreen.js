@@ -75,7 +75,6 @@ function OtherRiderProfilScreen(props) {
     otherUserData: {
       firstname: "",
       lastname: "",
-
       token: "",
       birth_date: "",
       gender: "",
@@ -211,7 +210,13 @@ function OtherRiderProfilScreen(props) {
               </View>
             </View>
 
-            <Text style={{ paddingTop: "5%", paddingBottom: "1%" }}>
+            <Text
+              style={{
+                paddingTop: "5%",
+                paddingBottom: "1%",
+                fontWeight: "bold",
+              }}
+            >
               Son genre
             </Text>
             <View style={{ flexDirection: "row" }}>
@@ -242,8 +247,8 @@ function OtherRiderProfilScreen(props) {
               >
                 <Text
                   style={{
-                    paddingTop: "5%",
-                    paddingBottom: "1%",
+                    paddingTop: "1%",
+                    paddingBottom: "2%",
                     fontWeight: "bold",
                   }}
                 >
@@ -253,7 +258,13 @@ function OtherRiderProfilScreen(props) {
               </View>
             </View>
 
-            <Text style={{ paddingTop: "5%", paddingBottom: "1%" }}>
+            <Text
+              style={{
+                paddingTop: "5%",
+                paddingBottom: "1%",
+                fontWeight: "bold",
+              }}
+            >
               Sa région pour sortir
             </Text>
 
@@ -269,7 +280,13 @@ function OtherRiderProfilScreen(props) {
               </View>
             </View>
 
-            <Text style={{ paddingTop: "5%", paddingBottom: "1%" }}>
+            <Text
+              style={{
+                paddingTop: "5%",
+                paddingBottom: "1%",
+                fontWeight: "bold",
+              }}
+            >
               Sa ville
             </Text>
 
@@ -286,7 +303,13 @@ function OtherRiderProfilScreen(props) {
             </View>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ paddingTop: "5%", paddingBottom: "1%" }}>
+            <Text
+              style={{
+                paddingTop: "5%",
+                paddingBottom: "1%",
+                fontWeight: "bold",
+              }}
+            >
               <FontAwesome name="motorcycle" size={30} color="#363432" /> Et sa
               moto ?
             </Text>

@@ -25,7 +25,6 @@ import CustomLongInputWithoutPlaceholder from "../components/CustomLongInputWith
 import CustomInputTimeWithoutPlaceholder from "../components/CustomInputTimeWithoutPlaceholder";
 import CustomButton from "../components/CustomButton";
 import { connect } from "react-redux";
-
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -68,6 +67,8 @@ const RoadTripDetailsScreen = (props) => {
       const data = await fetch(
         `${MA_VARIABLE}/roadtripdetails?tripId=${tripId}`
       );
+
+      console.log("props.route.params.tripId", props.route.params.tripId);
       var body = await data.json();
       console.log("body.roadtripData", body.roadtripData);
       setTrip(body);

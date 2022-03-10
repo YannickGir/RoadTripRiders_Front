@@ -15,6 +15,9 @@ import CustomInput from "../../src/components/CustomInput";
 import { connect } from "react-redux";
 import { MA_VARIABLE } from "@env";
 import Icon from "react-native-vector-icons/FontAwesome";
+//-------------HEADER RNE-------------------------------
+import Logo from "../../assets/images/tinyLogoRR.png";
+import { Header as HeaderRNE } from "react-native-elements";
 
 export default function ChatGeneralScreen() {
   const scrollViewRef = useRef(ScrollView);

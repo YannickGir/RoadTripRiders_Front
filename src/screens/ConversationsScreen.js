@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { Header as HeaderRNE } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
+import Logo from "../../assets/images/tinyLogoRR.png";
 
 function ConversationsScreen(props) {
   const [conversationsList, setConversationsList] = useState([]);
@@ -185,6 +186,11 @@ function ConversationsScreen(props) {
           text: "CONVERSATIONS",
           style: styles.heading,
         }}
+        rightComponent={
+          <View style={styles.headerRight}>
+            <Image source={Logo} style={styles.logo2} />
+          </View>
+        }
       />
 
       <ScrollView style={{ flex: 1 }}>
@@ -245,9 +251,20 @@ const styles = StyleSheet.create({
     marginRight: "3%",
   },
   heading: {
-    color: "#363432",
     fontSize: 22,
+    width: "100%",
+    paddingVertical: "2%",
     fontWeight: "bold",
+    paddingLeft: "10%",
+  },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo2: {
+    width: "50%",
+    height: "700%",
+    marginBottom: "7%",
   },
 });
 
