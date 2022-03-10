@@ -14,7 +14,7 @@ import DatePicker from 'react-native-datepicker';
 import { Header as HeaderRNE } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { MA_VARIABLE } from '@env';
 import { connect } from 'react-redux';
 import { Button, CheckBox } from 'react-native-elements';
@@ -282,7 +282,9 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingTop: '10%' }}>Quel rider es-tu ?</Text>
+        <Text style={{ paddingTop: '10%', fontWeight: 'bold' }}>
+          Quel rider es-tu ?
+        </Text>
 
         <CustomInput
           placeholder='Prénom'
@@ -314,7 +316,9 @@ function UserInfosEditionScreen(props) {
             />
           )}
         </View>
-        <Text style={{ paddingTop: '20%', paddingBottom: 0 }}>
+        <Text
+          style={{ paddingTop: '20%', paddingBottom: '5%', fontWeight: 'bold' }}
+        >
           Quelle est ta date de naissance ?
         </Text>
 
@@ -325,7 +329,7 @@ function UserInfosEditionScreen(props) {
           androidMode={'spinner'}
           display={'spinner'}
           placeholder='select date'
-          format='YYYY-MM-DD'
+          format='DD-MM-YYYY'
           // minDate="01-01-2016"
           // maxDate="01-01-2019"
           confirmBtnText='Confirm'
@@ -356,7 +360,9 @@ function UserInfosEditionScreen(props) {
         />
         <Text>{userBirthDate}</Text> */}
 
-        <Text style={{ paddingTop: '5%', paddingBottom: '2%' }}>
+        <Text
+          style={{ paddingTop: '5%', paddingBottom: '5%', fontWeight: 'bold' }}
+        >
           Ton sexe ?
         </Text>
         <View style={styles.secondary}>
@@ -419,7 +425,9 @@ function UserInfosEditionScreen(props) {
           </View>
         </SafeAreaProvider>
 
-        <Text style={{ paddingTop: '5%', paddingBottom: 0 }}>
+        <Text
+          style={{ paddingTop: '5%', paddingBottom: '5%', fontWeight: 'bold' }}
+        >
           Parles nous de toi:
         </Text>
         <CustomLongInput
@@ -428,7 +436,9 @@ function UserInfosEditionScreen(props) {
           setValue={setuserBio}
           secureTextEntry={false}
         />
-        <Text style={{ paddingTop: '5%', paddingBottom: '20%' }}>
+        <Text
+          style={{ paddingTop: '8%', paddingBottom: '20%', fontWeight: 'bold' }}
+        >
           Dans quel coin roules-tu ?
         </Text>
 
@@ -475,7 +485,14 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-        <Text style={{ paddingTop: '0%', paddingBottom: '5%' }}>
+        <Text
+          style={{
+            paddingTop: '0%',
+            marginTop: 0,
+            paddingBottom: '5%',
+            fontWeight: 'bold',
+          }}
+        >
           Dans quelle ville vis-tu ?
         </Text>
         <CustomInput
@@ -485,7 +502,13 @@ function UserInfosEditionScreen(props) {
           secureTextEntry={false}
         />
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+          <Text
+            style={{
+              paddingTop: '8%',
+              paddingBottom: '5%',
+              fontWeight: 'bold',
+            }}
+          >
             Et ta moto ?
           </Text>
 
@@ -506,9 +529,10 @@ function UserInfosEditionScreen(props) {
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Text
             style={{
-              paddingTop: '5%',
-              paddingBottom: '25%',
+              paddingTop: 0,
+              paddingBottom: '28%',
               alignContent: 'center',
+              fontWeight: 'bold',
             }}
           >
             Sa catégorie?
@@ -557,12 +581,12 @@ function UserInfosEditionScreen(props) {
             />
           </View>
         </SafeAreaProvider>
-
         <Text
           style={{
             paddingTop: 0,
             paddingBottom: '5%',
             alignContent: 'center',
+            fontWeight: 'bold',
           }}
         >
           Partage une photo
@@ -584,7 +608,13 @@ function UserInfosEditionScreen(props) {
           )}
         </View>
 
-        <Text style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+        <Text
+          style={{
+            paddingTop: '5%',
+            paddingBottom: '5%',
+            fontWeight: 'bold',
+          }}
+        >
           As-tu un passager ?
         </Text>
         <View style={styles.secondary}>
@@ -595,6 +625,7 @@ function UserInfosEditionScreen(props) {
             onPress={() => {
               setHasPassenger(!hasPassenger), setHasNoPassenger(false);
             }}
+            style={{ marginBottom: 20 }}
           />
           <CheckBox
             title='Non'
@@ -603,8 +634,10 @@ function UserInfosEditionScreen(props) {
             onPress={() => {
               setHasNoPassenger(!hasNoPassenger), setHasPassenger(false);
             }}
+            style={{ marginBottom: 20 }}
           />
         </View>
+
         <View style={styles.bottomPage}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
