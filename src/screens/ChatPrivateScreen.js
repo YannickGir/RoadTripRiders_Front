@@ -231,7 +231,7 @@ function ChatScreen(props) {
             />
           </TouchableOpacity>
           <CustomInputWhite
-            placeholder='Your message'
+            placeholder='Ton message'
             setValue={setContentMessage}
             value={contentMessage}
             style={{ backgroundColor: '#FFFF' }}
