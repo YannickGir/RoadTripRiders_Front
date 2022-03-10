@@ -46,6 +46,10 @@ export default function OtherRiderProfilScreen(props) {
   // on enregistre la dimension de l'écran de l'utilisateur
   const { height } = useWindowDimensions();
 
+  // appel de la variable récupérée de la page RidersAroundScreen
+  var otherUserId = props.route.params.otherUserId;
+  console.log('COUCOU dans other profil', otherUserId);
+
   //Variables d'Etats des inputs
   const [otherUserFirstName, setOtherUserFirstName] = useState(''); //prénom utilisateur
   const [otherUserLastName, setOtherUserLastName] = useState(''); //nom utilisateur
@@ -91,8 +95,7 @@ export default function OtherRiderProfilScreen(props) {
   useEffect(() => {
     async function loadUserProfil() {
       const otherUserData = await fetch(
-        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=6228e09915231a3acb3cd77c`
-        //`${MA_VARIABLE}/other-user-profil?otherUserIdfromFront=${otherUserId}`
+        `${MA_VARIABLE}/users/other-user-profil?otherUserIdfromFront=${otherUserId}`
       );
       var body = await otherUserData.json();
       console.log('body other user', body);

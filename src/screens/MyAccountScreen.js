@@ -167,14 +167,7 @@ function MyAccountScreen(props) {
             <Text>à venir</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton
-          title='OTHER USER ACCOUNT'
-          onPress={() =>
-            props.navigation.navigate('OtherRiderProfil', {
-              screen: 'OtherRiderProfilScreen',
-            })
-          }
-        />
+
         <CustomButton title='SE DECONNECTER' onPress={() => handleLogOut()} />
       </SafeAreaProvider>
     </View>

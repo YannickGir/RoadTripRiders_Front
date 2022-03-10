@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+import { MA_VARIABLE } from '@env';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -16,6 +17,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
+import CustomButtonModif from '../components/CustomButtonModif';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -83,8 +85,8 @@ export default function RidersAroundScreen(props) {
                   latitude: userData.user_latitude,
                   longitude: userData.user_longitude,
                 }}
-                title={`${userData.firstname} ${userData.lastname}, ${userData.user_city}`}
-                description={`Catégorie : ${userData.user_bikes[0].type} (${userData.user_bikes[0].brand} ${userData.user_bikes[0].model})`}
+                //title={`${userData.firstname} ${userData.lastname}, ${userData.user_city}`}
+                //description={`Catégorie : ${userData.user_bikes[0].type} (${userData.user_bikes[0].brand} ${userData.user_bikes[0].model})`}
               >
                 <View style={{ borderRadius: 10 }}>
                   <Callout
@@ -124,24 +126,38 @@ export default function RidersAroundScreen(props) {
                   latitude: userData.user_latitude,
                   longitude: userData.user_longitude,
                 }}
-                title={`${userData.firstname} ${userData.lastname}, ${userData.user_city}`}
-                description={`Catégorie : ${userData.user_bikes[0].type} (${userData.user_bikes[0].brand} ${userData.user_bikes[0].model})`}
+                //title={`${userData.firstname} ${userData.lastname}, ${userData.user_city}`}
+                //description={`Catégorie : ${userData.user_bikes[0].type} (${userData.user_bikes[0].brand} ${userData.user_bikes[0].model})`}
               >
                 <Callout
                   onPress={() =>
-                    props.navigation.navigate('RoadtripList', {
-                      screen: 'RoadtripListScreen',
-                      userId: userData._id,
+                    props.navigation.navigate('OtherRiderProfil', {
+                      otherUserId: userData._id,
                     })
                   }
                 >
-                  <Text>
-                    <Image
-                      source={{ uri: userData.user_photo }}
-                      style={{ height: 100, width: 100, borderRadius: 500 }}
-                      resizeMode='cover'
+                  <View
+                    style={{ alignItems: 'center', alignContent: 'center' }}
+                  >
+                    <Text>
+                      <Image
+                        source={{ uri: userData.user_photo }}
+                        style={{ height: 100, width: 100, borderRadius: 500 }}
+                        resizeMode='cover'
+                      />
+                    </Text>
+                    <Text>
+                      {userData.firstname} {userData.lastname}
+                    </Text>
+                    <CustomButtonModif
+                      title='VOIR LE PROFIL'
+                      onPress={() =>
+                        props.navigation.navigate('OtherRiderProfil', {
+                          otherUserId: userData._id,
+                        })
+                      }
                     />
-                  </Text>
+                  </View>
                 </Callout>
               </Marker>
             );
