@@ -51,7 +51,7 @@ function CreateRoadTripScreenFirstStep(props) {
   useEffect(() => {
     async function loadUserData() {
       const dataUser = await fetch(
-        `https://roadtripridersyann.herokuapp.com/users/user-data?token=${props.token}`
+        `${MA_VARIABLE}/users/user-data?token=${props.token}`
       );
       var bodyUser = await dataUser.json();
       props.onSubmitUserData({
@@ -76,9 +76,7 @@ function CreateRoadTripScreenFirstStep(props) {
   const [checked, setChecked] = useState('cool');
   useEffect(() => {
     async function loadRoadTrip() {
-      const data = await fetch(
-        `https://roadtripridersyann.herokuapp.com/roadtriplist`
-      );
+      const data = await fetch(`${MA_VARIABLE}roadtriplist`);
       var body = await data.json();
       // console.log("body", body);
 

@@ -182,7 +182,14 @@ function MyAccountScreen(props) {
             <Text>à venir</Text>
           </TouchableOpacity>
         </View>
-
+        <CustomButton
+          title="CARNET D'ENTRETIEN"
+          onPress={() =>
+            props.navigation.navigate('MyMaintenance', {
+              screen: 'MyMaintenanceScreen',
+            })
+          }
+        />
         <CustomButton title='SE DECONNECTER' onPress={() => handleLogOut()} />
       </SafeAreaProvider>
     </View>

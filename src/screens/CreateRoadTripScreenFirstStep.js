@@ -209,8 +209,8 @@ function CreateRoadTripScreenFirstStep(props) {
             <CustomButtonOrange
               title='NOUVEL ITINÉRAIRE'
               onPress={() => {
-                setItineraryexist('ok'),
-                  setFormProgress(1),
+                //setItineraryexist('ok'),
+                setFormProgress(1),
                   props.onSubmitData({
                     roadtripTitle: roadtripTitle,
                     roadtripDate: roadtripDate,

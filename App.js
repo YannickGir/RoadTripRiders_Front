@@ -40,6 +40,9 @@ import LoadingScreen from './src/screens/LoadingScreen';
 // cet écran va surement sauter
 import WelcomeScreen from './src/screens/WelcomeScreen';
 
+//MAINTENANCE---------
+import MyMaintenanceScreen from './src/screens/MyMaintenanceScreen';
+
 //Log In Sign Up
 import LogInScreen from './src/screens/LogInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -101,29 +104,6 @@ const formStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='HomeScreen' component={HomeScreen} />
-      {/* <Stack.Screen
-        name='newRoadTripFirstStep'
-        component={CreateRoadTripScreenFirstStep}
-      />
-      <Stack.Screen
-        name='CreateRoadTripRecap'
-        component={CreateRoadTripScreenRecap}
-      />
-      <Stack.Screen
-        name='ConfirmationNewRoadtrip'
-        component={ConfirmationNewRoadtripScreen}
-      />
-      <Stack.Screen
-        name='ConfirmationJoinTrip'
-        component={ConfirmationJoinTripScreen}
-      />
-
-      <Stack.Screen name='RoadtripList' component={RoadtripListScreen} />
-      <Stack.Screen name='ListItineraries' component={ListItinerariesScreen} />
-      <Stack.Screen
-        name='DisplayItinerary'
-        component={DisplayItineraryScreen}
-      /> */}
     </Stack.Navigator>
   );
 };
@@ -185,6 +165,7 @@ export default function App() {
           <Stack.Screen name='Loading' component={LoadingScreen} />
           <Stack.Screen name='MyContacts' component={MyContactsScreen} />
           <Stack.Screen name='UserInfos' component={UserInfosScreen} />
+          <Stack.Screen name='MyMaintenance' component={MyMaintenanceScreen} />
           <Stack.Screen
             name='ConfirmationNewRoadtrip'
             component={ConfirmationNewRoadtripScreen}
