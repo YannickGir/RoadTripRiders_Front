@@ -131,6 +131,7 @@ function CreateRoadTripScreenFirstStep(props) {
   const [selectedHours, setSelectedHours] = useState(0);
   const [selectedMinutes, setSelectedMinutes] = useState(0);
   const [visibility, setVisibility] = useState(false);
+  const [visibility2, setVisibility2] = useState(false);
 
   const [From, setFrom] = useState(new Date());
   const [To, setTo] = useState(new Date());
@@ -336,6 +337,7 @@ function CreateRoadTripScreenFirstStep(props) {
             paddingTop: 10,
             alignContent: 'center',
             alignItems: 'center',
+            height: deviceHeight * 0.2,
           }}
         >
           <CustomNewTripInput
@@ -345,10 +347,11 @@ function CreateRoadTripScreenFirstStep(props) {
             secureTextEntry={false}
             style={{
               justifyContent: 'center',
+              marginBottom: 10,
             }}
           />
           <View style={styles.horaires}>
-            <Text style={{ paddingTop: 5, fontWeight: 'bold', fontSize: 20 }}>
+            <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 20 }}>
               Date de sortie :
             </Text>
             <DatePicker
@@ -457,7 +460,7 @@ function CreateRoadTripScreenFirstStep(props) {
     );
   } else if (formProgress == 2) {
     pagecontent = (
-      <View>
+      <View style={{ height: deviceHeight * 0.9 }}>
         <View style={styles.barprogress}>
           <StepIndicator
             customStyles={customStyles}
@@ -465,7 +468,6 @@ function CreateRoadTripScreenFirstStep(props) {
             stepCount={3}
           />
         </View>
-        //
         <Card containerStyle={styles.card}>
           <View
             style={{
@@ -524,7 +526,6 @@ function CreateRoadTripScreenFirstStep(props) {
               <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Tourisme</Text>
             </View>
           </View>
-          //
         </Card>
         <Card containerStyle={styles.card}>
           <View
@@ -537,15 +538,29 @@ function CreateRoadTripScreenFirstStep(props) {
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
               Pour quel type de moto ?
             </Text>
-
-            <CustomBikeCategPicker2
-              selectedValue={roadtripMotoType}
-              onValueChange={(value, index) => {
-                // setuserBikeCateg(value),
-                setRoadtripMotoType(value), (value = { roadtripMotoType });
-              }}
-              style={{ flex: 1 }}
+            <CustomButton
+              title='CHOISIS TA CATEGORIE'
+              onPress={() => setVisibility2(true)}
             />
+            <Overlay
+              isVisible={visibility2}
+              onBackdropPress={() => setVisibility2(false)}
+              overlayStyle={{
+                backgroundColor: '#FEFAEA',
+                alignContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <CustomBikeCategPicker2
+                selectedValue={roadtripMotoType}
+                onValueChange={(value, index) => {
+                  // setuserBikeCateg(value),
+                  setRoadtripMotoType(value), (value = { roadtripMotoType });
+                }}
+                style={{ flex: 1 }}
+              />
+            </Overlay>
           </View>
         </Card>
         <Card containerStyle={styles.card}>
@@ -712,7 +727,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    maxHeight: 80,
   },
 
   tailleGroupe: {

@@ -37,6 +37,7 @@ import AnimatedLoader from 'react-native-animated-loader';
 import animationMoto from '../lotties/motorcycle-loading.json';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
+var moment = require('moment'); // pour présentation date
 
 function HomepageScreen(props) {
   const [roadTripList, setRoadTripList] = useState([]);
@@ -99,15 +100,26 @@ function HomepageScreen(props) {
                     alignItems: 'center',
                     alignSelf: 'center',
                     width: '70%',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <Image
-                    style={styles.avatar}
-                    source={{ uri: tripData.user_photo }}
-                  />
-                  <Text style={{ paddingLeft: '3%' }}>
-                    {tripData.firstname}
-                  </Text>
+                  <View>
+                    <Image
+                      style={styles.avatar}
+                      source={{ uri: tripData.user_photo }}
+                    />
+                    <Text style={{ paddingLeft: '3%' }}>
+                      {tripData.firstname}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>
+                      prévue le:
+                    </Text>
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {moment(tripData.date_sortie).format('L')}
+                    </Text>
+                  </View>
                 </View>
                 <View
                   style={{

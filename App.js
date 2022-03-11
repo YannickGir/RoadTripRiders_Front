@@ -72,6 +72,7 @@ import ConfirmationJoinTripScreen from './src/screens/ConfirmationJoinTripScreen
 
 import ListItinerariesScreen from './src/screens/ListItinerariesScreen';
 import DisplayItineraryScreen from './src/screens/DisplayItineraryScreen';
+import DisplayItineraryScreen2 from './src/screens/DisplayItineraryScreen2'; //celui pour consulter un itinéraire et être inspiré
 
 //Ecran de liste des sorties
 import RoadtripListScreen from './src/screens/RoadtripListScreen';
@@ -231,6 +232,10 @@ export default function App() {
           <Stack.Screen
             name='DisplayItinerary'
             component={DisplayItineraryScreen}
+          />
+          <Stack.Screen
+            name='DisplayItinerary2'
+            component={DisplayItineraryScreen2}
           />
         </Stack.Navigator>
       </NavigationContainer>
