@@ -129,7 +129,7 @@ function UserInfosScreen(props) {
             </View>
           </View>
           <View style={styles.centered}>
-            <Text
+            {/* <Text
               style={{
                 paddingTop: '5%',
                 paddingBottom: '1%',
@@ -149,7 +149,7 @@ function UserInfosScreen(props) {
               <View style={styles.inputshort}>
                 <Text>{moment(user.userData.birth_date).format('L')}</Text>
               </View>
-            </View>
+            </View> */}
 
             <Text
               style={{

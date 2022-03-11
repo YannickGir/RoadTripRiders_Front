@@ -97,13 +97,13 @@ function ConfirmationJoinTripScreen(props) {
 
           <View style={{ alignItems: 'center' }}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-              Félicitations {props.userData.username}!
+              Félicitations {props.userData.username}
             </Text>
 
             <View style={{ width: '90%', alignItems: 'center' }}>
-              <Text>Vous aves rejoins le roadtrip !</Text>
-              <Text>
-                Allez voir dans vos discussions et discuter avec les autres
+              <Text>Tu as rejoint le roadtrip !</Text>
+              <Text style={{ marginTop: 5 }}>
+                Va voir dans tes discussions et discute avec les autres
                 participants!
               </Text>
             </View>

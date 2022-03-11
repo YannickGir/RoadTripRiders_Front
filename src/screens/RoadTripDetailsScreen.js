@@ -173,7 +173,7 @@ const RoadTripDetailsScreen = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.centered}>
-          <Text
+          {/* <Text
             style={{
               paddingTop: '2%',
               paddingBottom: '2%',
@@ -187,7 +187,7 @@ const RoadTripDetailsScreen = (props) => {
             <Text style={{ alignSelf: 'center' }}>
               {trip.roadtripData.description}
             </Text>
-          </ScrollView>
+          </ScrollView> */}
 
           <Text
             style={{
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     height: 160,
     width: 160,
     borderRadius: 15,
-    //margin: 10,
+    margin: 10,
   },
   container: {
     flex: 1,

@@ -209,8 +209,8 @@ function CreateRoadTripScreenFirstStep(props) {
             <CustomButtonOrange
               title='NOUVEL ITINÉRAIRE'
               onPress={() => {
-                //setItineraryexist('ok'),
-                setFormProgress(1),
+                setItineraryexist(props.route.params.itinerary_id),
+                  setFormProgress(1),
                   props.onSubmitData({
                     roadtripTitle: roadtripTitle,
                     roadtripDate: roadtripDate,
@@ -575,6 +575,7 @@ function CreateRoadTripScreenFirstStep(props) {
               placeholder='choisis un nombre'
               value={roadtripSizeGroup}
               setValue={setRoadtripSizeGroup}
+              keyboardType='numbers-and-punctuation'
             />
           </View>
           {/* </View> */}
@@ -604,7 +605,7 @@ function CreateRoadTripScreenFirstStep(props) {
                     roadtripSizeGroup: roadtripSizeGroup,
                     roadtripType: roadtripType,
                     map_itinerary: map_itinerary,
-                    itineraryId: itineraryexist,
+                    itineraryId: props.route.params.itinerary_id,
                   }),
                   console.log('toggleButton', toggleButton);
               }}

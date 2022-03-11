@@ -168,7 +168,7 @@ function OtherRiderProfilScreen(props) {
             </View>
           </View>
           <View style={styles.centered}>
-            <Text
+            {/* <Text
               style={{
                 paddingTop: '5%',
                 paddingBottom: '1%',
@@ -190,7 +190,7 @@ function OtherRiderProfilScreen(props) {
                   {moment(otherUser.otherUserData.birth_date).format('L')}
                 </Text>
               </View>
-            </View>
+            </View> */}
 
             <Text
               style={{

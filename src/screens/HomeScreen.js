@@ -218,13 +218,13 @@ function HomepageScreen(props) {
 
       <ScrollView style={{ width: '100%' }}>
         <View style={{ flexDirection: 'column-reverse' }}>
-          {/* <AnimatedLoader
+          <AnimatedLoader
             visible={visible}
             source={require('../lotties/motorcycle-loading.json')}
             overlayColor='rgba(255,255,255,0.75)'
             speed={1}
             animationStyle={{ height: 300, width: 300 }}
-          ></AnimatedLoader> */}
+          ></AnimatedLoader>
 
           {roadTripList}
         </View>
