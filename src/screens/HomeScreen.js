@@ -74,7 +74,12 @@ function HomepageScreen(props) {
       const data = await fetch(`${MA_VARIABLE}/roadtriplist`);
       var body = await data.json();
       // console.log("body", body);
-
+      // const data2 = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      // var body2 = await data2.json();
+      // const data3 = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      // var body3 = await data3.json();
+      // const data4 = await fetch(`${MA_VARIABLE}/roadtriplist`);
+      // var body4 = await data4.json();
       setRoadTripList(
         body.map((tripData, i) => {
           var durationHour = secToTime(tripData.duration);
