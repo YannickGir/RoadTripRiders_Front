@@ -56,7 +56,8 @@
     "react-native-webview": "^11.17.2",
     "react-redux": "^7.2.6",
     "react-time-picker": "^4.5.0",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "socket.io-client": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
